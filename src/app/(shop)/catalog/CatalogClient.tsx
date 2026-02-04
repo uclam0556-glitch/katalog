@@ -63,10 +63,6 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                     <h1 className="text-4xl md:text-6xl font-serif text-neutral-900 mb-6 tracking-tight leading-tight animate-[slideUp_0.6s_0.1s_both]">
                         Коллекция <span className="italic font-light text-neutral-500">Мебели</span>
                     </h1>
-                    <p className="text-neutral-500 max-w-lg mx-auto leading-relaxed font-light animate-[slideUp_0.6s_0.2s_both]">
-                        Исключительный дизайн для вашего пространства.
-                        Натуральные материалы и безупречное исполнение.
-                    </p>
                 </div>
             </div>
 
