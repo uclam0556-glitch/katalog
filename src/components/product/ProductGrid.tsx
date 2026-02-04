@@ -14,8 +14,7 @@ export interface ProductGridProps {
 }
 
 /**
- * Responsive Product Grid Component
- * Features: Responsive columns, staggered animations
+ * Professional Product Grid - 3 Columns
  */
 export const ProductGrid: React.FC<ProductGridProps> = ({
     products,
@@ -38,14 +37,15 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
     return (
         <div
             className={cn(
-                "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8",
+                // FIXED 3 COLUMNS ON DESKTOP
+                "grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8 md:gap-x-6 md:gap-y-10",
                 className
             )}
         >
             {products.map((product, index) => (
                 <div
                     key={product.id}
-                    className="animate-[slideUp_0.4s_ease-out]"
+                    className="animate-[fadeIn_0.4s_ease-out]"
                     style={{
                         animationDelay: `${index * 50}ms`,
                         animationFillMode: "backwards",

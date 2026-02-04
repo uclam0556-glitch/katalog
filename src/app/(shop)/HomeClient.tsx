@@ -45,6 +45,21 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
 
                 <div className="relative z-10 w-full px-4 flex flex-col items-center">
                     <div className="w-full max-w-[1200px] flex flex-col items-center space-y-8">
+                        {/* BRAND LOGO - LARGE RED WITH WHITE STROKE */}
+                        <div className="animate-[fadeIn_0.5s_ease-out]">
+                            <h1
+                                className="text-7xl sm:text-8xl md:text-9xl font-black tracking-tighter"
+                                style={{
+                                    color: '#DC2626',
+                                    WebkitTextStroke: '3px white',
+                                    textShadow: '0 4px 20px rgba(220, 38, 38, 0.3)',
+                                    fontFamily: 'var(--font-serif)'
+                                }}
+                            >
+                                амэа
+                            </h1>
+                        </div>
+
                         {/* Badge */}
                         <div className="inline-flex justify-center px-6 py-3 bg-white rounded-full shadow-md border border-neutral-100 animate-[fadeIn_0.6s_ease-out]">
                             <span className="text-sm font-bold text-primary-600 tracking-wide uppercase text-center">
@@ -54,12 +69,12 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
 
                         {/* Title - Fixed Spacing and Size */}
                         <div className="space-y-4 py-4 animate-[slideUp_0.8s_ease-out]">
-                            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-neutral-900 tracking-tighter leading-[1.1]">
+                            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-neutral-900 tracking-tighter leading-[1.1]">
                                 Премиальная <br className="sm:hidden" /> мебель
-                            </h1>
-                            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary-600 tracking-tight leading-[1.1]">
-                                для вашего дома
                             </h2>
+                            <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary-600 tracking-tight leading-[1.1]">
+                                для вашего дома
+                            </h3>
                         </div>
 
                         {/* Subtitle */}
