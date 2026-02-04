@@ -176,15 +176,15 @@ export const HeaderNew: React.FC = () => {
                     isScrolled ? "shadow-md" : "border-b border-neutral-200"
                 )}
             >
-                <div className="container mx-auto px-4 max-w-7xl">
-                    <div className="flex items-center justify-between h-16 md:h-20">
-                        {/* Logo */}
+                <div className="container mx-auto px-3 md:px-4 max-w-7xl">
+                    <div className="flex items-center justify-between h-14 md:h-20 gap-2 md:gap-4">
+                        {/* Logo - Smaller on mobile */}
                         <Link
                             href="/"
-                            className="flex items-center gap-2 hover:opacity-80 transition"
+                            className="flex items-center gap-2 hover:opacity-80 transition flex-shrink-0"
                         >
                             <h1
-                                className="text-2xl md:text-3xl font-black tracking-tight"
+                                className="text-xl md:text-3xl font-black tracking-tight"
                                 style={{
                                     color: "#991B1B",
                                     fontFamily: "var(--font-serif)",
@@ -199,7 +199,7 @@ export const HeaderNew: React.FC = () => {
                             {/* Location Button */}
                             <button
                                 onClick={() => setIsLocationOpen(true)}
-                                className="flex items-center gap-2 px-4 py-2 hover:bg-neutral-50 rounded-lg transition text-sm font-medium text-neutral-700"
+                                className="flex items-center gap-2 px-4 py-2 hover:bg-neutral-50 rounded-lg transition text-sm font-medium text-neutral-700 flex-shrink-0"
                             >
                                 <FiMapPin className="w-4 h-4" />
                                 <span>Москва</span>
@@ -218,8 +218,24 @@ export const HeaderNew: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Right: Contact Button */}
-                        <div className="flex items-center gap-4">
+                        {/* Right: Buttons */}
+                        <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+                            {/* Mobile: Location + Contact icons */}
+                            <button
+                                onClick={() => setIsLocationOpen(true)}
+                                className="md:hidden p-2 hover:bg-neutral-50 rounded-lg transition"
+                            >
+                                <FiMapPin className="w-5 h-5 text-neutral-700" />
+                            </button>
+
+                            <button
+                                onClick={() => setIsContactOpen(true)}
+                                className="md:hidden p-2 hover:bg-neutral-50 rounded-lg transition"
+                            >
+                                <FiPhone className="w-5 h-5 text-neutral-700" />
+                            </button>
+
+                            {/* Desktop: Contact Button */}
                             <button
                                 onClick={() => setIsContactOpen(true)}
                                 className="hidden md:flex items-center gap-2 px-4 py-2 hover:bg-neutral-50 rounded-lg transition font-medium text-neutral-900"

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { HeroSlider } from "@/components/home/HeroSlider";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { ProductGrid } from "@/components/product/ProductGrid";
@@ -75,9 +76,15 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
                         <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 mb-4">
                             Популярные товары
                         </h2>
-                        <p className="text-lg text-neutral-600">
+                        <p className="text-lg text-neutral-600 mb-4">
                             Самые популярные модели нашего каталога
                         </p>
+                        <Link
+                            href="/catalog-table"
+                            className="inline-block text-sm text-red-700 hover:text-red-800 font-medium underline"
+                        >
+                            Посмотреть весь каталог в таблице →
+                        </Link>
                     </div>
 
                     <ProductGrid

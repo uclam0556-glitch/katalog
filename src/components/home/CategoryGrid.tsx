@@ -20,14 +20,14 @@ const categoryImages: Record<string, string> = {
 
 export const CategoryGrid: React.FC = () => {
     return (
-        <section className="py-16 md:py-24 bg-white">
-            <div className="container mx-auto px-4 max-w-7xl">
+        <section className="py-12 md:py-24 bg-white">
+            <div className="container mx-auto px-3 md:px-4 max-w-7xl">
                 {/* Section Header */}
-                <div className="text-center mb-12 md:mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold text-neutral-900 mb-4">
+                <div className="text-center mb-8 md:mb-16">
+                    <h2 className="text-2xl md:text-5xl font-bold text-neutral-900 mb-3 md:mb-4">
                         Категории мебели
                     </h2>
-                    <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+                    <p className="text-base md:text-lg text-neutral-600 max-w-2xl mx-auto px-4">
                         Выберите категорию и найдите идеальную мебель для вашего дома
                     </p>
                 </div>
