@@ -45,14 +45,14 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
 
                 <div className="relative z-10 w-full px-4 flex flex-col items-center">
                     <div className="w-full max-w-[1200px] flex flex-col items-center space-y-8">
-                        {/* BRAND LOGO - LARGE RED WITH WHITE STROKE */}
+                        {/* BRAND LOGO - WARM BURGUNDY WITH WHITE STROKE */}
                         <div className="animate-[fadeIn_0.5s_ease-out]">
                             <h1
                                 className="text-7xl sm:text-8xl md:text-9xl font-black tracking-tighter"
                                 style={{
-                                    color: '#DC2626',
-                                    WebkitTextStroke: '3px white',
-                                    textShadow: '0 4px 20px rgba(220, 38, 38, 0.3)',
+                                    color: '#991B1B',              // Теплый бордовый (red-800)
+                                    WebkitTextStroke: '2px white', // Белая обводка 2px (мягче)
+                                    textShadow: '0 2px 8px rgba(0, 0, 0, 0.15)', // Мягкая тень
                                     fontFamily: 'var(--font-serif)'
                                 }}
                             >

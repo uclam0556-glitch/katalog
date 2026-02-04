@@ -84,7 +84,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 onClick={(e) => e.target === e.currentTarget && onClose()}
             >
                 <div className={cn(
-                    "bg-white w-full max-w-6xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row relative",
+                    "bg-white w-full max-w-6xl rounded-2xl shadow-2xl overflow-hidden relative flex flex-col",
+                    "max-h-[95vh] md:max-h-[90vh]",
+                    "md:flex-row",
                     "animate-[scaleIn_0.3s_ease-out]"
                 )}>
 
@@ -97,10 +99,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                         <FiX className="w-5 h-5 text-neutral-900" />
                     </button>
 
-                    {/* LEFT: Image Gallery */}
-                    <div className="w-full md:w-[60%] bg-neutral-50 flex flex-col p-4 md:p-6">
-                        {/* Main Image */}
-                        <div className="relative flex-1 bg-white rounded-xl overflow-hidden group mb-4">
+                    {/* LEFT: Image Gallery - LARGER ON MOBILE */}
+                    <div className="w-full md:w-[60%] bg-neutral-50 flex flex-col p-4 md:p-6 min-h-[60vh] md:min-h-0">
+                        {/* Main Image - Larger on mobile */}
+                        <div className="relative flex-1 bg-white rounded-xl overflow-hidden group mb-4 min-h-[50vh] md:min-h-0">
                             <Image
                                 src={allImages[selectedImageIndex]}
                                 alt={`${product.name} - фото ${selectedImageIndex + 1}`}
