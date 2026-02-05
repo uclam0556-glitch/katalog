@@ -49,34 +49,37 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     };
 
     return (
-        <div className="min-h-screen bg-white pt-20">
+        <div className="min-h-screen bg-gradient-to-b from-white to-neutral-50">
 
-            {/* Filter Section - Clean & Static */}
-            <div className="border-b border-neutral-200 bg-white">
-                <div className="container mx-auto px-4 max-w-7xl py-6">
+            {/* Filter Section - Premium Design */}
+            <div className="bg-white border-b border-neutral-100 shadow-sm">
+                <div className="container mx-auto px-4 md:px-6 max-w-7xl py-8">
 
-                    {/* Categories - Wrapping Grid */}
-                    <div className="flex flex-wrap gap-3 mb-6">
+                    {/* Section Title */}
+                    <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-8">Каталог мебели</h1>
+
+                    {/* Categories - Premium Pills with Smooth Animations */}
+                    <div className="flex flex-wrap gap-3 mb-8">
                         <button
                             onClick={() => setSelectedCategory(null)}
                             className={cn(
-                                "px-4 py-2 rounded-full text-sm font-medium transition-all",
+                                "px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 active:scale-95",
                                 selectedCategory === null
-                                    ? "bg-neutral-900 text-white"
-                                    : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+                                    ? "bg-gradient-to-r from-neutral-900 to-neutral-800 text-white shadow-lg shadow-neutral-900/20"
+                                    : "bg-neutral-50 text-neutral-700 hover:bg-neutral-100 hover:shadow-md"
                             )}
                         >
-                            Все
+                            Все товары
                         </button>
                         {categories.map((category) => (
                             <button
                                 key={category.id}
                                 onClick={() => setSelectedCategory(selectedCategory === category.slug ? null : category.slug)}
                                 className={cn(
-                                    "px-4 py-2 rounded-full text-sm font-medium transition-all",
+                                    "px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 active:scale-95",
                                     selectedCategory === category.slug
-                                        ? "bg-neutral-900 text-white"
-                                        : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+                                        ? "bg-gradient-to-r from-neutral-900 to-neutral-800 text-white shadow-lg shadow-neutral-900/20"
+                                        : "bg-neutral-50 text-neutral-700 hover:bg-neutral-100 hover:shadow-md"
                                 )}
                             >
                                 {category.name}
@@ -84,62 +87,75 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                         ))}
                     </div>
 
-                    {/* Search & Sort Row */}
+                    {/* Search & Sort Row - Premium Inputs */}
                     <div className="flex flex-col sm:flex-row gap-4">
-                        {/* Search */}
-                        <div className="relative flex-1">
-                            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                        {/* Search - Elegant with Icon */}
+                        <div className="relative flex-1 group">
+                            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400 group-focus-within:text-neutral-900 transition-colors" />
                             <input
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Поиск мебели..."
-                                className="w-full pl-10 pr-10 py-2.5 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-900 text-sm"
+                                placeholder="Найти идеальную мебель..."
+                                className="w-full pl-12 pr-12 py-3.5 bg-neutral-50 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:bg-white text-sm font-medium transition-all placeholder:text-neutral-400"
                             />
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery("")}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-900"
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-900 transition-colors"
                                 >
-                                    <FiX className="w-4 h-4" />
+                                    <FiX className="w-5 h-5" />
                                 </button>
                             )}
                         </div>
 
-                        {/* Sort */}
+                        {/* Sort - Premium Dropdown */}
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value as SortOption)}
-                            className="px-4 py-2.5 border border-neutral-200 rounded-lg text-sm font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-neutral-900"
+                            className="px-5 py-3.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:bg-white hover:bg-neutral-100 transition-all"
                         >
-                            <option value="popular">Популярное</option>
-                            <option value="newest">Новинки</option>
-                            <option value="price-asc">Сначала дешевле</option>
-                            <option value="price-desc">Сначала дороже</option>
+                            <option value="popular">🔥 Популярное</option>
+                            <option value="newest">✨ Новинки</option>
+                            <option value="price-asc">💰 Сначала дешевле</option>
+                            <option value="price-desc">💎 Сначала дороже</option>
                         </select>
                     </div>
+
+                    {/* Results Count */}
+                    <p className="text-sm text-neutral-500 mt-6">
+                        {filteredAndSortedProducts.length === initialProducts.length
+                            ? `Показано ${filteredAndSortedProducts.length} товаров`
+                            : `Найдено ${filteredAndSortedProducts.length} из ${initialProducts.length} товаров`
+                        }
+                    </p>
                 </div>
             </div>
 
-            {/* Products Section - Clean Spacing */}
-            <div className="container mx-auto px-4 max-w-7xl py-8">
+            {/* Products Section - Ultra Clean */}
+            <div className="container mx-auto px-4 md:px-6 max-w-7xl py-12">
                 {filteredAndSortedProducts.length > 0 ? (
-                    <ProductGrid
-                        products={filteredAndSortedProducts}
-                        onAddToCart={handleAddToCart}
-                    />
+                    <div className="animate-[fadeIn_0.6s_ease-out]">
+                        <ProductGrid
+                            products={filteredAndSortedProducts}
+                            onAddToCart={handleAddToCart}
+                        />
+                    </div>
                 ) : (
-                    <div className="py-32 text-center">
-                        <p className="text-2xl font-medium text-neutral-300 mb-4">Ничего не найдено</p>
-                        <p className="text-neutral-500 mb-8">
-                            Попробуйте изменить категорию или поисковый запрос
-                        </p>
-                        <button
-                            onClick={() => { setSearchQuery(""); setSelectedCategory(null); }}
-                            className="px-6 py-3 bg-neutral-900 text-white rounded-lg font-medium hover:bg-neutral-800 transition"
-                        >
-                            Сбросить фильтры
-                        </button>
+                    <div className="py-32 text-center animate-[fadeIn_0.4s_ease-out]">
+                        <div className="max-w-md mx-auto">
+                            <div className="text-6xl mb-6">😔</div>
+                            <h2 className="text-2xl font-bold text-neutral-900 mb-3">Ничего не найдено</h2>
+                            <p className="text-neutral-500 mb-8 leading-relaxed">
+                                Попробуйте изменить категорию или поисковый запрос
+                            </p>
+                            <button
+                                onClick={() => { setSearchQuery(""); setSelectedCategory(null); }}
+                                className="px-8 py-4 bg-gradient-to-r from-neutral-900 to-neutral-800 text-white rounded-xl font-semibold hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg shadow-neutral-900/20"
+                            >
+                                Сбросить все фильтры
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
