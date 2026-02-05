@@ -39,7 +39,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     };
 
     return (
-        <div className="min-h-screen bg-white pt-24 md:pt-32 pb-32 md:pb-16">
+        <div className="min-h-screen bg-white pt-36 md:pt-40 pb-32 md:pb-16">
             {/* Breadcrumbs - Desktop Only */}
             <div className="border-b border-neutral-100 hidden md:block mb-8">
                 <div className="container mx-auto px-6 max-w-7xl py-4">
@@ -104,8 +104,8 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                         key={index}
                                         onClick={() => setSelectedImageIndex(index)}
                                         className={`relative flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all ${selectedImageIndex === index
-                                                ? "border-red-600 ring-2 ring-red-100"
-                                                : "border-neutral-200 hover:border-neutral-300"
+                                            ? "border-red-600 ring-2 ring-red-100"
+                                            : "border-neutral-200 hover:border-neutral-300"
                                             }`}
                                     >
                                         <Image
