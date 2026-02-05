@@ -56,7 +56,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 md:px-6 max-w-[90rem]">
+            <div className="container mx-auto px-6 md:px-12 max-w-[90rem]">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-24">
 
                     {/* LEFT: GALLERY (7 Cols) */}
@@ -117,8 +117,8 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                         key={index}
                                         onClick={() => setSelectedImageIndex(index)}
                                         className={`relative flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden transition-all duration-300 ${selectedImageIndex === index
-                                                ? "ring-2 ring-amber-500 ring-offset-2 opacity-100 scale-95 shadow-lg"
-                                                : "opacity-70 hover:opacity-100 hover:scale-105"
+                                            ? "ring-2 ring-amber-500 ring-offset-2 opacity-100 scale-95 shadow-lg"
+                                            : "opacity-70 hover:opacity-100 hover:scale-105"
                                             }`}
                                     >
                                         <Image
