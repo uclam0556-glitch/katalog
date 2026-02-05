@@ -33,7 +33,7 @@ export const CategoryGrid: React.FC = () => {
                 </div>
 
                 {/* Ultra-Quality Mobile Grid: 2 columns, Perfect Spacing */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 max-w-6xl mx-auto">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-6 max-w-6xl mx-auto">
                     {categories.map((category) => (
                         <Link
                             key={category.id}
