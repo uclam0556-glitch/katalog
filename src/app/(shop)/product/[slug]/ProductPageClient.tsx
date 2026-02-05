@@ -39,7 +39,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     };
 
     return (
-        <div className="min-h-screen bg-white pt-32 md:pt-40 pb-24 md:pb-0">
+        <div className="min-h-screen bg-white pt-28 md:pt-40 pb-24 md:pb-0">
             {/* Breadcrumbs */}
             <div className="border-b border-neutral-200 hidden md:block">
                 <div className="container mx-auto px-4 max-w-7xl py-3">
