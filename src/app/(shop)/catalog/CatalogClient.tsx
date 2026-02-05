@@ -106,7 +106,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50 pt-36">
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50" style={{ paddingTop: "180px" }}>
 
             {/* Hero Section - Warm & Welcoming */}
             <div className="relative bg-gradient-to-br from-amber-100 via-orange-50 to-red-50 border-b border-amber-200/50">
@@ -114,7 +114,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                 <div className="container relative mx-auto px-4 md:px-6 max-w-7xl py-12 md:py-16">
                     <div className="max-w-3xl">
                         <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 mb-4 leading-tight">
-                            Каталог премиальной
+                            Каталог (v2)
                             <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent"> мебели</span>
                         </h1>
                         <p className="text-lg text-neutral-600 leading-relaxed mb-8">
