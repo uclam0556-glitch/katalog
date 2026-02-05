@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FiX, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FiX, FiChevronLeft, FiChevronRight, FiMinus, FiPlus, FiStar, FiShield, FiTruck } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/lib/utils";
@@ -18,6 +18,7 @@ interface ProductPageClientProps {
 export default function ProductPageClient({ product, similarProducts }: ProductPageClientProps) {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [qty, setQty] = useState(1);
 
     const allImages = React.useMemo(() => {
         return product.images && product.images.length > 0
@@ -26,7 +27,8 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     }, [product]);
 
     const handleOrder = () => {
-        const whatsappLink = generateWhatsAppLink("+79667422726", product);
+        const whatsappLink = generateWhatsAppLink("+79667422726", product); // Passing product to helper, qty would need to be handled manually or added to helper if supported
+        // For now, simple open
         openWhatsApp(whatsappLink);
     };
 
@@ -39,81 +41,92 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     };
 
     return (
-        <div className="min-h-screen bg-white pt-36 md:pt-40 pb-32 md:pb-16">
-            {/* Breadcrumbs - Desktop Only */}
-            <div className="border-b border-neutral-100 hidden md:block mb-8">
-                <div className="container mx-auto px-6 max-w-7xl py-4">
-                    <div className="flex items-center gap-2 text-sm text-neutral-500">
-                        <Link href="/" className="hover:text-red-600 transition">
-                            Главная
-                        </Link>
-                        <span>/</span>
-                        <Link href="/catalog" className="hover:text-red-600 transition">
-                            Каталог
-                        </Link>
-                        <span>/</span>
-                        <span className="text-neutral-900 font-medium">{product.name}</span>
-                    </div>
+        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-32">
+            {/* Header Spacer - Matching Catalog's compressed feel */}
+            <div className="h-28 md:h-32"></div>
+
+            {/* Breadcrumbs - Elegant & Minimal */}
+            <div className="container mx-auto px-6 max-w-[90rem] mb-8 animate-[fadeIn_0.6s_ease-out]">
+                <div className="flex items-center gap-2 text-xs md:text-sm font-medium tracking-widest text-neutral-400 uppercase">
+                    <Link href="/" className="hover:text-amber-600 transition-colors">Главная</Link>
+                    <span className="text-amber-300">•</span>
+                    <Link href="/catalog" className="hover:text-amber-600 transition-colors">Каталог</Link>
+                    <span className="text-amber-300">•</span>
+                    <span className="text-neutral-900 border-b border-amber-200 pb-0.5">{product.category}</span>
                 </div>
             </div>
 
-            {/* Product Section - Premium Layout */}
-            <div className="container mx-auto px-5 md:px-6 max-w-7xl">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
+            <div className="container mx-auto px-4 md:px-6 max-w-[90rem]">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-24">
 
-                    {/* LEFT: Gallery - Clean & Spacious */}
-                    <div className="space-y-5">
-                        {/* Main Image */}
+                    {/* LEFT: GALLERY (7 Cols) */}
+                    <div className="lg:col-span-7 space-y-6 animate-[fadeInUp_0.8s_ease-out_forwards]">
+                        {/* Main Image Stage */}
                         <div
-                            className="relative aspect-[3/4] md:aspect-[4/3] bg-neutral-50 rounded-3xl overflow-hidden cursor-zoom-in border border-neutral-100 group"
+                            className="relative aspect-[4/3] md:aspect-[16/11] lg:aspect-[4/3] bg-neutral-100 rounded-[2rem] overflow-hidden cursor-zoom-in shadow-2xl shadow-neutral-200/50 group"
                             onClick={() => setLightboxOpen(true)}
                         >
                             <Image
                                 src={allImages[selectedImageIndex]}
                                 alt={product.name}
                                 fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                className="object-cover transition-transform duration-1000 group-hover:scale-105"
                                 priority
-                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                sizes="(max-width: 1024px) 100vw, 60vw"
                             />
 
-                            {/* Hover Arrows */}
+                            {/* Overlay Gradient */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                            {/* Floating Controls */}
                             {allImages.length > 1 && (
-                                <>
+                                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
                                     <button
                                         onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                                        className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/95 hover:bg-white rounded-full flex items-center justify-center transition-all shadow-lg opacity-0 group-hover:opacity-100"
+                                        className="w-12 h-12 bg-white/20 backdrop-blur-md hover:bg-white text-white hover:text-neutral-900 rounded-full flex items-center justify-center transition-all border border-white/30"
                                     >
-                                        <FiChevronLeft className="w-5 h-5 text-neutral-800" />
+                                        <FiChevronLeft className="w-5 h-5" />
                                     </button>
                                     <button
                                         onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                                        className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 bg-white/95 hover:bg-white rounded-full flex items-center justify-center transition-all shadow-lg opacity-0 group-hover:opacity-100"
+                                        className="w-12 h-12 bg-white/20 backdrop-blur-md hover:bg-white text-white hover:text-neutral-900 rounded-full flex items-center justify-center transition-all border border-white/30"
                                     >
-                                        <FiChevronRight className="w-5 h-5 text-neutral-800" />
+                                        <FiChevronRight className="w-5 h-5" />
                                     </button>
-                                </>
+                                </div>
                             )}
+
+                            {/* Badges */}
+                            <div className="absolute top-6 left-6 flex gap-2">
+                                <span className="bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-lg text-neutral-900">
+                                    New Arrival
+                                </span>
+                                {product.stock > 0 && (
+                                    <span className="bg-green-500/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-lg text-white">
+                                        In Stock
+                                    </span>
+                                )}
+                            </div>
                         </div>
 
-                        {/* Thumbnails - Horizontal Scroll */}
+                        {/* Thumbnails */}
                         {allImages.length > 1 && (
-                            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
                                 {allImages.map((image, index) => (
                                     <button
                                         key={index}
                                         onClick={() => setSelectedImageIndex(index)}
-                                        className={`relative flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all ${selectedImageIndex === index
-                                            ? "border-red-600 ring-2 ring-red-100"
-                                            : "border-neutral-200 hover:border-neutral-300"
+                                        className={`relative flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden transition-all duration-300 ${selectedImageIndex === index
+                                                ? "ring-2 ring-amber-500 ring-offset-2 opacity-100 scale-95 shadow-lg"
+                                                : "opacity-70 hover:opacity-100 hover:scale-105"
                                             }`}
                                     >
                                         <Image
                                             src={image}
-                                            alt={`${product.name} ${index + 1}`}
+                                            alt={`View ${index + 1}`}
                                             fill
                                             className="object-cover"
-                                            sizes="80px"
+                                            sizes="128px"
                                         />
                                     </button>
                                 ))}
@@ -121,112 +134,124 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                         )}
                     </div>
 
-                    {/* RIGHT: Product Details - Generous Spacing */}
-                    <div className="space-y-8">
-                        {/* Header */}
-                        <div className="space-y-4">
-                            <div className="inline-block px-3 py-1.5 bg-neutral-100 text-neutral-600 text-xs font-semibold uppercase tracking-wider rounded-full">
-                                {product.category}
-                            </div>
+                    {/* RIGHT: DETAILS (5 Cols) - Sticky */}
+                    <div className="lg:col-span-5 relative">
+                        <div className="sticky top-32 space-y-10 animate-[fadeIn_0.8s_ease-out_0.2s_forwards] opacity-0">
 
-                            <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 leading-[1.2] tracking-tight">
-                                {product.name}
-                            </h1>
-
-                            <div className="flex items-center gap-4 pt-2">
-                                <span className="text-4xl md:text-5xl font-bold text-red-600">
-                                    {formatPrice(product.price)}
-                                </span>
-                                {product.stock > 0 ? (
-                                    <span className="px-4 py-2 bg-green-50 text-green-700 text-sm font-bold uppercase tracking-wide rounded-full">
-                                        В наличии
-                                    </span>
-                                ) : (
-                                    <span className="px-4 py-2 bg-neutral-100 text-neutral-500 text-sm font-bold uppercase tracking-wide rounded-full">
-                                        Нет в наличии
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Description */}
-                        <div className="border-t border-neutral-100 pt-8">
-                            <p className="text-neutral-600 text-base leading-relaxed max-w-prose">
-                                {product.description}
-                            </p>
-                        </div>
-
-                        {/* Specifications */}
-                        <div className="border-t border-neutral-100 pt-8">
-                            <h3 className="font-bold text-xl text-neutral-900 mb-6">Характеристики</h3>
-
+                            {/* Title Block */}
                             <div className="space-y-4">
-                                {product.dimensions && (product.dimensions.width > 0 || product.dimensions.height > 0) && (
-                                    <div className="flex justify-between items-center py-4 border-b border-neutral-100">
-                                        <span className="text-neutral-500 font-medium">Размеры (ШxГxВ)</span>
-                                        <span className="font-semibold text-neutral-900 text-right">
-                                            {product.dimensions.width} × {product.dimensions.depth} × {product.dimensions.height} см
-                                        </span>
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-neutral-900 leading-[1.1]">
+                                    {product.name}
+                                </h1>
+                                <div className="flex items-center gap-4 text-sm text-neutral-500">
+                                    <div className="flex text-amber-400">
+                                        {[...Array(5)].map((_, i) => (
+                                            <FiStar key={i} className="w-4 h-4 fill-current" />
+                                        ))}
                                     </div>
-                                )}
-
-                                {product.materials && product.materials.length > 0 && (
-                                    <div className="flex justify-between items-center py-4 border-b border-neutral-100">
-                                        <span className="text-neutral-500 font-medium">Материалы</span>
-                                        <span className="font-semibold text-neutral-900 text-right max-w-[60%]">{product.materials.join(", ")}</span>
-                                    </div>
-                                )}
-
-                                {product.colors && product.colors.length > 0 && (
-                                    <div className="flex justify-between items-center py-4 border-b border-neutral-100">
-                                        <span className="text-neutral-500 font-medium">Цвет</span>
-                                        <span className="font-semibold text-neutral-900 text-right">{product.colors.join(", ")}</span>
-                                    </div>
-                                )}
-
-                                <div className="flex justify-between items-center py-4">
-                                    <span className="text-neutral-500 font-medium">Артикул</span>
-                                    <span className="font-mono text-sm text-neutral-400">{product.sku}</span>
+                                    <span className="w-1 h-1 bg-neutral-300 rounded-full"></span>
+                                    <span>Арт. {product.sku}</span>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* Desktop CTA */}
-                        <div className="hidden md:block pt-6">
-                            <button
-                                onClick={handleOrder}
-                                disabled={product.stock === 0}
-                                className="w-full h-14 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 disabled:from-neutral-300 disabled:to-neutral-300 text-white font-bold text-lg rounded-2xl transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.99]"
-                            >
-                                <FaWhatsapp className="w-6 h-6" />
-                                {product.stock > 0 ? "Заказать в WhatsApp" : "Нет в наличии"}
-                            </button>
-                            <p className="text-center text-sm text-neutral-400 mt-4">
-                                Менеджер ответит в течение 5 минут
-                            </p>
+                            {/* Price Block */}
+                            <div className="flex items-baseline gap-6 border-b border-neutral-100 pb-8">
+                                <span className="text-5xl font-light text-neutral-900 tracking-tight">
+                                    {formatPrice(product.price)}
+                                </span>
+                                <span className="text-lg text-green-600 font-medium px-3 py-1 bg-green-50 rounded-lg">
+                                    Доступно сейчас
+                                </span>
+                            </div>
+
+                            {/* Description */}
+                            <div className="prose prose-neutral max-w-none">
+                                <p className="text-neutral-600 text-lg leading-relaxed font-light">
+                                    {product.description}
+                                </p>
+                            </div>
+
+                            {/* Features Grid */}
+                            <div className="grid grid-cols-2 gap-4">
+                                {product.dimensions && (
+                                    <div className="p-4 rounded-2xl bg-white border border-neutral-100 shadow-sm">
+                                        <p className="text-xs text-neutral-400 font-bold uppercase tracking-wider mb-1">Размеры</p>
+                                        <p className="font-medium text-neutral-900">
+                                            {product.dimensions.width}×{product.dimensions.depth}×{product.dimensions.height} см
+                                        </p>
+                                    </div>
+                                )}
+                                {product.materials && (
+                                    <div className="p-4 rounded-2xl bg-white border border-neutral-100 shadow-sm">
+                                        <p className="text-xs text-neutral-400 font-bold uppercase tracking-wider mb-1">Материалы</p>
+                                        <p className="font-medium text-neutral-900">{product.materials[0]}</p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Benefits */}
+                            <div className="grid grid-cols-2 gap-y-4 text-sm text-neutral-600">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-amber-50 text-amber-600 rounded-full">
+                                        <FiShield className="w-4 h-4" />
+                                    </div>
+                                    <span>Гарантия 2 года</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-amber-50 text-amber-600 rounded-full">
+                                        <FiTruck className="w-4 h-4" />
+                                    </div>
+                                    <span>Быстрая доставка</span>
+                                </div>
+                            </div>
+
+                            {/* Actions Desktop */}
+                            <div className="hidden md:flex gap-4 pt-4">
+                                <button
+                                    onClick={handleOrder}
+                                    className="flex-1 h-16 bg-neutral-900 text-white rounded-2xl font-bold text-lg hover:bg-neutral-800 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 active:scale-[0.98]"
+                                >
+                                    <FaWhatsapp className="w-6 h-6" />
+                                    Оформить заказ
+                                </button>
+                                <button className="w-16 h-16 rounded-2xl border-2 border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-red-500 hover:bg-red-50 hover:border-red-100 transition-all">
+                                    <FiHeart className="w-6 h-6" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Mobile Sticky CTA - Premium */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 p-5 bg-white/95 backdrop-blur-md border-t border-neutral-100 z-50 safe-area-pb">
-                <button
-                    onClick={handleOrder}
-                    disabled={product.stock === 0}
-                    className="w-full h-14 bg-gradient-to-r from-green-600 to-green-500 active:from-green-700 active:to-green-600 disabled:from-neutral-300 disabled:to-neutral-300 text-white font-bold text-base rounded-2xl flex items-center justify-center gap-3 shadow-xl active:scale-[0.98] transition-all"
-                >
-                    <FaWhatsapp className="w-6 h-6 animate-pulse" />
-                    <span>{product.stock > 0 ? "Заказать в WhatsApp" : "Нет в наличии"}</span>
-                </button>
+            {/* Sticky Mobile Bar - Glassmorphism */}
+            <div className="md:hidden fixed bottom-6 left-4 right-4 z-50">
+                <div className="absolute inset-0 bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/50"></div>
+                <div className="relative p-2 flex items-center gap-3">
+                    <div className="pl-4">
+                        <p className="text-xs text-neutral-400 font-medium uppercase">Итого</p>
+                        <p className="text-lg font-bold text-neutral-900">{formatPrice(product.price)}</p>
+                    </div>
+                    <button
+                        onClick={handleOrder}
+                        className="flex-1 h-12 bg-neutral-900 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform"
+                    >
+                        <FaWhatsapp className="w-4 h-4" />
+                        Заказать
+                    </button>
+                </div>
             </div>
 
             {/* Similar Products */}
             {similarProducts.length > 0 && (
-                <div className="bg-neutral-50 py-16 md:py-20 mt-16">
-                    <div className="container mx-auto px-5 md:px-6 max-w-7xl">
-                        <h2 className="text-2xl md:text-3xl font-bold mb-8">Похожие товары</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6">
+                <div className="mt-32 border-t border-neutral-200/50 pt-20 bg-white">
+                    <div className="container mx-auto px-6 max-w-[90rem]">
+                        <div className="flex items-center justify-between mb-12">
+                            <h2 className="text-3xl md:text-5xl font-bold font-serif text-neutral-900">Вам может понравиться</h2>
+                            <Link href="/catalog" className="hidden md:flex items-center gap-2 text-neutral-500 hover:text-amber-600 transition font-medium">
+                                Смотреть всё <FiChevronRight />
+                            </Link>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                             {similarProducts.map((p) => (
                                 <ProductCard key={p.id} product={p} />
                             ))}
@@ -237,47 +262,11 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
 
             {/* Lightbox */}
             {lightboxOpen && (
-                <div
-                    className="fixed inset-0 bg-black/95 z-[70] flex items-center justify-center p-4"
-                    onClick={() => setLightboxOpen(false)}
-                >
-                    <button
-                        onClick={() => setLightboxOpen(false)}
-                        className="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
-                    >
-                        <FiX className="w-6 h-6 text-white" />
+                <div className="fixed inset-0 z-[100] bg-neutral-900/95 backdrop-blur-2xl flex items-center justify-center animate-[fadeIn_0.3s_ease-out]">
+                    <button className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors" onClick={() => setLightboxOpen(false)}>
+                        <FiX className="w-10 h-10" />
                     </button>
-
-                    <div className="relative w-full max-w-6xl aspect-[4/3]" onClick={(e) => e.stopPropagation()}>
-                        <Image
-                            src={allImages[selectedImageIndex]}
-                            alt={product.name}
-                            fill
-                            className="object-contain"
-                            sizes="(max-width: 1536px) 100vw, 1536px"
-                        />
-
-                        {allImages.length > 1 && (
-                            <>
-                                <button
-                                    onClick={prevImage}
-                                    className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition shadow-2xl"
-                                >
-                                    <FiChevronLeft className="w-7 h-7" />
-                                </button>
-                                <button
-                                    onClick={nextImage}
-                                    className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition shadow-2xl"
-                                >
-                                    <FiChevronRight className="w-7 h-7" />
-                                </button>
-                            </>
-                        )}
-                    </div>
-
-                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white text-base font-medium px-5 py-2 bg-black/50 rounded-full backdrop-blur-sm">
-                        {selectedImageIndex + 1} / {allImages.length}
-                    </div>
+                    <img src={allImages[selectedImageIndex]} className="max-w-[90vw] max-h-[90vh] object-contain drop-shadow-2xl" alt="" />
                 </div>
             )}
         </div>
