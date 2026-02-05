@@ -50,7 +50,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     };
 
     return (
-        <div className="min-h-screen bg-white pt-24">
+        <div className="min-h-screen bg-white pt-32">
             {/* Page Title */}
             <div className="bg-neutral-50 border-b border-neutral-200">
                 <div className="container mx-auto px-3 md:px-4 max-w-7xl py-6 md:py-8">
