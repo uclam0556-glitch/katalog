@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { Metadata } from "next";
 import "./globals.css";
 
 const playfair = { variable: "font-serif" };
