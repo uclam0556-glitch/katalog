@@ -50,16 +50,14 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     };
 
     return (
-        <div className="min-h-screen bg-white text-neutral-900 pointer-events-auto">
-            {/* Elegant Header */}
-            <div className="pt-40 pb-12 text-center bg-white">
-                <div className="container-custom max-w-4xl mx-auto">
-                    <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-neutral-400 mb-4 block animate-[fadeIn_0.6s]">
-                        Каталог 2026
-                    </span>
-                    <h1 className="text-4xl md:text-6xl font-serif text-neutral-900 mb-6 tracking-tight leading-tight animate-[slideUp_0.6s_0.1s_both]">
-                        Коллекция <span className="italic font-light text-neutral-500">Мебели</span>
-                    </h1>
+        <div className="min-h-screen bg-white">
+            {/* Page Title */}
+            <div className="bg-neutral-50 border-b border-neutral-200">
+                <div className="container mx-auto px-3 md:px-4 max-w-7xl py-6 md:py-8">
+                    <h1 className="text-2xl md:text-4xl font-bold text-neutral-900">Каталог</h1>
+                    <p className="text-sm md:text-base text-neutral-600 mt-2">
+                        Премиальная мебель для вашего дома
+                    </p>
                 </div>
             </div>
 

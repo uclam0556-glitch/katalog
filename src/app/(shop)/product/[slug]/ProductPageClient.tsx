@@ -39,7 +39,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     };
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white pt-20 md:pt-24">
             {/* Breadcrumbs */}
             <div className="border-b border-neutral-200">
                 <div className="container mx-auto px-4 max-w-7xl py-3">
@@ -58,8 +58,8 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
             </div>
 
             {/* Product Section - 2 Column Layout like divano.ru */}
-            <div className="container mx-auto px-4 max-w-7xl py-6 md:py-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
+            <div className="container mx-auto px-4 max-w-7xl py-8 md:py-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* LEFT: Photo Gallery - 50% */}
                     <div className="space-y-4">
                         {/* Main Image */}
@@ -138,12 +138,9 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
 
                         {/* Price - Large like divano.ru */}
                         <div className="py-4 border-y border-neutral-200">
-                            <div className="flex items-baseline gap-2">
-                                <span className="text-4xl md:text-5xl font-bold text-red-700">
-                                    {formatPrice(product.price)}
-                                </span>
-                                <span className="text-2xl text-neutral-500">₽</span>
-                            </div>
+                            <span className="text-4xl md:text-5xl font-bold text-red-700">
+                                {formatPrice(product.price)}
+                            </span>
                         </div>
 
                         {/* Stock */}

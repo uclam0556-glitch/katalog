@@ -12,11 +12,10 @@ export interface ProductGridProps {
 }
 
 /**
- * Professional Product Grid - divano.ru inspired spacing
+ * Professional Product Grid - Mobile optimized
  */
 export const ProductGrid: React.FC<ProductGridProps> = ({
     products,
-    onAddToCart,
     className,
 }) => {
     if (products.length === 0) {
@@ -33,8 +32,8 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
     return (
         <div
             className={cn(
-                // Better spacing like divano.ru
-                "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6",
+                // Mobile optimized spacing - no overflow
+                "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6",
                 className
             )}
         >
@@ -42,7 +41,6 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 <ProductCard
                     key={product.id}
                     product={product}
-                    onAddToCart={onAddToCart}
                 />
             ))}
         </div>
