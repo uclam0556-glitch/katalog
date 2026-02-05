@@ -11,7 +11,7 @@ export default function ShopLayout({
     return (
         <>
             <HeaderNew />
-            <main className="min-h-screen pt-20">{children}</main>
+            <main className="min-h-screen">{children}</main>
             <Footer />
             <WhatsAppButton phoneNumber="+79667422726" />
             <ScrollToTop />
