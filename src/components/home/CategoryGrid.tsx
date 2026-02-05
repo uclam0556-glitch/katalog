@@ -32,52 +32,39 @@ export const CategoryGrid: React.FC = () => {
                     </p>
                 </div>
 
-                {/* Category Grid - 3 cols mobile, 4 cols desktop, centered */}
-                <div className="grid grid-cols-3 md:grid-cols-4 gap-1.5 md:gap-4 max-w-4xl mx-auto">
+                {/* Ultra-Quality Mobile Grid: 2 columns, Perfect Spacing */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 max-w-6xl mx-auto">
                     {categories.map((category) => (
                         <Link
                             key={category.id}
                             href={`/catalog?category=${category.slug}`}
-                            className="group relative aspect-square rounded-lg md:rounded-xl overflow-hidden bg-neutral-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                            className="group relative aspect-[4/3] md:aspect-square rounded-xl overflow-hidden bg-neutral-100 shadow-sm active:scale-95 transition-all duration-200"
                         >
-                            {/* Category Image */}
+                            {/* Category Image - High Quality fill */}
                             <Image
                                 src={categoryImages[category.slug] || "/placeholder.png"}
                                 alt={category.name}
                                 fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                sizes="(max-width: 768px) 33vw, 25vw"
+                                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                sizes="(max-width: 768px) 50vw, 25vw"
+                                priority={category.order <= 4}
                             />
 
-                            {/* Overlay with gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                            {/* Pro Gradient Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90" />
 
-                            {/* Category Text */}
-                            <div className="absolute bottom-0 left-0 right-0 p-1.5 md:p-4">
-                                <h3 className="text-white font-bold text-[10px] md:text-lg mb-0 md:mb-1">
+                            {/* Text Content - Readable & Clean */}
+                            <div className="absolute bottom-0 left-0 right-0 p-3 md:p-5">
+                                <h3 className="text-white font-bold text-sm md:text-xl leading-tight mb-0.5 md:mb-1 drop-shadow-sm">
                                     {category.name}
                                 </h3>
-                                <p className="hidden md:block text-white/80 text-xs line-clamp-2">
+                                <p className="text-white/80 text-[10px] md:text-sm font-medium line-clamp-1 opacity-90">
                                     {category.description}
                                 </p>
                             </div>
 
-                            {/* Hover Arrow - desktop only */}
-                            <div className="hidden md:flex absolute top-3 right-3 w-7 h-7 bg-white rounded-full items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <svg
-                                    className="w-3.5 h-3.5 text-neutral-900"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                    />
-                                </svg>
-                            </div>
+                            {/* Mobile Tap Highlight (optional visual feedback) */}
+                            <div className="absolute inset-0 bg-black/0 active:bg-black/10 transition-colors" />
                         </Link>
                     ))}
                 </div>
