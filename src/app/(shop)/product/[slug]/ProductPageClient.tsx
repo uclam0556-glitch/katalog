@@ -46,7 +46,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
             <div className="h-28 md:h-32"></div>
 
             {/* Breadcrumbs - Elegant & Minimal */}
-            <div className="container mx-auto px-6 max-w-[90rem] mb-8 animate-[fadeIn_0.6s_ease-out]">
+            <div className="container mx-auto px-8 max-w-[90rem] mb-8 animate-[fadeIn_0.6s_ease-out]">
                 <div className="flex items-center gap-2 text-xs md:text-sm font-medium tracking-widest text-neutral-400 uppercase">
                     <Link href="/" className="hover:text-amber-600 transition-colors">Главная</Link>
                     <span className="text-amber-300">•</span>
@@ -56,7 +56,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                 </div>
             </div>
 
-            <div className="container mx-auto px-6 md:px-12 max-w-[90rem]">
+            <div className="container mx-auto px-8 md:px-12 max-w-[90rem]">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-24">
 
                     {/* LEFT: GALLERY (7 Cols) */}

@@ -30,7 +30,7 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
 
             {/* Featured Products */}
             <section className="py-10 md:py-20 bg-white">
-                <div className="container mx-auto px-6 md:px-8 max-w-6xl">
+                <div className="container mx-auto px-8 md:px-12 max-w-6xl">
                     <div className="text-center mb-8 md:mb-12">
                         <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 mb-2 md:mb-4">
                             Популярные товары
