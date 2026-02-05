@@ -52,8 +52,8 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     return (
         <div className="min-h-screen bg-white pt-32">
 
-            {/* Sticky Minimalist Filter Bar */}
-            <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-100 transition-all duration-300">
+            {/* Sticky Minimalist Filter Bar - Below Header */}
+            <div className="sticky top-20 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-100 transition-all duration-300">
                 <div className="container-custom">
                     <div className="flex flex-col md:flex-row items-center justify-between py-4 gap-4 md:gap-8">
 
