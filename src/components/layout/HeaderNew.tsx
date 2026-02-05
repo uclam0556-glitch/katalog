@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FiMapPin, FiPhone, FiSearch, FiX } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 
@@ -155,6 +156,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
  * Logo centered, clean search
  */
 export const HeaderNew: React.FC = () => {
+    const pathname = usePathname();
     const [isScrolled, setIsScrolled] = React.useState(false);
     const [isLocationOpen, setIsLocationOpen] = React.useState(false);
     const [isContactOpen, setIsContactOpen] = React.useState(false);
@@ -241,19 +243,21 @@ export const HeaderNew: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Search Row - Full width below */}
-                    <div className="pb-3">
-                        <div className="relative max-w-2xl mx-auto">
-                            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
-                            <input
-                                type="text"
-                                placeholder="Поиск мебели..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-12 pr-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-700 transition text-sm"
-                            />
+                    {/* Search Row - Hidden on Product Pages */}
+                    {!pathname.includes("/product/") && (
+                        <div className="pb-3">
+                            <div className="relative max-w-2xl mx-auto">
+                                <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                                <input
+                                    type="text"
+                                    placeholder="Поиск мебели..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full pl-12 pr-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-700 transition text-sm"
+                                />
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </header>
 

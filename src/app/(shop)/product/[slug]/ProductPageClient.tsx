@@ -213,12 +213,12 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                 </div>
             </div>
 
-            {/* Mobile Sticky Bottom CTA */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 p-3 bg-white border-t border-neutral-200 z-50 safe-area-pb">
+            {/* Mobile Sticky Bottom CTA - Floating & Compact */}
+            <div className="md:hidden fixed bottom-4 left-4 right-4 z-50">
                 <button
                     onClick={handleOrder}
                     disabled={product.stock === 0}
-                    className="w-full py-3.5 bg-green-600 active:bg-green-700 disabled:bg-neutral-300 text-white font-bold text-base rounded-xl flex items-center justify-center gap-2 shadow-md"
+                    className="w-full py-3.5 bg-green-600/95 backdrop-blur-sm active:bg-green-700 disabled:bg-neutral-300 text-white font-bold text-base rounded-2xl flex items-center justify-center gap-2.5 shadow-lg"
                 >
                     <FaWhatsapp className="w-5 h-5" />
                     <span>{product.stock > 0 ? "Заказать в WhatsApp" : "Нет в наличии"}</span>
