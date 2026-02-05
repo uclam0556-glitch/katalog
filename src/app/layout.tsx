@@ -1,20 +1,9 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
 
-const playfair = Playfair_Display({
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-serif",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-sans",
-  display: "swap",
-});
+const playfair = { variable: "font-serif" };
+const inter = { variable: "font-sans" };
 
 export const metadata: Metadata = {
   title: "амэа - Премиальная мебель для вашего дома",
@@ -44,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={`${playfair.variable} ${inter.variable} antialiased`}>
+      <body className={`font-serif font-sans antialiased`}>
         {children}
       </body>
     </html>
