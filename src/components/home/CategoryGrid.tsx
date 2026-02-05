@@ -20,20 +20,20 @@ const categoryImages: Record<string, string> = {
 
 export const CategoryGrid: React.FC = () => {
     return (
-        <section className="py-8 md:py-16 bg-white">
-            <div className="container mx-auto px-4 max-w-6xl">
+        <section className="py-6 md:py-16 bg-white">
+            <div className="container mx-auto px-3 md:px-4 max-w-6xl">
                 {/* Section Header */}
-                <div className="text-center mb-6 md:mb-12">
-                    <h2 className="text-xl md:text-4xl font-bold text-neutral-900 mb-2 md:mb-4">
+                <div className="text-center mb-4 md:mb-12">
+                    <h2 className="text-lg md:text-4xl font-bold text-neutral-900 mb-1 md:mb-4">
                         Категории
                     </h2>
-                    <p className="text-sm md:text-base text-neutral-600 max-w-xl mx-auto px-4">
+                    <p className="text-xs md:text-base text-neutral-600 max-w-xl mx-auto px-4">
                         Выберите категорию
                     </p>
                 </div>
 
                 {/* Category Grid - 3 cols mobile, 4 cols desktop, centered */}
-                <div className="grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-4 max-w-4xl mx-auto">
+                <div className="grid grid-cols-3 md:grid-cols-4 gap-1.5 md:gap-4 max-w-4xl mx-auto">
                     {categories.map((category) => (
                         <Link
                             key={category.id}
@@ -53,8 +53,8 @@ export const CategoryGrid: React.FC = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                             {/* Category Text */}
-                            <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4">
-                                <h3 className="text-white font-bold text-xs md:text-lg mb-0.5 md:mb-1">
+                            <div className="absolute bottom-0 left-0 right-0 p-1.5 md:p-4">
+                                <h3 className="text-white font-bold text-[10px] md:text-lg mb-0 md:mb-1">
                                     {category.name}
                                 </h3>
                                 <p className="hidden md:block text-white/80 text-xs line-clamp-2">

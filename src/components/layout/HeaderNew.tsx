@@ -196,7 +196,7 @@ export const HeaderNew: React.FC = () => {
                             className="flex items-center justify-center hover:opacity-80 transition"
                         >
                             <h1
-                                className="text-3xl md:text-4xl font-black tracking-tight"
+                                className="text-2xl md:text-4xl font-black tracking-tight"
                                 style={{
                                     color: "#991B1B",
                                     fontFamily: "var(--font-serif)",
