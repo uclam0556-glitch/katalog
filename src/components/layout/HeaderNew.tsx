@@ -49,7 +49,7 @@ export const LocationModal: React.FC<LocationModalProps> = ({ isOpen, onClose })
                     <div>
                         <p className="text-sm font-medium text-neutral-500 mb-1">Адрес</p>
                         <p className="text-base text-neutral-900">
-                            г. Москва, ул. Примерная, д. 123
+                            Село Гойты, Улица Грозненская 20
                         </p>
                     </div>
 
@@ -174,96 +174,45 @@ export const HeaderNew: React.FC = () => {
         <>
             <header
                 className={cn(
-                    "fixed top-0 left-0 right-0 z-40 bg-white transition-all duration-300",
-                    isScrolled ? "shadow-md" : "border-b border-neutral-200"
+                    "fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300",
+                    isScrolled ? "shadow-md" : "border-b border-neutral-100"
                 )}
             >
-                <div className="container mx-auto px-3 md:px-4 max-w-7xl">
-                    {/* Top Row: Logo centered, actions on sides */}
-                    <div className="flex items-center justify-between h-16 md:h-20 gap-2">
-                        {/* Left: Location (desktop) */}
-                        <div className="hidden md:block flex-1">
-                            <button
-                                onClick={() => setIsLocationOpen(true)}
-                                className="flex items-center gap-2 px-4 py-2 hover:bg-neutral-50 rounded-lg transition text-sm font-medium text-neutral-700"
-                            >
-                                <FiMapPin className="w-4 h-4" />
-                                <span>Москва</span>
-                            </button>
-                        </div>
-
-                        {/* Center: Logo - Bigger and centered */}
+                <div className="container mx-auto px-4 max-w-7xl">
+                    {/* Simple Row: Logo centered, Contact on right */}
+                    <div className="relative flex items-center justify-end py-5">
+                        {/* CENTER: Logo - Large & Prominent */}
                         <Link
                             href="/"
-                            className="flex items-center justify-center hover:opacity-80 transition"
+                            className="absolute left-1/2 -translate-x-1/2 font-serif text-3xl md:text-4xl font-bold tracking-wider text-neutral-900 hover:text-red-700 transition"
                         >
-                            <h1
-                                className="text-2xl md:text-4xl font-black tracking-tight"
-                                style={{
-                                    color: "#991B1B",
-                                    fontFamily: "var(--font-serif)",
-                                }}
-                            >
-                                амэа
-                            </h1>
+                            АМЕА
                         </Link>
 
-                        {/* Right: Actions */}
-                        <div className="flex items-center gap-2 md:gap-3 flex-1 justify-end">
-                            {/* Mobile: Location + Contact icons */}
-                            <button
-                                onClick={() => setIsLocationOpen(true)}
-                                className="md:hidden p-2 hover:bg-neutral-50 rounded-lg transition"
-                            >
-                                <FiMapPin className="w-5 h-5 text-neutral-700" />
-                            </button>
-
+                        {/* RIGHT: Contact + Catalog */}
+                        <div className="flex items-center gap-3">
                             <button
                                 onClick={() => setIsContactOpen(true)}
-                                className="md:hidden p-2 hover:bg-neutral-50 rounded-lg transition"
-                            >
-                                <FiPhone className="w-5 h-5 text-neutral-700" />
-                            </button>
-
-                            {/* Desktop: Contact Button */}
-                            <button
-                                onClick={() => setIsContactOpen(true)}
-                                className="hidden md:flex items-center gap-2 px-4 py-2 hover:bg-neutral-50 rounded-lg transition font-medium text-neutral-900"
+                                className="flex items-center gap-1.5 text-neutral-700 hover:text-red-700 transition"
                             >
                                 <FiPhone className="w-4 h-4" />
-                                <span className="text-sm">Контакты</span>
+                                <span className="text-sm font-medium hidden sm:inline">Контакты</span>
                             </button>
 
                             <Link
                                 href="/catalog"
-                                className="px-4 md:px-6 py-2 md:py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl font-medium transition text-sm"
+                                className="px-5 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl font-medium transition text-sm"
                             >
                                 Каталог
                             </Link>
                         </div>
                     </div>
-
-                    {/* Search Row - Hidden on Product Pages */}
-                    {!pathname.includes("/product/") && (
-                        <div className="pb-3">
-                            <div className="relative max-w-2xl mx-auto">
-                                <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
-                                <input
-                                    type="text"
-                                    placeholder="Поиск мебели..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-700 transition text-sm"
-                                />
-                            </div>
-                        </div>
-                    )}
                 </div>
             </header>
 
             {/* Modals */}
-            <LocationModal isOpen={isLocationOpen} onClose={() => setIsLocationOpen(false)} />
-            <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+            < LocationModal isOpen={isLocationOpen} onClose={() => setIsLocationOpen(false)} />
+            < ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
         </>
     );
 };
