@@ -39,7 +39,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     };
 
     return (
-        <div className="min-h-screen bg-white pt-28 md:pt-40 pb-24 md:pb-0">
+        <div className="min-h-screen bg-white pt-28 md:pt-40 pb-28 md:pb-0">
             {/* Breadcrumbs */}
             <div className="border-b border-neutral-200 hidden md:block">
                 <div className="container mx-auto px-4 max-w-7xl py-3">
@@ -57,71 +57,63 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                 </div>
             </div>
 
-            {/* Product Section - Ultra-Quality Mobile Layout */}
-            <div className="container mx-auto px-0 md:px-4 max-w-7xl py-0 md:py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 md:gap-10">
+            {/* Product Section */}
+            <div className="container mx-auto px-4 md:px-4 max-w-7xl py-6 md:py-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
 
-                    {/* LEFT: Gallery (Mobile Swipe / Desktop Grid) */}
-                    <div className="relative group">
-                        {/* Mobile: Native Scroll Snap Carousel */}
-                        <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:hidden aspect-[4/3] w-full bg-neutral-100">
-                            {allImages.map((image, index) => (
-                                <div key={index} className="snap-center shrink-0 w-full h-full relative">
-                                    <Image
-                                        src={image}
-                                        alt={`${product.name} - ${index + 1}`}
-                                        fill
-                                        className="object-cover"
-                                        priority={index === 0}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Mobile: Dots Indicator */}
-                        {allImages.length > 1 && (
-                            <div className="flex md:hidden justify-center gap-1.5 absolute bottom-4 left-0 right-0 z-10 pointer-events-none">
-                                {allImages.map((_, index) => (
-                                    <div
-                                        key={index}
-                                        className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-sm backdrop-blur-sm"
-                                    />
-                                ))}
-                            </div>
-                        )}
-
-                        {/* Desktop: Classic Gallery */}
+                    {/* LEFT: Gallery with Thumbnails */}
+                    <div className="relative">
+                        {/* Main Image */}
                         <div
-                            className="hidden md:block relative aspect-[4/3] bg-neutral-50 rounded-lg overflow-hidden cursor-zoom-in border border-neutral-100"
+                            className="relative aspect-[4/3] bg-neutral-50 rounded-2xl overflow-hidden cursor-zoom-in border border-neutral-100 group"
                             onClick={() => setLightboxOpen(true)}
                         >
                             <Image
                                 src={allImages[selectedImageIndex]}
                                 alt={product.name}
                                 fill
-                                className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                                className="object-cover group-hover:scale-105 transition-transform duration-500"
                                 priority
-                                sizes="50vw"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
                             />
+
+                            {/* Navigation Arrows - appear on hover */}
+                            {allImages.length > 1 && (
+                                <>
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition shadow-lg opacity-0 group-hover:opacity-100"
+                                    >
+                                        <FiChevronLeft className="w-5 h-5" />
+                                    </button>
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition shadow-lg opacity-0 group-hover:opacity-100"
+                                    >
+                                        <FiChevronRight className="w-5 h-5" />
+                                    </button>
+                                </>
+                            )}
                         </div>
 
-                        {/* Desktop: Thumbnails */}
+                        {/* Thumbnails Grid */}
                         {allImages.length > 1 && (
-                            <div className="hidden md:grid grid-cols-5 gap-3 mt-4">
+                            <div className="mt-4 grid grid-cols-5 gap-3">
                                 {allImages.map((image, index) => (
                                     <button
                                         key={index}
                                         onClick={() => setSelectedImageIndex(index)}
-                                        className={`relative aspect-square rounded-md overflow-hidden border-2 transition-all ${selectedImageIndex === index
-                                            ? "border-neutral-900 opacity-100"
-                                            : "border-transparent opacity-70 hover:opacity-100"
+                                        className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedImageIndex === index
+                                                ? "border-red-600 ring-2 ring-red-200 scale-105"
+                                                : "border-neutral-200 hover:border-neutral-400"
                                             }`}
                                     >
                                         <Image
                                             src={image}
-                                            alt={`Thumbnail ${index + 1}`}
+                                            alt={`${product.name} ${index + 1}`}
                                             fill
                                             className="object-cover"
+                                            sizes="20vw"
                                         />
                                     </button>
                                 ))}
@@ -130,13 +122,13 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                     </div>
 
                     {/* RIGHT: Product Details */}
-                    <div className="px-4 md:px-0 py-6 md:py-0 space-y-6">
+                    <div className="space-y-6">
                         {/* Title & Price Block */}
                         <div>
                             <div className="text-xs md:text-sm text-neutral-500 mb-2 uppercase tracking-wide font-medium">
                                 {product.category}
                             </div>
-                            <h1 className="text-2xl md:text-4xl font-bold text-neutral-900 leading-tight mb-3">
+                            <h1 className="text-2xl md:text-4xl font-bold text-neutral-900 leading-tight mb-4">
                                 {product.name}
                             </h1>
                             <div className="flex items-baseline gap-3 pb-4 border-b border-neutral-100">
@@ -144,11 +136,11 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                     {formatPrice(product.price)}
                                 </span>
                                 {product.stock > 0 ? (
-                                    <span className="px-2.5 py-1 bg-green-100 text-green-700 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-full">
+                                    <span className="px-3 py-1.5 bg-green-100 text-green-700 text-xs md:text-sm font-bold uppercase tracking-wider rounded-full">
                                         В наличии
                                     </span>
                                 ) : (
-                                    <span className="px-2.5 py-1 bg-neutral-100 text-neutral-500 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-full">
+                                    <span className="px-3 py-1.5 bg-neutral-100 text-neutral-500 text-xs md:text-sm font-bold uppercase tracking-wider rounded-full">
                                         Нет в наличии
                                     </span>
                                 )}
@@ -160,7 +152,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                             <p>{product.description}</p>
                         </div>
 
-                        {/* Specifications - Corrected Dimensions */}
+                        {/* Specifications */}
                         <div className="pt-4 border-t border-neutral-100">
                             <h3 className="font-bold text-lg mb-4">Характеристики</h3>
 
@@ -195,12 +187,12 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                             </div>
                         </div>
 
-                        {/* Desktop CTA (Hidden on mobile) */}
+                        {/* Desktop CTA */}
                         <div className="hidden md:block pt-6">
                             <button
                                 onClick={handleOrder}
                                 disabled={product.stock === 0}
-                                className="w-full py-4 bg-green-600 hover:bg-green-700 disabled:bg-neutral-300 text-white font-bold text-lg rounded-lg transition flex items-center justify-center gap-3 shadow-lg hover:shadow-xl active:scale-[0.99] transform"
+                                className="w-full py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 disabled:from-neutral-300 disabled:to-neutral-300 text-white font-bold text-lg rounded-2xl transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transform"
                             >
                                 <FaWhatsapp className="w-6 h-6" />
                                 {product.stock > 0 ? "Заказать в WhatsApp" : "Нет в наличии"}
@@ -213,14 +205,14 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                 </div>
             </div>
 
-            {/* Mobile Sticky Bottom CTA - Floating & Compact */}
+            {/* Mobile Sticky Bottom CTA - Enhanced */}
             <div className="md:hidden fixed bottom-4 left-4 right-4 z-50">
                 <button
                     onClick={handleOrder}
                     disabled={product.stock === 0}
-                    className="w-full py-3.5 bg-green-600/95 backdrop-blur-sm active:bg-green-700 disabled:bg-neutral-300 text-white font-bold text-base rounded-2xl flex items-center justify-center gap-2.5 shadow-lg"
+                    className="w-full py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 disabled:from-neutral-300 disabled:to-neutral-300 text-white font-bold text-base rounded-2xl flex items-center justify-center gap-3 shadow-2xl active:scale-95 transition-all"
                 >
-                    <FaWhatsapp className="w-5 h-5" />
+                    <FaWhatsapp className="w-6 h-6 animate-pulse" />
                     <span>{product.stock > 0 ? "Заказать в WhatsApp" : "Нет в наличии"}</span>
                 </button>
             </div>
