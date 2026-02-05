@@ -7,9 +7,7 @@ import { cn } from "@/lib/utils";
 
 export interface ProductGridProps {
     products: Product[];
-    onProductClick?: (product: Product) => void;
     onAddToCart?: (product: Product) => void;
-    onQuickView?: (product: Product) => void;
     className?: string;
 }
 
@@ -18,9 +16,7 @@ export interface ProductGridProps {
  */
 export const ProductGrid: React.FC<ProductGridProps> = ({
     products,
-    onProductClick,
     onAddToCart,
-    onQuickView,
     className,
 }) => {
     if (products.length === 0) {
@@ -53,9 +49,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 >
                     <ProductCard
                         product={product}
-                        onProductClick={onProductClick}
                         onAddToCart={onAddToCart}
-                        onQuickView={onQuickView}
                     />
                 </div>
             ))}

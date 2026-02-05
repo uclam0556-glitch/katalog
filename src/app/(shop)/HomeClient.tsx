@@ -5,7 +5,6 @@ import Link from "next/link";
 import { HeroSlider } from "@/components/home/HeroSlider";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { ProductGrid } from "@/components/product/ProductGrid";
-import { ProductModal } from "@/components/ProductModal";
 import { Product } from "@/types/product";
 import { generateWhatsAppLink, openWhatsApp } from "@/utils/whatsapp";
 
@@ -15,11 +14,6 @@ interface HomeClientProps {
 
 export default function HomeClient({ initialProducts }: HomeClientProps) {
     const featuredProducts = initialProducts.filter((p) => p.featured);
-    const [selectedProduct, setSelectedProduct] = React.useState<Product | null>(null);
-
-    const handleProductClick = (product: Product) => {
-        setSelectedProduct(product);
-    };
 
     const handleAddToCart = (product: Product) => {
         const whatsappLink = generateWhatsAppLink("+79667422726", product);
@@ -54,7 +48,6 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
 
                     <ProductGrid
                         products={featuredProducts}
-                        onProductClick={handleProductClick}
                         onAddToCart={handleAddToCart}
                     />
                 </div>
@@ -89,7 +82,7 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
                         <div className="flex items-center gap-3 justify-center md:justify-start">
                             <div className="w-12 h-12 md:w-14 md:h-14 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
                                 <svg className="w-6 h-6 md:w-7 md:h-7 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a909 0 11-18 0 9 9 0 0118 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
                             <div>
@@ -100,15 +93,6 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
                     </div>
                 </div>
             </section>
-
-            {/* Product Modal */}
-            {selectedProduct && (
-                <ProductModal
-                    product={selectedProduct}
-                    isOpen={!!selectedProduct}
-                    onClose={() => setSelectedProduct(null)}
-                />
-            )}
         </div>
     );
 }

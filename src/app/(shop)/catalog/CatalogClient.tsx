@@ -3,7 +3,6 @@
 import React from "react";
 import { FiSearch, FiChevronDown, FiX } from "react-icons/fi";
 import { ProductGrid } from "@/components/product/ProductGrid";
-import { ProductModal } from "@/components/ProductModal";
 import { Product } from "@/types/product";
 import { categories } from "@/data/products";
 import { generateWhatsAppLink, openWhatsApp } from "@/utils/whatsapp";
@@ -18,7 +17,6 @@ interface CatalogClientProps {
 export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     const [searchQuery, setSearchQuery] = React.useState("");
     const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
-    const [selectedProduct, setSelectedProduct] = React.useState<Product | null>(null);
     const [sortBy, setSortBy] = React.useState<SortOption>("popular");
     const [isSearchOpen, setIsSearchOpen] = React.useState(false);
 
@@ -46,7 +44,6 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
         return filtered;
     }, [searchQuery, selectedCategory, sortBy, initialProducts]);
 
-    const handleProductClick = (product: Product) => setSelectedProduct(product);
     const handleAddToCart = (product: Product) => {
         const whatsappLink = generateWhatsAppLink("+79667422726", product);
         openWhatsApp(whatsappLink);
@@ -165,7 +162,6 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                     <div className="animate-[fadeIn_0.8s_ease-out]">
                         <ProductGrid
                             products={filteredAndSortedProducts}
-                            onProductClick={handleProductClick}
                             onAddToCart={handleAddToCart}
                         />
                     </div>
@@ -184,13 +180,6 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                     </div>
                 )}
             </div>
-
-            {/* Product Modal */}
-            <ProductModal
-                product={selectedProduct}
-                isOpen={!!selectedProduct}
-                onClose={() => setSelectedProduct(null)}
-            />
         </div>
     );
 }

@@ -1,43 +1,39 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { FiShoppingBag } from "react-icons/fi";
 import { Product } from "@/types/product";
-import { formatPrice } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { formatPrice, cn } from "@/lib/utils";
+import { generateProductSlug } from "@/utils/slug";
 
 export interface ProductCardProps {
     product: Product;
-    onProductClick?: (product: Product) => void;
     onAddToCart?: (product: Product) => void;
-    onQuickView?: (product: Product) => void;
 }
 
 /**
  * Professional Furniture Store Product Card
- * Clean, compact grid design - 3 columns
+ * Clean, compact grid design - Links to product page
  */
 export const ProductCard: React.FC<ProductCardProps> = ({
     product,
-    onProductClick,
     onAddToCart,
 }) => {
     const [imageLoaded, setImageLoaded] = React.useState(false);
-
-    const handleCardClick = () => {
-        onProductClick?.(product);
-    };
+    const productSlug = generateProductSlug(product);
 
     const handleAddToCart = (e: React.MouseEvent) => {
+        e.preventDefault();
         e.stopPropagation();
         onAddToCart?.(product);
     };
 
     return (
-        <div
+        <Link
+            href={`/product/${productSlug}`}
             className="group cursor-pointer flex flex-col"
-            onClick={handleCardClick}
         >
             {/* Image Container - Compact aspect ratio */}
             <div className="relative aspect-[4/5] bg-neutral-100 overflow-hidden mb-3 rounded-lg">
@@ -71,16 +67,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 )}
 
                 {/* Hover Overlay - Add to Cart */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-end justify-center p-4 opacity-0 group-hover:opacity-100">
-                    <button
-                        onClick={handleAddToCart}
-                        disabled={product.stock === 0}
-                        className="w-full py-2.5 bg-white hover:bg-neutral-900 text-neutral-900 hover:text-white text-xs font-semibold uppercase tracking-wider transition-all transform translate-y-4 group-hover:translate-y-0 disabled:bg-neutral-300 disabled:cursor-not-allowed rounded-md shadow-lg"
-                    >
-                        <FiShoppingBag className="w-3.5 h-3.5 inline mr-2" />
-                        {product.stock === 0 ? "Нет в наличии" : "В корзину"}
-                    </button>
-                </div>
+                {onAddToCart && (
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-end justify-center p-4 opacity-0 group-hover:opacity-100">
+                        <button
+                            onClick={handleAddToCart}
+                            disabled={product.stock === 0}
+                            className="w-full py-2.5 bg-white hover:bg-neutral-900 text-neutral-900 hover:text-white text-xs font-semibold uppercase tracking-wider transition-all transform translate-y-4 group-hover:translate-y-0 disabled:bg-neutral-300 disabled:cursor-not-allowed rounded-md shadow-lg"
+                        >
+                            <FiShoppingBag className="w-3.5 h-3.5 inline mr-2" />
+                            {product.stock === 0 ? "Нет в наличии" : "В корзину"}
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* Product Info - Compact */}
@@ -100,6 +98,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     {formatPrice(product.price)}
                 </p>
             </div>
-        </div>
+        </Link>
     );
 };

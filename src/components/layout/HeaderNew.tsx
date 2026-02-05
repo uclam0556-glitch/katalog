@@ -151,8 +151,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
 };
 
 /**
- * Premium Header - Shatura-inspired
- * Clean, minimalist, professional
+ * Premium Header - Shatura-inspired  
+ * Logo centered, clean search
  */
 export const HeaderNew: React.FC = () => {
     const [isScrolled, setIsScrolled] = React.useState(false);
@@ -177,14 +177,26 @@ export const HeaderNew: React.FC = () => {
                 )}
             >
                 <div className="container mx-auto px-3 md:px-4 max-w-7xl">
-                    <div className="flex items-center justify-between h-14 md:h-20 gap-2 md:gap-4">
-                        {/* Logo - Smaller on mobile */}
+                    {/* Top Row: Logo centered, actions on sides */}
+                    <div className="flex items-center justify-between h-16 md:h-20 gap-2">
+                        {/* Left: Location (desktop) */}
+                        <div className="hidden md:block flex-1">
+                            <button
+                                onClick={() => setIsLocationOpen(true)}
+                                className="flex items-center gap-2 px-4 py-2 hover:bg-neutral-50 rounded-lg transition text-sm font-medium text-neutral-700"
+                            >
+                                <FiMapPin className="w-4 h-4" />
+                                <span>Москва</span>
+                            </button>
+                        </div>
+
+                        {/* Center: Logo - Bigger and centered */}
                         <Link
                             href="/"
-                            className="flex items-center gap-2 hover:opacity-80 transition flex-shrink-0"
+                            className="flex items-center justify-center hover:opacity-80 transition"
                         >
                             <h1
-                                className="text-xl md:text-3xl font-black tracking-tight"
+                                className="text-3xl md:text-4xl font-black tracking-tight"
                                 style={{
                                     color: "#991B1B",
                                     fontFamily: "var(--font-serif)",
@@ -194,32 +206,8 @@ export const HeaderNew: React.FC = () => {
                             </h1>
                         </Link>
 
-                        {/* Center: Location + Search */}
-                        <div className="hidden md:flex items-center gap-4 flex-1 max-w-2xl mx-8">
-                            {/* Location Button */}
-                            <button
-                                onClick={() => setIsLocationOpen(true)}
-                                className="flex items-center gap-2 px-4 py-2 hover:bg-neutral-50 rounded-lg transition text-sm font-medium text-neutral-700 flex-shrink-0"
-                            >
-                                <FiMapPin className="w-4 h-4" />
-                                <span>Москва</span>
-                            </button>
-
-                            {/* Search Bar */}
-                            <div className="flex-1 relative">
-                                <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-                                <input
-                                    type="text"
-                                    placeholder="Поиск мебели..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-11 pr-4 py-2 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-700 transition text-sm"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Right: Buttons */}
-                        <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+                        {/* Right: Actions */}
+                        <div className="flex items-center gap-2 md:gap-3 flex-1 justify-end">
                             {/* Mobile: Location + Contact icons */}
                             <button
                                 onClick={() => setIsLocationOpen(true)}
@@ -246,23 +234,23 @@ export const HeaderNew: React.FC = () => {
 
                             <Link
                                 href="/catalog"
-                                className="px-6 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl font-medium transition text-sm"
+                                className="px-4 md:px-6 py-2 md:py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl font-medium transition text-sm"
                             >
                                 Каталог
                             </Link>
                         </div>
                     </div>
 
-                    {/* Mobile Search */}
-                    <div className="md:hidden pb-3">
-                        <div className="relative">
-                            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                    {/* Search Row - Full width below */}
+                    <div className="pb-3">
+                        <div className="relative max-w-2xl mx-auto">
+                            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                             <input
                                 type="text"
-                                placeholder="Поиск..."
+                                placeholder="Поиск мебели..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-3 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-700 text-sm"
+                                className="w-full pl-12 pr-4 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-700 transition text-sm"
                             />
                         </div>
                     </div>
