@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FiX, FiChevronLeft, FiChevronRight, FiMinus, FiPlus, FiStar, FiShield, FiTruck } from "react-icons/fi";
+import { FiX, FiChevronLeft, FiChevronRight, FiMinus, FiPlus, FiStar, FiShield, FiTruck, FiHeart } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/lib/utils";
