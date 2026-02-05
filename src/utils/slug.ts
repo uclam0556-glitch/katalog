@@ -28,14 +28,20 @@ export function generateProductSlug(product: Product): string {
     // Remove leading/trailing hyphens
     slug = slug.replace(/^-|-$/g, '');
 
-    // Add product ID to ensure uniqueness
-    return `${slug}-${product.id}`;
+    // Add product ID to ensure uniqueness (using --- as separator to avoid conflicts)
+    return `${slug}---${product.id}`;
 }
 
 /**
  * Extract product ID from slug
  */
 export function getProductIdFromSlug(slug: string): string {
-    const parts = slug.split('-');
-    return parts[parts.length - 1];
+    // Split by our special separator ---
+    const parts = slug.split('---');
+    if (parts.length >= 2) {
+        return parts[parts.length - 1];
+    }
+    // Fallback: try to find prod_ pattern
+    const match = slug.match(/prod_\d+/);
+    return match ? match[0] : parts[parts.length - 1];
 }
