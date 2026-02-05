@@ -106,7 +106,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50" style={{ paddingTop: "90px" }}>
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50" style={{ paddingTop: "50px" }}>
 
             {/* Hero Section - Warm & Welcoming */}
             <div className="relative bg-gradient-to-br from-amber-100 via-orange-50 to-red-50 border-b border-amber-200/50">
