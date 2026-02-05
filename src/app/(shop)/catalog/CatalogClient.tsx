@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
-import { FiSearch, FiX } from "react-icons/fi";
+import { FiSearch, FiX, FiGrid, FiHeart } from "react-icons/fi";
+import Image from "next/image";
+import Link from "next/link";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Product } from "@/types/product";
 import { categories } from "@/data/products";
@@ -14,10 +16,23 @@ interface CatalogClientProps {
     initialProducts: Product[];
 }
 
+// Modern category images mapping
+const categoryImages: Record<string, string> = {
+    "stulya": "/api/placeholder/400/300",
+    "divany": "/api/placeholder/400/300",
+    "stoly": "/api/placeholder/400/300",
+    "polki": "/api/placeholder/400/300",
+    "kuhnya": "/api/placeholder/400/300",
+    "spalnya": "/api/placeholder/400/300",
+    "osveshchenie": "/api/placeholder/400/300",
+    "dekor": "/api/placeholder/400/300",
+};
+
 export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     const [searchQuery, setSearchQuery] = React.useState("");
     const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
     const [sortBy, setSortBy] = React.useState<SortOption>("popular");
+    const [viewMode, setViewMode] = React.useState<'grid' | 'categories'>('categories');
 
     // Filter and sort logic
     const filteredAndSortedProducts = React.useMemo(() => {
@@ -49,116 +64,165 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-white to-neutral-50">
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50">
 
-            {/* Filter Section - Premium Design */}
-            <div className="bg-white border-b border-neutral-100 shadow-sm">
-                <div className="container mx-auto px-4 md:px-6 max-w-7xl py-8">
+            {/* Hero Section - Warm & Welcoming */}
+            <div className="relative bg-gradient-to-br from-amber-100 via-orange-50 to-red-50 border-b border-amber-200/50">
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnoiIHN0cm9rZT0iI2Y1OWU0MiIgc3Ryb2tlLXdpZHRoPSIuNSIgb3BhY2l0eT0iLjEiLz48L2c+PC9zdmc+')] opacity-30"></div>
+                <div className="container relative mx-auto px-4 md:px-6 max-w-7xl py-12 md:py-16">
+                    <div className="max-w-3xl">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full mb-6 shadow-sm">
+                            <FiHeart className="w-4 h-4 text-red-500" />
+                            <span className="text-sm font-medium text-neutral-700">Создайте уют в вашем доме</span>
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 mb-4 leading-tight">
+                            Каталог премиальной
+                            <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent"> мебели</span>
+                        </h1>
+                        <p className="text-lg text-neutral-600 leading-relaxed mb-8">
+                            Откройте для себя коллекцию изящной мебели, которая превратит ваш дом в произведение искусства
+                        </p>
 
-                    {/* Section Title */}
-                    <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-8">Каталог мебели</h1>
-
-                    {/* Categories - Premium Pills with Smooth Animations */}
-                    <div className="flex flex-wrap gap-3 mb-8">
-                        <button
-                            onClick={() => setSelectedCategory(null)}
-                            className={cn(
-                                "px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 active:scale-95",
-                                selectedCategory === null
-                                    ? "bg-gradient-to-r from-neutral-900 to-neutral-800 text-white shadow-lg shadow-neutral-900/20"
-                                    : "bg-neutral-50 text-neutral-700 hover:bg-neutral-100 hover:shadow-md"
-                            )}
-                        >
-                            Все товары
-                        </button>
-                        {categories.map((category) => (
-                            <button
-                                key={category.id}
-                                onClick={() => setSelectedCategory(selectedCategory === category.slug ? null : category.slug)}
-                                className={cn(
-                                    "px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 active:scale-95",
-                                    selectedCategory === category.slug
-                                        ? "bg-gradient-to-r from-neutral-900 to-neutral-800 text-white shadow-lg shadow-neutral-900/20"
-                                        : "bg-neutral-50 text-neutral-700 hover:bg-neutral-100 hover:shadow-md"
-                                )}
-                            >
-                                {category.name}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Search & Sort Row - Premium Inputs */}
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        {/* Search - Elegant with Icon */}
-                        <div className="relative flex-1 group">
-                            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400 group-focus-within:text-neutral-900 transition-colors" />
+                        {/* Premium Search */}
+                        <div className="relative max-w-2xl group">
+                            <FiSearch className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-600 group-focus-within:text-orange-600 transition-colors" />
                             <input
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Найти идеальную мебель..."
-                                className="w-full pl-12 pr-12 py-3.5 bg-neutral-50 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:bg-white text-sm font-medium transition-all placeholder:text-neutral-400"
+                                placeholder="Что вы ищете? Диван, стол, кресло..."
+                                className="w-full pl-14 pr-14 py-5 bg-white/90 backdrop-blur-sm border-2 border-amber-200/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent text-base font-medium transition-all shadow-lg shadow-amber-900/5 placeholder:text-neutral-400"
                             />
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery("")}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-900 transition-colors"
+                                    className="absolute right-5 top-1/2 -translate-y-1/2 p-2 text-neutral-400 hover:text-neutral-900 transition-colors hover:bg-neutral-100 rounded-lg"
                                 >
                                     <FiX className="w-5 h-5" />
                                 </button>
                             )}
                         </div>
-
-                        {/* Sort - Premium Dropdown */}
-                        <select
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value as SortOption)}
-                            className="px-5 py-3.5 bg-neutral-50 border border-neutral-200 rounded-xl text-sm font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:bg-white hover:bg-neutral-100 transition-all"
-                        >
-                            <option value="popular">🔥 Популярное</option>
-                            <option value="newest">✨ Новинки</option>
-                            <option value="price-asc">💰 Сначала дешевле</option>
-                            <option value="price-desc">💎 Сначала дороже</option>
-                        </select>
                     </div>
-
-                    {/* Results Count */}
-                    <p className="text-sm text-neutral-500 mt-6">
-                        {filteredAndSortedProducts.length === initialProducts.length
-                            ? `Показано ${filteredAndSortedProducts.length} товаров`
-                            : `Найдено ${filteredAndSortedProducts.length} из ${initialProducts.length} товаров`
-                        }
-                    </p>
                 </div>
             </div>
 
-            {/* Products Section - Ultra Clean */}
-            <div className="container mx-auto px-4 md:px-6 max-w-7xl py-12">
-                {filteredAndSortedProducts.length > 0 ? (
-                    <div className="animate-[fadeIn_0.6s_ease-out]">
-                        <ProductGrid
-                            products={filteredAndSortedProducts}
-                            onAddToCart={handleAddToCart}
-                        />
+            {/* Categories or Products View */}
+            {!selectedCategory && !searchQuery ? (
+                // Beautiful Category Grid
+                <div className="container mx-auto px-4 md:px-6 max-w-7xl py-12">
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-2xl md:text-3xl font-bold text-neutral-900">Выберите категорию</h2>
+                        <span className="text-sm text-neutral-500">{categories.length} категорий</span>
                     </div>
-                ) : (
-                    <div className="py-32 text-center animate-[fadeIn_0.4s_ease-out]">
-                        <div className="max-w-md mx-auto">
-                            <div className="text-6xl mb-6">😔</div>
-                            <h2 className="text-2xl font-bold text-neutral-900 mb-3">Ничего не найдено</h2>
-                            <p className="text-neutral-500 mb-8 leading-relaxed">
-                                Попробуйте изменить категорию или поисковый запрос
-                            </p>
-                            <button
-                                onClick={() => { setSearchQuery(""); setSelectedCategory(null); }}
-                                className="px-8 py-4 bg-gradient-to-r from-neutral-900 to-neutral-800 text-white rounded-xl font-semibold hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg shadow-neutral-900/20"
+
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                        {categories.map((category) => (
+                            <Link
+                                key={category.id}
+                                href={`/catalog?category=${category.slug}`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setSelectedCategory(category.slug);
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                }}
+                                className="group relative overflow-hidden rounded-2xl bg-white shadow-md  hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1"
                             >
-                                Сбросить все фильтры
-                            </button>
+                                <div className="aspect-[4/3] relative overflow-hidden bg-gradient-to-br from-amber-100 to-orange-100">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <FiGrid className="w-16 h-16 text-amber-600/30" />
+                                    </div>
+                                </div>
+                                <div className="p-4">
+                                    <h3 className="font-bold text-lg text-neutral-900 group-hover:text-amber-700 transition-colors">
+                                        {category.name}
+                                    </h3>
+                                    <p className="text-sm text-neutral-500 mt-1">
+                                        {initialProducts.filter(p => p.category === category.name).length} товаров
+                                    </p>
+                                </div>
+                                <div className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
+                                    <FiGrid className="w-4 h-4 text-amber-700" />
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                // Products View
+                <>
+                    {/* Filter Bar */}
+                    <div className="sticky top-20 z-30 bg-white/95 backdrop-blur-md border-b border-neutral-200 shadow-sm">
+                        <div className="container mx-auto px-4 md:px-6 max-w-7xl py-4">
+                            <div className="flex flex-wrap items-center gap-3">
+                                {/* Back to Categories */}
+                                {selectedCategory && (
+                                    <button
+                                        onClick={() => setSelectedCategory(null)}
+                                        className="px-4 py-2 bg-amber-100 text-amber-900 rounded-xl font-medium hover:bg-amber-200 transition-colors"
+                                    >
+                                        ← Все категории
+                                    </button>
+                                )}
+
+                                {/* Active Category */}
+                                {selectedCategory && (
+                                    <div className="px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 text-white rounded-xl font-semibold shadow-lg">
+                                        {categories.find(c => c.slug === selectedCategory)?.name}
+                                    </div>
+                                )}
+
+                                <div className="flex-1"></div>
+
+                                {/* Sort */}
+                                <select
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value as SortOption)}
+                                    className="px-4 py-2 bg-white border-2 border-amber-200 rounded-xl text-sm font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500 hover:border-amber-300 transition-all"
+                                >
+                                    <option value="popular">🔥 Популярное</option>
+                                    <option value="newest">✨ Новинки</option>
+                                    <option value="price-asc">💰 Дешевле</option>
+                                    <option value="price-desc">💎 Дороже</option>
+                                </select>
+
+                                {/* Results */}
+                                <span className="text-sm text-neutral-600 hidden sm:block">
+                                    {filteredAndSortedProducts.length} товаров
+                                </span>
+                            </div>
                         </div>
                     </div>
-                )}
-            </div>
+
+                    {/* Products Grid */}
+                    <div className="container mx-auto px-4 md:px-6 max-w-7xl py-12">
+                        {filteredAndSortedProducts.length > 0 ? (
+                            <div className="animate-[fadeIn_0.5s_ease-out]">
+                                <ProductGrid
+                                    products={filteredAndSortedProducts}
+                                    onAddToCart={handleAddToCart}
+                                />
+                            </div>
+                        ) : (
+                            <div className="py-32 text-center animate-[fadeIn_0.4s_ease-out]">
+                                <div className="max-w-md mx-auto">
+                                    <div className="text-6xl mb-6">🔍</div>
+                                    <h2 className="text-2xl font-bold text-neutral-900 mb-3">Ничего не найдено</h2>
+                                    <p className="text-neutral-500 mb-8 leading-relaxed">
+                                        Попробуйте изменить параметры поиска
+                                    </p>
+                                    <button
+                                        onClick={() => { setSearchQuery(""); setSelectedCategory(null); }}
+                                        className="px-8 py-4 bg-gradient-to-r from-amber-600 to-orange-600 text-white rounded-xl font-semibold hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg"
+                                    >
+                                        Сбросить фильтры
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </>
+            )}
         </div>
     );
 }
