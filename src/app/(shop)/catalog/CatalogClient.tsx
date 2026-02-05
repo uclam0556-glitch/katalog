@@ -144,7 +144,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
             </div>
 
             {/* Main Content Area */}
-            <div className="container-custom py-8">
+            <div className="container-custom py-8 mt-6">
 
                 {/* Products Grid */}
                 {filteredAndSortedProducts.length > 0 ? (
