@@ -5,11 +5,12 @@ import { getProductIdFromSlug } from "@/utils/slug";
 import ProductPageClient from "./ProductPageClient";
 
 interface ProductPageProps {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-    const productId = getProductIdFromSlug(params.slug);
+    const { slug } = await params;
+    const productId = getProductIdFromSlug(slug);
     const products = await getProducts();
     const product = products.find((p) => p.id === productId);
 
@@ -31,7 +32,8 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-    const productId = getProductIdFromSlug(params.slug);
+    const { slug } = await params;
+    const productId = getProductIdFromSlug(slug);
     const products = await getProducts();
     const product = products.find((p) => p.id === productId);
 
