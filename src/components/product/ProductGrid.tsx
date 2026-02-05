@@ -12,7 +12,7 @@ export interface ProductGridProps {
 }
 
 /**
- * Professional Product Grid - 3 Columns
+ * Professional Product Grid - divano.ru inspired spacing
  */
 export const ProductGrid: React.FC<ProductGridProps> = ({
     products,
@@ -33,25 +33,17 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
     return (
         <div
             className={cn(
-                // FIXED 3 COLUMNS ON DESKTOP
-                "grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8 md:gap-x-6 md:gap-y-10",
+                // Better spacing like divano.ru
+                "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6",
                 className
             )}
         >
-            {products.map((product, index) => (
-                <div
+            {products.map((product) => (
+                <ProductCard
                     key={product.id}
-                    className="animate-[fadeIn_0.4s_ease-out]"
-                    style={{
-                        animationDelay: `${index * 50}ms`,
-                        animationFillMode: "backwards",
-                    }}
-                >
-                    <ProductCard
-                        product={product}
-                        onAddToCart={onAddToCart}
-                    />
-                </div>
+                    product={product}
+                    onAddToCart={onAddToCart}
+                />
             ))}
         </div>
     );
