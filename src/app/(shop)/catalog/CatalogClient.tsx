@@ -51,15 +51,6 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
 
     return (
         <div className="min-h-screen bg-white pt-32">
-            {/* Page Title */}
-            <div className="bg-neutral-50 border-b border-neutral-200">
-                <div className="container mx-auto px-3 md:px-4 max-w-7xl py-6 md:py-8">
-                    <h1 className="text-2xl md:text-4xl font-bold text-neutral-900">Каталог</h1>
-                    <p className="text-sm md:text-base text-neutral-600 mt-2">
-                        Премиальная мебель для вашего дома
-                    </p>
-                </div>
-            </div>
 
             {/* Sticky Minimalist Filter Bar */}
             <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-100 transition-all duration-300">
