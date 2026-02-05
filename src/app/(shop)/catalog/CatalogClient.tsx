@@ -50,10 +50,10 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     };
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white pt-20">
 
-            {/* Sticky Minimalist Filter Bar - Below Header */}
-            <div className="sticky top-16 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-100 transition-all duration-300">
+            {/* Filter Bar - Static (no sticky) */}
+            <div className="bg-white border-b border-neutral-100">
                 <div className="container-custom">
                     <div className="flex flex-col md:flex-row items-center justify-between py-4 gap-4 md:gap-8">
 
@@ -144,7 +144,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
             </div>
 
             {/* Main Content Area */}
-            <div className="container-custom pt-48 pb-8">
+            <div className="container-custom py-8">
 
                 {/* Products Grid */}
                 {filteredAndSortedProducts.length > 0 ? (
