@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FiSearch, FiX, FiFilter } from "react-icons/fi";
+import { FiSearch, FiX } from "react-icons/fi";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Product } from "@/types/product";
 import { categories } from "@/data/products";
@@ -87,80 +87,63 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                 </div>
             </div>
 
-            {/* Compact Filter Bar - Horizontal Scrollable Pills */}
-            <div className="sticky top-20 z-30 bg-white/95 backdrop-blur-md border-b border-neutral-200 shadow-sm">
-                <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-                    <div className="flex items-center gap-4 py-4">
-                        {/* Filter Icon */}
-                        <div className="flex items-center gap-2 text-neutral-700 shrink-0">
-                            <FiFilter className="w-4 h-4" />
-                            <span className="text-sm font-medium hidden sm:block">Категории:</span>
-                        </div>
-
-                        {/* Horizontal Scrollable Categories */}
-                        <div className="flex-1 overflow-x-auto scrollbar-hide">
-                            <div className="flex items-center gap-2 min-w-max">
-                                {/* All button */}
-                                <button
-                                    onClick={() => setSelectedCategory(null)}
-                                    className={cn(
-                                        "px-4 py-1.5 rounded-full text-sm font-medium transition-all whitespace-nowrap",
-                                        selectedCategory === null
-                                            ? "bg-amber-600 text-white shadow-md"
-                                            : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
-                                    )}
-                                >
-                                    Все
-                                </button>
-
-                                {/* Category pills */}
-                                {categories.map((category) => (
-                                    <button
-                                        key={category.id}
-                                        onClick={() => setSelectedCategory(selectedCategory === category.slug ? null : category.slug)}
-                                        className={cn(
-                                            "px-4 py-1.5 rounded-full text-sm font-medium transition-all whitespace-nowrap",
-                                            selectedCategory === category.slug
-                                                ? "bg-amber-600 text-white shadow-md"
-                                                : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
-                                        )}
-                                    >
-                                        {category.name}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Divider */}
-                        <div className="w-px h-6 bg-neutral-300 shrink-0 hidden md:block"></div>
-
-                        {/* Sort Dropdown - Compact */}
-                        <select
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value as SortOption)}
-                            className="px-3 py-1.5 bg-neutral-100 border border-neutral-200 rounded-full text-sm font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500 hover:bg-neutral-200 transition-all shrink-0"
-                        >
-                            <option value="popular">Популярное</option>
-                            <option value="newest">Новинки</option>
-                            <option value="price-asc">Дешевле</option>
-                            <option value="price-desc">Дороже</option>
-                        </select>
-                    </div>
-
-                    {/* Results Counter */}
-                    <div className="pb-3">
-                        <p className="text-sm text-neutral-500">
-                            {filteredAndSortedProducts.length === initialProducts.length
-                                ? `${filteredAndSortedProducts.length} товаров`
-                                : `Найдено ${filteredAndSortedProducts.length} из ${initialProducts.length}`
-                            }
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {/* Products Grid */}
+            {/* Categories Grid - 4 Columns */}
             <div className="container mx-auto px-4 md:px-6 max-w-7xl py-8">
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-neutral-900">Категории</h2>
+                    <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value as SortOption)}
+                        className="px-4 py-2 bg-white border-2 border-amber-200 rounded-xl text-sm font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    >
+                        <option value="popular">Популярное</option>
+                        <option value="newest">Новинки</option>
+                        <option value="price-asc">Дешевле</option>
+                        <option value="price-desc">Дороже</option>
+                    </select>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                    <button
+                        onClick={() => setSelectedCategory(null)}
+                        className={cn(
+                            "p-4 rounded-xl text-left transition-all",
+                            selectedCategory === null
+                                ? "bg-gradient-to-br from-amber-600 to-orange-600 text-white shadow-lg"
+                                : "bg-white border-2 border-neutral-200 hover:border-amber-300 hover:shadow-md"
+                        )}
+                    >
+                        <p className="font-bold text-sm">Все товары</p>
+                        <p className="text-xs opacity-80 mt-1">{initialProducts.length} шт.</p>
+                    </button>
+                    {categories.map((category) => (
+                        <button
+                            key={category.id}
+                            onClick={() => setSelectedCategory(selectedCategory === category.slug ? null : category.slug)}
+                            className={cn(
+                                "p-4 rounded-xl text-left transition-all",
+                                selectedCategory === category.slug
+                                    ? "bg-gradient-to-br from-amber-600 to-orange-600 text-white shadow-lg"
+                                    : "bg-white border-2 border-neutral-200 hover:border-amber-300 hover:shadow-md"
+                            )}
+                        >
+                            <p className="font-bold text-sm">{category.name}</p>
+                            <p className="text-xs opacity-80 mt-1">
+                                {initialProducts.filter(p => p.category === category.name).length} шт.
+                            </p>
+                        </button>
+                    ))}
+                </div>
+
+                {/* Results Counter */}
+                <p className="text-sm text-neutral-500 mb-6">
+                    {filteredAndSortedProducts.length === initialProducts.length
+                        ? `${filteredAndSortedProducts.length} товаров`
+                        : `Найдено ${filteredAndSortedProducts.length} из ${initialProducts.length}`
+                    }
+                </p>
+
+                {/* Products Grid */}
                 {filteredAndSortedProducts.length > 0 ? (
                     <div className="animate-[fadeIn_0.5s_ease-out]">
                         <ProductGrid
