@@ -184,9 +184,17 @@ export const HeaderNew: React.FC = () => {
                         {/* CENTER: Logo - Large & Prominent */}
                         <Link
                             href="/"
-                            className="absolute left-1/2 -translate-x-1/2 font-serif text-3xl md:text-4xl font-bold tracking-wider text-neutral-900 hover:text-red-700 transition"
+                            className="absolute left-1/2 -translate-x-1/2 hover:opacity-80 transition"
                         >
-                            АМЕА
+                            <h1
+                                className="text-3xl md:text-4xl font-black tracking-tight"
+                                style={{
+                                    color: "#991B1B",
+                                    fontFamily: "var(--font-serif)",
+                                }}
+                            >
+                                амэа
+                            </h1>
                         </Link>
 
                         {/* RIGHT: Contact + Catalog */}
