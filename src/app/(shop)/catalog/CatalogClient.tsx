@@ -50,7 +50,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     };
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white pt-24">
             {/* Page Title */}
             <div className="bg-neutral-50 border-b border-neutral-200">
                 <div className="container mx-auto px-3 md:px-4 max-w-7xl py-6 md:py-8">
@@ -66,8 +66,8 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                 <div className="container-custom">
                     <div className="flex flex-col md:flex-row items-center justify-between py-4 gap-4 md:gap-8">
 
-                        {/* Categories - Minimal Text Links */}
-                        <div className="flex items-center gap-6 md:gap-8 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto scrollbar-hide mask-fade-right justify-center md:justify-start">
+                        {/* Categories - Grid Layout (4 columns) */}
+                        <div className="flex flex-wrap items-center gap-4 md:gap-6 w-full md:w-auto justify-center md:justify-start">
                             <button
                                 onClick={() => setSelectedCategory(null)}
                                 className={cn(
