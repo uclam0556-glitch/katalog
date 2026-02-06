@@ -141,11 +141,15 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
             {/* ULTRA HERO SECTION */}
             <div className="relative w-full h-[400px] md:h-[500px] rounded-[2.5rem] mx-auto max-w-[98%] mt-4 overflow-hidden shadow-2xl shadow-neutral-200/50 group">
                 {/* Background Image with Zoom Effect */}
-                <div className="absolute inset-0">
-                    <img
+                <div className="absolute inset-0 bg-neutral-100">
+                    <Image
                         src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80"
                         alt="Hero background"
-                        className="w-full h-full object-cover transition-transform duration-[2s] ease-in-out group-hover:scale-105"
+                        fill
+                        className="object-cover transition-transform duration-[2s] ease-in-out group-hover:scale-105"
+                        priority
+                        sizes="100vw"
+                        quality={85}
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/80 via-neutral-900/40 to-transparent"></div>
                 </div>
