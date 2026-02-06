@@ -176,25 +176,20 @@ body {
   transition: box-shadow 0.2s ease-in-out;
 }
 
-/* Container */
+/* Container - responsive padding */
 .container-custom {
-  max-width: 1280px;
+  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  padding-left: 1rem;
+  /* 16px on mobile */
+  padding-right: 1rem;
 }
 
-@media (min-width: 640px) {
-  .container-custom {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .container-custom {
     padding-left: 2rem;
+    /* 32px on tablet */
     padding-right: 2rem;
   }
 }
