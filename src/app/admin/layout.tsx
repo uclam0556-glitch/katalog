@@ -15,7 +15,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
                 {/* Main Content */}
                 <main className="pt-24 min-h-screen">
-                    <div className="container mx-auto px-6 max-w-7xl animate-[fadeIn_0.5s_ease-out]">
+                    <div className="container mx-auto px-4 md:px-6 max-w-7xl animate-[fadeIn_0.5s_ease-out]">
                         {children}
                     </div>
                 </main>

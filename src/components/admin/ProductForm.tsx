@@ -72,7 +72,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto pb-24 animate-[fadeIn_0.3s_ease-out]">
+        <form onSubmit={handleSubmit} className="w-full pb-24 animate-[fadeIn_0.3s_ease-out]">
 
             {/* Mobile Header - Fixed Top */}
             <div className="fixed top-0 left-0 right-0 h-16 bg-white z-50 px-4 flex items-center justify-between border-b border-neutral-100 shadow-sm">
@@ -89,7 +89,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
             {/* Spacer for Header */}
             <div className="h-20"></div>
 
-            <div className="space-y-6 px-1">
+            <div className="space-y-6 px-4 max-w-2xl mx-auto">
                 {/* 1. PHOTOS - Horizontal Scroll/Grid */}
                 <section className="bg-white p-4 rounded-2xl shadow-sm border border-neutral-100">
                     <h3 className="font-bold text-neutral-900 mb-3 text-lg">Фотографии</h3>

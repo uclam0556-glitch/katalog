@@ -62,24 +62,26 @@ export default async function AdminDashboard() {
                             className="bg-white rounded-2xl p-4 shadow-sm border border-neutral-100 flex gap-4 items-center"
                         >
                             {/* Image - Fixed Size */}
-                            <div className="w-20 h-20 bg-neutral-100 rounded-xl flex-shrink-0 relative overflow-hidden">
-                                {product.thumbnail ? (
-                                    <Image
-                                        src={product.thumbnail}
-                                        alt={product.name}
-                                        fill
-                                        className="object-cover"
-                                        sizes="80px"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-neutral-300">
-                                        <FiBox className="w-8 h-8" />
-                                    </div>
-                                )}
-                            </div>
+                            <Link href={`/admin/products/${product.id}`} className="flex-shrink-0">
+                                <div className="w-20 h-20 bg-neutral-100 rounded-xl relative overflow-hidden">
+                                    {product.thumbnail ? (
+                                        <Image
+                                            src={product.thumbnail}
+                                            alt={product.name}
+                                            fill
+                                            className="object-cover"
+                                            sizes="80px"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-neutral-300">
+                                            <FiBox className="w-8 h-8" />
+                                        </div>
+                                    )}
+                                </div>
+                            </Link>
 
-                            {/* Info */}
-                            <div className="flex-1 min-w-0">
+                            {/* Info - Clickable */}
+                            <Link href={`/admin/products/${product.id}`} className="flex-1 min-w-0">
                                 <h3 className="font-bold text-neutral-900 text-base leading-tight truncate mb-1">
                                     {product.name}
                                 </h3>
@@ -103,16 +105,10 @@ export default async function AdminDashboard() {
                                         </span>
                                     )}
                                 </div>
-                            </div>
+                            </Link>
 
                             {/* Actions */}
-                            <div className="flex flex-col gap-1 pl-2 border-l border-neutral-100">
-                                <Link
-                                    href={`/admin/products/${product.id}`}
-                                    className="p-2 text-neutral-400 hover:bg-neutral-50 hover:text-amber-600 rounded-lg transition-colors"
-                                >
-                                    <FiEdit2 className="w-5 h-5" />
-                                </Link>
+                            <div className="flex flex-col gap-1 pl-2 border-l border-neutral-100 flex-shrink-0">
                                 <DeleteProductButton id={product.id} />
                             </div>
                         </div>
