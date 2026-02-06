@@ -49,7 +49,10 @@ export default function ProductForm({ initialData }: ProductFormProps) {
 
         submitData.append("name", formData.name);
         submitData.append("price", formData.price);
-        if (formData.oldPrice) submitData.append("oldPrice", formData.oldPrice);
+        // Only send oldPrice if it's actually filled
+        if (formData.oldPrice && formData.oldPrice.trim() !== "") {
+            submitData.append("oldPrice", formData.oldPrice);
+        }
         submitData.append("description", formData.description);
         submitData.append("category", formData.category);
         submitData.append("stock", formData.stock);
@@ -89,7 +92,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
             {/* Spacer for Header */}
             <div className="h-20"></div>
 
-            <div className="space-y-6 px-4 max-w-2xl mx-auto">
+            <div className="space-y-8 px-6 max-w-2xl mx-auto">
                 {/* 1. PHOTOS - Horizontal Scroll/Grid */}
                 <section className="bg-white p-4 rounded-2xl shadow-sm border border-neutral-100">
                     <h3 className="font-bold text-neutral-900 mb-3 text-lg">Фотографии</h3>
@@ -218,25 +221,24 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                 </section>
             </div>
 
-            {/* Floating Action Button */}
-            <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-neutral-100 flex items-center gap-3 z-50">
+            {/* Floating Action Button - HUGE for easy tapping */}
+            <div className="fixed bottom-0 left-0 right-0 p-6 bg-white border-t-2 border-neutral-100 flex items-center gap-4 z-50 shadow-2xl">
                 {initialData && (
                     <button
                         type="button"
-                        // Add delete logic wrapper if needed, but keeping simple for now
-                        className="p-4 bg-red-50 text-red-500 rounded-xl hover:bg-red-100 transition-colors"
+                        className="p-5 bg-red-50 text-red-500 rounded-2xl hover:bg-red-100 transition-colors min-w-[60px]"
                     >
-                        <FiTrash2 className="w-6 h-6" />
+                        <FiTrash2 className="w-6 h-6 mx-auto" />
                     </button>
                 )}
                 <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 bg-neutral-900 text-white font-bold text-lg py-4 rounded-xl shadow-lg shadow-neutral-900/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                    className="flex-1 bg-neutral-900 text-white font-bold text-xl py-5 rounded-2xl shadow-2xl shadow-neutral-900/20 active:scale-[0.97] transition-all flex items-center justify-center gap-3 min-h-[64px]"
                 >
                     {loading ? "Сохранение..." : (
                         <>
-                            <FiSave className="w-5 h-5" />
+                            <FiSave className="w-6 h-6" />
                             Опубликовать
                         </>
                     )}

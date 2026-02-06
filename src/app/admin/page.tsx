@@ -11,21 +11,12 @@ export default async function AdminDashboard() {
     const totalProducts = products.length;
 
     return (
-        <div className="space-y-6 pb-20">
-            {/* Header: Title + Add Button */}
-            <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h1 className="text-3xl font-bold text-neutral-900 tracking-tight">Товары</h1>
-                        <p className="text-neutral-500 text-sm">{totalProducts} позиций в каталоге</p>
-                    </div>
-                    <Link
-                        href="/admin/products/new"
-                        className="bg-neutral-900 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-neutral-900/20 active:scale-90 transition-transform md:w-auto md:h-auto md:rounded-xl md:px-5 md:py-3"
-                    >
-                        <FiPlus className="w-6 h-6 md:w-5 md:h-5" />
-                        <span className="hidden md:inline-block ml-2 font-bold text-sm">Добавить товар</span>
-                    </Link>
+        <div className="space-y-8 pb-20">
+            {/* Header: Title + Count */}
+            <div className="flex flex-col gap-6">
+                <div>
+                    <h1 className="text-3xl font-bold text-neutral-900 tracking-tight">Товары</h1>
+                    <p className="text-neutral-500 text-sm mt-2">{totalProducts} позиций в каталоге</p>
                 </div>
 
                 {/* Search Bar (Visual Only for now) */}
@@ -34,13 +25,13 @@ export default async function AdminDashboard() {
                     <input
                         type="text"
                         placeholder="Поиск по названию..."
-                        className="w-full bg-white border border-neutral-200 rounded-xl pl-12 pr-4 py-3.5 text-base shadow-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all"
+                        className="w-full bg-white border border-neutral-200 rounded-xl pl-12 pr-4 py-4 text-base shadow-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all"
                     />
                 </div>
             </div>
 
             {/* Product List - Mobile Optimized */}
-            <div className="space-y-3">
+            <div className="space-y-4">
                 {products.length === 0 ? (
                     <div className="bg-white rounded-2xl p-10 text-center border border-neutral-100 shadow-sm flex flex-col items-center">
                         <div className="w-16 h-16 bg-neutral-50 rounded-full flex items-center justify-center mb-4">

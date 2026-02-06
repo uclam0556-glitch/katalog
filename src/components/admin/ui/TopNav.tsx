@@ -53,21 +53,21 @@ export default function TopNav() {
                 </div>
 
                 {/* Right Actions */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                     <Link
                         href="/admin/products/new"
-                        className="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-amber-500/20 transition-all transform hover:-translate-y-0.5 active:scale-95"
+                        className="flex items-center gap-2 px-4 py-2.5 md:px-5 md:py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-amber-500/20 transition-all active:scale-95"
                     >
                         <FiPlus className="w-5 h-5" />
-                        Добавить товар
+                        <span className="hidden sm:inline">Добавить</span>
                     </Link>
 
-                    <div className="h-8 w-px bg-neutral-100 mx-2"></div>
+                    <div className="hidden sm:block h-8 w-px bg-neutral-100 mx-2"></div>
 
                     <Link
                         href="/"
                         target="_blank"
-                        className="p-2.5 text-neutral-400 hover:bg-neutral-50 hover:text-neutral-900 rounded-xl transition-all"
+                        className="hidden sm:block p-2.5 text-neutral-400 hover:bg-neutral-50 hover:text-neutral-900 rounded-xl transition-all"
                         title="Открыть сайт"
                     >
                         <FiLogOut className="w-5 h-5" />
