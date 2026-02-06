@@ -10,6 +10,8 @@ export default function AdminLoginPage() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
+    const ADMIN_PASSWORD = "turpal2000";
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -18,7 +20,7 @@ export default function AdminLoginPage() {
         // Simulate network delay for "weight"
         await new Promise(r => setTimeout(r, 800));
 
-        if (password === "1234") {
+        if (password === ADMIN_PASSWORD) {
             document.cookie = "admin_auth=true; path=/";
             router.push("/admin");
         } else {
