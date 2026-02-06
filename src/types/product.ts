@@ -8,6 +8,7 @@ export interface Product {
     slug: string;
     description: string;
     price: number;
+    oldPrice?: number;
     category: string;
     images: string[]; // Array of image URLs
     thumbnail: string; // Main image (first in images array)

@@ -1,7 +1,8 @@
 import { getProducts } from "@/lib/db";
-import { FiPlus, FiBox, FiTrendingUp, FiSearch } from "react-icons/fi";
+import { FiPlus, FiSearch, FiEdit2, FiBox } from "react-icons/fi";
 import Link from "next/link";
 import Image from "next/image";
+import DeleteProductButton from "@/components/admin/DeleteProductButton";
 
 export const dynamic = 'force-dynamic';
 
@@ -10,132 +11,112 @@ export default async function AdminDashboard() {
     const totalProducts = products.length;
 
     return (
-        <div className="space-y-10 pb-20">
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div>
-                    <h1 className="text-4xl font-black font-serif text-neutral-900 mb-2">Обзор</h1>
-                    <p className="text-neutral-500 font-medium">Добро пожаловать в панель управления</p>
-                </div>
-
-                <div className="flex items-center gap-4">
-                    <div className="bg-white px-5 py-2.5 rounded-2xl border border-neutral-100 shadow-sm flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                        <span className="text-sm font-bold text-neutral-600">
-                            {totalProducts} товаров
-                        </span>
+        <div className="space-y-6 pb-20">
+            {/* Header: Title + Add Button */}
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold text-neutral-900 tracking-tight">Товары</h1>
+                        <p className="text-neutral-500 text-sm">{totalProducts} позиций в каталоге</p>
                     </div>
                     <Link
                         href="/admin/products/new"
-                        className="bg-neutral-900 hover:bg-black text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-neutral-900/20 transition-all flex items-center gap-2 transform hover:-translate-y-0.5"
+                        className="bg-neutral-900 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-neutral-900/20 active:scale-90 transition-transform md:w-auto md:h-auto md:rounded-xl md:px-5 md:py-3"
                     >
-                        <FiPlus className="w-5 h-5" />
-                        Добавить товар
+                        <FiPlus className="w-6 h-6 md:w-5 md:h-5" />
+                        <span className="hidden md:inline-block ml-2 font-bold text-sm">Добавить товар</span>
                     </Link>
+                </div>
+
+                {/* Search Bar (Visual Only for now) */}
+                <div className="relative">
+                    <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 w-5 h-5" />
+                    <input
+                        type="text"
+                        placeholder="Поиск по названию..."
+                        className="w-full bg-white border border-neutral-200 rounded-xl pl-12 pr-4 py-3.5 text-base shadow-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all"
+                    />
                 </div>
             </div>
 
-            {/* Quick Actions / Stats Wrapper if needed (Minimal for now) */}
-
-            {/* Product Grid */}
-            <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-bold text-neutral-900 flex items-center gap-2">
-                        <FiBox className="w-5 h-5" />
-                        Ваш каталог
-                    </h2>
-                </div>
-
+            {/* Product List - Mobile Optimized */}
+            <div className="space-y-3">
                 {products.length === 0 ? (
-                    <div className="bg-white rounded-3xl p-12 text-center border border-neutral-100 shadow-sm">
-                        <div className="w-20 h-20 bg-neutral-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div className="bg-white rounded-2xl p-10 text-center border border-neutral-100 shadow-sm flex flex-col items-center">
+                        <div className="w-16 h-16 bg-neutral-50 rounded-full flex items-center justify-center mb-4">
                             <FiBox className="w-8 h-8 text-neutral-300" />
                         </div>
-                        <h3 className="text-xl font-bold text-neutral-900 mb-2">Каталог пуст</h3>
-                        <p className="text-neutral-500 mb-8 max-w-sm mx-auto">
-                            Добавьте свой первый товар, чтобы начать продажи. Это займет всего пару минут.
-                        </p>
+                        <h3 className="text-lg font-bold text-neutral-900">Каталог пуст</h3>
+                        <p className="text-neutral-400 text-sm mb-6 mt-1">Добавьте первый товар</p>
                         <Link
                             href="/admin/products/new"
-                            className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl font-bold transition-all"
+                            className="bg-amber-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-amber-500/20"
                         >
-                            <FiPlus className="w-5 h-5" />
                             Создать товар
                         </Link>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {/* New Item Card (First Slot) */}
-                        <Link
-                            href="/admin/products/new"
-                            className="group relative aspect-[4/5] bg-neutral-50 rounded-[2rem] border-2 border-dashed border-neutral-200 hover:border-amber-400 hover:bg-amber-50/10 flex flex-col items-center justify-center transition-all cursor-pointer"
+                    products.map((product) => (
+                        <div
+                            key={product.id}
+                            className="bg-white rounded-2xl p-4 shadow-sm border border-neutral-100 flex gap-4 items-center"
                         >
-                            <div className="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                                <FiPlus className="w-8 h-8 text-neutral-400 group-hover:text-amber-500 transition-colors" />
+                            {/* Image - Fixed Size */}
+                            <div className="w-20 h-20 bg-neutral-100 rounded-xl flex-shrink-0 relative overflow-hidden">
+                                {product.thumbnail ? (
+                                    <Image
+                                        src={product.thumbnail}
+                                        alt={product.name}
+                                        fill
+                                        className="object-cover"
+                                        sizes="80px"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-neutral-300">
+                                        <FiBox className="w-8 h-8" />
+                                    </div>
+                                )}
                             </div>
-                            <span className="font-bold text-neutral-900">Добавить</span>
-                            <span className="text-xs text-neutral-400 mt-1">Новый товар</span>
-                        </Link>
 
-                        {/* Product Cards */}
-                        {products.map((product) => (
-                            <Link
-                                key={product.id}
-                                href={`/admin/products/${product.id}`}
-                                className="group bg-white rounded-[2rem] p-3 shadow-sm hover:shadow-xl hover:shadow-neutral-200/50 transition-all duration-300 border border-neutral-100 relative overflow-hidden"
-                            >
-                                {/* Image Container */}
-                                <div className="aspect-square rounded-[1.5rem] bg-neutral-100 overflow-hidden relative mb-4">
-                                    {product.thumbnail ? (
-                                        <Image
-                                            src={product.thumbnail}
-                                            alt={product.name}
-                                            fill
-                                            className="object-cover group-hover:scale-105 transition-transform duration-700"
-                                            sizes="(max-width: 768px) 100vw, 33vw"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-neutral-300">
-                                            <FiBox className="w-8 h-8" />
-                                        </div>
+                            {/* Info */}
+                            <div className="flex-1 min-w-0">
+                                <h3 className="font-bold text-neutral-900 text-base leading-tight truncate mb-1">
+                                    {product.name}
+                                </h3>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="font-bold text-neutral-900">
+                                        {product.price.toLocaleString('ru-RU')} ₽
+                                    </span>
+                                    {product.oldPrice && (
+                                        <span className="text-neutral-400 text-xs line-through">
+                                            {product.oldPrice.toLocaleString('ru-RU')}
+                                        </span>
                                     )}
-
-                                    {/* Edit Overlay */}
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                        <span className="bg-white/90 text-neutral-900 px-4 py-2 rounded-full text-xs font-bold shadow-sm backdrop-blur-sm">
-                                            Редактировать
-                                        </span>
-                                    </div>
-
-                                    {/* Stock Badge */}
-                                    <div className="absolute top-3 left-3 px-2 py-1 bg-white/90 backdrop-blur-md rounded-lg text-[10px] font-bold shadow-sm">
-                                        {(product.stock || 0) > 0 ? (
-                                            <span className={(product.stock || 0) < 5 ? "text-amber-600" : "text-emerald-600"}>
-                                                {(product.stock || 0)} шт
-                                            </span>
-                                        ) : (
-                                            <span className="text-red-600">Нет в наличии</span>
-                                        )}
-                                    </div>
                                 </div>
-
-                                {/* Content */}
-                                <div className="px-1 pb-2">
-                                    <div className="flex justify-between items-start mb-1">
-                                        <h3 className="font-bold text-neutral-900 text-base leading-tight line-clamp-1 group-hover:text-amber-600 transition-colors">
-                                            {product.name}
-                                        </h3>
-                                        <span className="font-bold text-neutral-900 text-sm whitespace-nowrap ml-2">
-                                            {product.price.toLocaleString('ru-RU')} ₽
+                                <div className="flex items-center gap-2">
+                                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${(product.stock || 0) > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                        {(product.stock || 0) > 0 ? `${product.stock} шт` : 'Нет'}
+                                    </span>
+                                    {product.category && (
+                                        <span className="text-[10px] text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full truncate max-w-[100px]">
+                                            {product.category}
                                         </span>
-                                    </div>
-                                    <p className="text-xs text-neutral-400 font-medium">
-                                        {product.category}
-                                    </p>
+                                    )}
                                 </div>
-                            </Link>
-                        ))}
-                    </div>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex flex-col gap-1 pl-2 border-l border-neutral-100">
+                                <Link
+                                    href={`/admin/products/${product.id}`}
+                                    className="p-2 text-neutral-400 hover:bg-neutral-50 hover:text-amber-600 rounded-lg transition-colors"
+                                >
+                                    <FiEdit2 className="w-5 h-5" />
+                                </Link>
+                                <DeleteProductButton id={product.id} />
+                            </div>
+                        </div>
+                    ))
                 )}
             </div>
         </div>

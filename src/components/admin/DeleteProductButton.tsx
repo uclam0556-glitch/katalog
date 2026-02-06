@@ -1,28 +1,34 @@
 "use client";
 
-import { FiTrash2 } from "react-icons/fi";
 import { deleteProductAction } from "@/app/actions";
+import { FiTrash2 } from "react-icons/fi";
+import { useState } from "react";
+import { useToast } from "@/components/admin/ui/Toast";
 
-interface DeleteProductButtonProps {
-    id: string;
-    productName: string;
-}
+export default function DeleteProductButton({ id }: { id: string }) {
+    const [loading, setLoading] = useState(false);
+    const { showToast } = useToast();
 
-export default function DeleteProductButton({ id, productName }: DeleteProductButtonProps) {
+    const handleDelete = async () => {
+        if (!confirm("Вы уверены, что хотите удалить этот товар?")) return;
+
+        setLoading(true);
+        try {
+            await deleteProductAction(id);
+            showToast("Товар удален", "success");
+        } catch (error) {
+            showToast("Ошибка удаления", "error");
+            setLoading(false);
+        }
+    };
+
     return (
-        <form action={deleteProductAction.bind(null, id)}>
-            <button
-                type="submit"
-                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                title="Удалить"
-                onClick={(e) => {
-                    if (!confirm(`Удалить "${productName}"?`)) {
-                        e.preventDefault();
-                    }
-                }}
-            >
-                <FiTrash2 className="w-4 h-4" />
-            </button>
-        </form>
+        <button
+            onClick={handleDelete}
+            disabled={loading}
+            className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+        >
+            <FiTrash2 className="w-5 h-5" />
+        </button>
     );
 }

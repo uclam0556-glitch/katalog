@@ -16,6 +16,7 @@ export async function saveProductAction(formData: FormData) {
         id: formData.get("id") as string,
         name: formData.get("name") as string,
         price: parseInt(formData.get("price") as string),
+        oldPrice: formData.get("oldPrice") ? parseInt(formData.get("oldPrice") as string) : undefined,
         description: formData.get("description") as string,
         category: formData.get("category") as string,
         thumbnail: formData.get("thumbnail") as string,
