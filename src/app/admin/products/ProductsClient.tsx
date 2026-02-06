@@ -1,6 +1,6 @@
 "use client";
 
-import { getProducts } from "@/lib/db";
+
 import Link from "next/link";
 import { FiPlus, FiEdit, FiPackage, FiSearch, FiX } from "react-icons/fi";
 import Image from "next/image";
@@ -162,10 +162,10 @@ export default function ProductsClient({ initialProducts }: ProductsClientProps)
                                         <td className="px-6 py-4">
                                             <span
                                                 className={`inline-flex px-2.5 py-1 rounded-md text-xs font-medium ${(product.stock || 0) === 0
-                                                        ? "bg-red-50 text-red-700"
-                                                        : (product.stock || 0) < 10
-                                                            ? "bg-amber-50 text-amber-700"
-                                                            : "bg-emerald-50 text-emerald-700"
+                                                    ? "bg-red-50 text-red-700"
+                                                    : (product.stock || 0) < 10
+                                                        ? "bg-amber-50 text-amber-700"
+                                                        : "bg-emerald-50 text-emerald-700"
                                                     }`}
                                             >
                                                 {product.stock || 0} шт
@@ -174,8 +174,8 @@ export default function ProductsClient({ initialProducts }: ProductsClientProps)
                                         <td className="px-6 py-4">
                                             <span
                                                 className={`inline-flex px-2.5 py-1 rounded-md text-xs font-medium ${product.active
-                                                        ? "bg-emerald-50 text-emerald-700"
-                                                        : "bg-gray-100 text-gray-600"
+                                                    ? "bg-emerald-50 text-emerald-700"
+                                                    : "bg-gray-100 text-gray-600"
                                                     }`}
                                             >
                                                 {product.active ? "Активен" : "Неактивен"}
@@ -192,7 +192,6 @@ export default function ProductsClient({ initialProducts }: ProductsClientProps)
                                                 </Link>
                                                 <DeleteProductButton
                                                     id={product.id}
-                                                    productName={product.name}
                                                 />
                                             </div>
                                         </td>
