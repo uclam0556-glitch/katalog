@@ -1,5 +1,5 @@
 import { getProducts } from "@/lib/db";
-import { FiPackage, FiDollarSign, FiTrendingUp, FiAlertCircle, FiPlus } from "react-icons/fi";
+import { FiPlus, FiBox, FiTrendingUp, FiSearch } from "react-icons/fi";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -7,226 +7,136 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
     const products = await getProducts();
-
-    // Real Statistics from Database
     const totalProducts = products.length;
-    const activeProducts = products.filter(p => p.active).length;
-    const totalValue = products.reduce((sum, p) => sum + p.price * (p.stock || 0), 0);
-    const lowStock = products.filter(p => (p.stock || 0) > 0 && (p.stock || 0) < 10).length;
-    const outOfStock = products.filter(p => (p.stock || 0) === 0).length;
-    const recentProducts = products.slice(0, 5);
-
-    const stats = [
-        {
-            name: "Активных товаров",
-            value: activeProducts,
-            subtitle: `из ${totalProducts} всего`,
-            icon: FiPackage,
-            bgGradient: "from-blue-500 to-cyan-500",
-        },
-        {
-            name: "Общая стоимость",
-            value: `${Math.round(totalValue / 1000)}K ₽`,
-            subtitle: "товаров в наличии",
-            icon: FiDollarSign,
-            bgGradient: "from-emerald-500 to-teal-500",
-        },
-        {
-            name: "Низкий остаток",
-            value: lowStock,
-            subtitle: "требуют внимания",
-            icon: FiTrendingUp,
-            bgGradient: "from-amber-500 to-orange-500",
-        },
-        {
-            name: "Нет в наличии",
-            value: outOfStock,
-            subtitle: "товаров",
-            icon: FiAlertCircle,
-            bgGradient: "from-red-500 to-rose-500",
-        },
-    ];
 
     return (
-        <div className="max-w-screen-2xl mx-auto space-y-8 mt-12">
-            {/* Header */}
-            <div className="mb-2">
-                <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-                <p className="text-gray-600 mt-2">Обзор вашего магазина</p>
+        <div className="space-y-10 pb-20">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                    <h1 className="text-4xl font-black font-serif text-neutral-900 mb-2">Обзор</h1>
+                    <p className="text-neutral-500 font-medium">Добро пожаловать в панель управления</p>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="bg-white px-5 py-2.5 rounded-2xl border border-neutral-100 shadow-sm flex items-center gap-3">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <span className="text-sm font-bold text-neutral-600">
+                            {totalProducts} товаров
+                        </span>
+                    </div>
+                    <Link
+                        href="/admin/products/new"
+                        className="bg-neutral-900 hover:bg-black text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-neutral-900/20 transition-all flex items-center gap-2 transform hover:-translate-y-0.5"
+                    >
+                        <FiPlus className="w-5 h-5" />
+                        Добавить товар
+                    </Link>
+                </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {stats.map((stat) => {
-                    const Icon = stat.icon;
-                    return (
-                        <div
-                            key={stat.name}
-                            className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all"
-                        >
-                            <div className="flex items-start justify-between gap-4">
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-gray-600 mb-1">
-                                        {stat.name}
-                                    </p>
-                                    <p className="text-3xl font-bold text-gray-900 mb-1">
-                                        {stat.value}
-                                    </p>
-                                    <p className="text-xs text-gray-500">
-                                        {stat.subtitle}
-                                    </p>
-                                </div>
-                                <div
-                                    className={`w-14 h-14 rounded-xl bg-gradient-to-br ${stat.bgGradient} flex items-center justify-center shadow-lg flex-shrink-0`}
-                                >
-                                    <Icon className="w-7 h-7 text-white" />
-                                </div>
-                            </div>
+            {/* Quick Actions / Stats Wrapper if needed (Minimal for now) */}
+
+            {/* Product Grid */}
+            <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-bold text-neutral-900 flex items-center gap-2">
+                        <FiBox className="w-5 h-5" />
+                        Ваш каталог
+                    </h2>
+                </div>
+
+                {products.length === 0 ? (
+                    <div className="bg-white rounded-3xl p-12 text-center border border-neutral-100 shadow-sm">
+                        <div className="w-20 h-20 bg-neutral-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <FiBox className="w-8 h-8 text-neutral-300" />
                         </div>
-                    );
-                })}
-            </div>
-
-            {/* Main Content Grid - Quick Actions LEFT, Products RIGHT */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Quick Actions Card - LEFT COLUMN */}
-                <div className="lg:col-span-1 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl p-6 shadow-lg text-white">
-                    <h2 className="text-xl font-bold mb-6">Быстрые действия</h2>
-                    <div className="space-y-3">
+                        <h3 className="text-xl font-bold text-neutral-900 mb-2">Каталог пуст</h3>
+                        <p className="text-neutral-500 mb-8 max-w-sm mx-auto">
+                            Добавьте свой первый товар, чтобы начать продажи. Это займет всего пару минут.
+                        </p>
                         <Link
                             href="/admin/products/new"
-                            className="block w-full px-4 py-3.5 bg-white/20 hover:bg-white/30 rounded-lg transition-all backdrop-blur-sm border border-white/20 hover:border-white/40 hover:shadow-md"
+                            className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl font-bold transition-all"
                         >
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
-                                    <FiPlus className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-sm">Добавить товар</p>
-                                    <p className="text-xs text-white/70">Новый товар в каталог</p>
-                                </div>
-                            </div>
-                        </Link>
-                        <Link
-                            href="/admin/products"
-                            className="block w-full px-4 py-3.5 bg-white/20 hover:bg-white/30 rounded-lg transition-all backdrop-blur-sm border border-white/20 hover:border-white/40 hover:shadow-md"
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
-                                    <FiPackage className="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-sm">Все товары</p>
-                                    <p className="text-xs text-white/70">Управление каталогом</p>
-                                </div>
-                            </div>
-                        </Link>
-                        <Link
-                            href="/"
-                            target="_blank"
-                            className="block w-full px-4 py-3.5 bg-white/20 hover:bg-white/30 rounded-lg transition-all backdrop-blur-sm border border-white/20 hover:border-white/40 hover:shadow-md"
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
-                                    👁️
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-sm">Посмотреть сайт</p>
-                                    <p className="text-xs text-white/70">Открыть в новой вкладке</p>
-                                </div>
-                            </div>
+                            <FiPlus className="w-5 h-5" />
+                            Создать товар
                         </Link>
                     </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {/* New Item Card (First Slot) */}
+                        <Link
+                            href="/admin/products/new"
+                            className="group relative aspect-[4/5] bg-neutral-50 rounded-[2rem] border-2 border-dashed border-neutral-200 hover:border-amber-400 hover:bg-amber-50/10 flex flex-col items-center justify-center transition-all cursor-pointer"
+                        >
+                            <div className="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                                <FiPlus className="w-8 h-8 text-neutral-400 group-hover:text-amber-500 transition-colors" />
+                            </div>
+                            <span className="font-bold text-neutral-900">Добавить</span>
+                            <span className="text-xs text-neutral-400 mt-1">Новый товар</span>
+                        </Link>
 
-                    {/* Stats Summary */}
-                    <div className="mt-6 pt-6 border-t border-white/20">
-                        <p className="text-xs text-white/70 mb-2">Краткая сводка</p>
-                        <div className="grid grid-cols-2 gap-3">
-                            <div className="bg-white/10 rounded-lg p-3">
-                                <p className="text-2xl font-bold">{totalProducts}</p>
-                                <p className="text-xs text-white/70">Всего товаров</p>
-                            </div>
-                            <div className="bg-white/10 rounded-lg p-3">
-                                <p className="text-2xl font-bold">{activeProducts}</p>
-                                <p className="text-xs text-white/70">Активных</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        {/* Product Cards */}
+                        {products.map((product) => (
+                            <Link
+                                key={product.id}
+                                href={`/admin/products/${product.id}`}
+                                className="group bg-white rounded-[2rem] p-3 shadow-sm hover:shadow-xl hover:shadow-neutral-200/50 transition-all duration-300 border border-neutral-100 relative overflow-hidden"
+                            >
+                                {/* Image Container */}
+                                <div className="aspect-square rounded-[1.5rem] bg-neutral-100 overflow-hidden relative mb-4">
+                                    {product.thumbnail ? (
+                                        <Image
+                                            src={product.thumbnail}
+                                            alt={product.name}
+                                            fill
+                                            className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                            sizes="(max-width: 768px) 100vw, 33vw"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-neutral-300">
+                                            <FiBox className="w-8 h-8" />
+                                        </div>
+                                    )}
 
-                {/* Recent Products - RIGHT 2 COLUMNS */}
-                <div className="lg:col-span-2 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-lg font-bold text-gray-900">Последние товары</h2>
-                        <Link
-                            href="/admin/products"
-                            className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors"
-                        >
-                            Все товары →
-                        </Link>
-                    </div>
-                    <div className="space-y-3">
-                        {recentProducts.length === 0 ? (
-                            <div className="py-12 text-center">
-                                <FiPackage className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                                <p className="text-gray-500 text-sm mb-4">Нет товаров</p>
-                                <Link
-                                    href="/admin/products/new"
-                                    className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
-                                >
-                                    <FiPlus className="w-4 h-4" />
-                                    Добавить первый товар
-                                </Link>
-                            </div>
-                        ) : (
-                            recentProducts.map((product) => (
-                                <Link
-                                    key={product.id}
-                                    href={`/admin/products/${product.id}`}
-                                    className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
-                                >
-                                    <div className="w-14 h-14 rounded-lg bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
-                                        {product.thumbnail ? (
-                                            <Image
-                                                src={product.thumbnail}
-                                                alt={product.name}
-                                                width={56}
-                                                height={56}
-                                                className="w-full h-full object-cover"
-                                                unoptimized
-                                            />
-                                        ) : (
-                                            <FiPackage className="w-6 h-6 text-gray-400" />
-                                        )}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-semibold text-sm text-gray-900 truncate group-hover:text-indigo-600 transition-colors">
-                                            {product.name}
-                                        </p>
-                                        <p className="text-xs text-gray-500 mt-0.5">
-                                            {product.category}
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                                        <p className="font-bold text-sm text-gray-900">
-                                            {product.price.toLocaleString("ru-RU")} ₽
-                                        </p>
-                                        <span
-                                            className={`px-2 py-0.5 rounded text-xs font-medium ${(product.stock || 0) === 0
-                                                ? "bg-red-50 text-red-700"
-                                                : (product.stock || 0) < 10
-                                                    ? "bg-amber-50 text-amber-700"
-                                                    : "bg-emerald-50 text-emerald-700"
-                                                }`}
-                                        >
-                                            {product.stock || 0} шт
+                                    {/* Edit Overlay */}
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                        <span className="bg-white/90 text-neutral-900 px-4 py-2 rounded-full text-xs font-bold shadow-sm backdrop-blur-sm">
+                                            Редактировать
                                         </span>
                                     </div>
-                                </Link>
-                            ))
-                        )}
+
+                                    {/* Stock Badge */}
+                                    <div className="absolute top-3 left-3 px-2 py-1 bg-white/90 backdrop-blur-md rounded-lg text-[10px] font-bold shadow-sm">
+                                        {(product.stock || 0) > 0 ? (
+                                            <span className={(product.stock || 0) < 5 ? "text-amber-600" : "text-emerald-600"}>
+                                                {(product.stock || 0)} шт
+                                            </span>
+                                        ) : (
+                                            <span className="text-red-600">Нет в наличии</span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Content */}
+                                <div className="px-1 pb-2">
+                                    <div className="flex justify-between items-start mb-1">
+                                        <h3 className="font-bold text-neutral-900 text-base leading-tight line-clamp-1 group-hover:text-amber-600 transition-colors">
+                                            {product.name}
+                                        </h3>
+                                        <span className="font-bold text-neutral-900 text-sm whitespace-nowrap ml-2">
+                                            {product.price.toLocaleString('ru-RU')} ₽
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-neutral-400 font-medium">
+                                        {product.category}
+                                    </p>
+                                </div>
+                            </Link>
+                        ))}
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

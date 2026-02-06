@@ -9,14 +9,13 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps) {
     return (
         <ToastProvider>
-            <div className="min-h-screen bg-gray-50">
-                {/* Top Navigation with Integrated Menu */}
+            <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans">
+                {/* Top Navigation */}
                 <TopNav />
 
-                {/* Main Content - NO SIDEBAR, FULL WIDTH */}
+                {/* Main Content */}
                 <main className="pt-24 min-h-screen">
-                    {/* LARGE TOP SPACING - 96px from top bar */}
-                    <div className="px-8 pt-16 pb-8">
+                    <div className="container mx-auto px-6 max-w-7xl animate-[fadeIn_0.5s_ease-out]">
                         {children}
                     </div>
                 </main>

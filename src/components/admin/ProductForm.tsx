@@ -7,7 +7,8 @@ import { categories } from "@/data/products";
 import SupabaseUploader from "@/components/admin/ui/SupabaseUploader";
 import { saveProductAction } from "@/app/actions";
 import { useToast } from "@/components/admin/ui/Toast";
-import { FiSave, FiX } from "react-icons/fi";
+import { FiSave, FiCheck, FiChevronRight, FiAlertCircle } from "react-icons/fi";
+import { cn } from "@/lib/utils";
 
 interface ProductFormProps {
     initialData?: Product;
@@ -37,7 +38,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
         e.preventDefault();
 
         if (images.length === 0) {
-            showToast("Добавьте хотя бы одну фотографию", "error");
+            showToast("⚠️ Загрузите хотя бы одно фото", "error");
             return;
         }
 
@@ -60,8 +61,8 @@ export default function ProductForm({ initialData }: ProductFormProps) {
 
         try {
             await saveProductAction(submitData);
-            showToast("Товар успешно сохранен!", "success");
-            router.push("/admin/products");
+            showToast("🎉 Товар успешно сохранен!", "success");
+            router.push("/admin");
             router.refresh();
         } catch (error: any) {
             showToast(`Ошибка: ${error.message}`, "error");
@@ -71,171 +72,178 @@ export default function ProductForm({ initialData }: ProductFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Images Section */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-base font-semibold text-gray-900 mb-1">
-                    Фотографии <span className="text-red-500">*</span>
-                </h2>
-                <p className="text-sm text-gray-500 mb-4">
-                    Первое фото будет главным на карточке товара
-                </p>
-                <SupabaseUploader images={images} onChange={setImages} maxImages={5} />
+        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto space-y-8 animate-[fadeIn_0.4s_ease-out]">
+
+            {/* Header / Actions */}
+            <div className="flex items-center justify-between sticky top-20 z-40 bg-[#FDFCFB]/90 backdrop-blur-md py-4 border-b border-neutral-200/50 mb-8 -mx-6 px-6 md:mx-0 md:px-0">
+                <h2 className="text-xl font-bold text-neutral-900">Заполнение данных</h2>
+                <div className="flex items-center gap-3">
+                    <button
+                        type="button"
+                        onClick={() => router.back()}
+                        className="px-4 py-2 text-sm font-bold text-neutral-500 hover:bg-neutral-100 rounded-xl transition"
+                    >
+                        Отмена
+                    </button>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="px-6 py-2 bg-neutral-900 hover:bg-black text-white rounded-xl shadow-lg shadow-neutral-900/10 font-bold transition-all transform hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:transform-none flex items-center gap-2"
+                    >
+                        {loading ? "Сохранение..." : (
+                            <>
+                                <FiCheck className="w-4 h-4" />
+                                Опубликовать
+                            </>
+                        )}
+                    </button>
+                </div>
             </div>
 
-            {/* Basic Info */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-base font-semibold text-gray-900 mb-4">Основная информация</h2>
+            {/* 1. PHOTOGRAPHY (Crucial First Step) */}
+            <section className="bg-white rounded-3xl p-8 shadow-sm border border-neutral-100 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1.5 h-full bg-amber-400"></div>
+                <div className="mb-6">
+                    <h3 className="text-lg font-bold text-neutral-900 flex items-center gap-2">
+                        1. Фотографии товара
+                        <span className="text-red-500">*</span>
+                    </h3>
+                    <p className="text-neutral-500 text-sm mt-1">
+                        Загрузите красивые фото. Первое фото будет на обложке.
+                    </p>
+                </div>
+                <SupabaseUploader images={images} onChange={setImages} maxImages={6} />
+            </section>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-gray-700">
-                            Название <span className="text-red-500">*</span>
+            {/* 2. BASIC INFO */}
+            <section className="bg-white rounded-3xl p-8 shadow-sm border border-neutral-100 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1.5 h-full bg-neutral-200"></div>
+                <div className="mb-6">
+                    <h3 className="text-lg font-bold text-neutral-900">2. Основная информация</h3>
+                </div>
+
+                <div className="space-y-6">
+                    {/* Name - HUGE Input */}
+                    <div>
+                        <label className="block text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">
+                            Название товара
                         </label>
                         <input
                             required
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
-                            placeholder="Например: Стул 'Лофт'"
+                            className="w-full text-2xl font-serif font-bold p-0 border-none focus:ring-0 placeholder:text-neutral-200 bg-transparent"
+                            placeholder="Напр: Диван Честер"
+                        />
+                        <div className="h-px w-full bg-neutral-100 mt-2"></div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Price */}
+                        <div>
+                            <label className="block text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">
+                                Стоимость (₽)
+                            </label>
+                            <div className="relative">
+                                <input
+                                    required
+                                    type="number"
+                                    min="0"
+                                    value={formData.price}
+                                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                                    className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 font-bold text-lg outline-none focus:border-amber-400 transition-colors"
+                                    placeholder="0"
+                                />
+                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 font-bold">₽</span>
+                            </div>
+                        </div>
+
+                        {/* Category */}
+                        <div>
+                            <label className="block text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">
+                                Категория
+                            </label>
+                            <div className="relative">
+                                <select
+                                    required
+                                    value={formData.category}
+                                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                    className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 font-bold text-lg outline-none focus:border-amber-400 transition-colors appearance-none"
+                                >
+                                    {categories.map((cat) => (
+                                        <option key={cat.id} value={cat.slug}>
+                                            {cat.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                <FiChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 rotate-90 text-neutral-400 pointer-events-none" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                        <label className="block text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">
+                            Описание
+                        </label>
+                        <textarea
+                            value={formData.description}
+                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            rows={4}
+                            className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 font-medium outline-none focus:border-amber-400 transition-colors resize-none"
+                            placeholder="Расскажите о преимуществах товара..."
                         />
                     </div>
+                </div>
+            </section>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-gray-700">
-                            Категория <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                            required
-                            value={formData.category}
-                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
-                        >
-                            {categories.map((cat) => (
-                                <option key={cat.id} value={cat.name}>
-                                    {cat.icon} {cat.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+            {/* 3. DETAILS (Optional) */}
+            <section className="bg-white rounded-3xl p-8 shadow-sm border border-neutral-100 relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-1.5 h-full bg-neutral-100 group-hover:bg-neutral-300 transition-colors"></div>
+                <div className="mb-6">
+                    <h3 className="text-lg font-bold text-neutral-900">3. Детали (необязательно)</h3>
+                </div>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-gray-700">
-                            Цена (₽) <span className="text-red-500">*</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label className="block text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">
+                            Количество на складе
                         </label>
                         <input
-                            required
                             type="number"
-                            min="0"
-                            value={formData.price}
-                            onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
-                            placeholder="0"
+                            value={formData.stock}
+                            onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                            className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 font-medium outline-none focus:border-amber-400 transition-colors"
                         />
                     </div>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-gray-700">Артикул (SKU)</label>
+                    <div>
+                        <label className="block text-xs font-bold text-neutral-400 uppercase tracking-wider mb-2">
+                            Артикул
+                        </label>
                         <input
                             value={formData.sku}
                             onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
-                            placeholder="CH-LOFT-001"
+                            className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 font-medium outline-none focus:border-amber-400 transition-colors"
+                            placeholder="CODE-123"
                         />
                     </div>
 
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-gray-700">Остаток (шт)</label>
+                    <div className="md:col-span-2 p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-center gap-4">
                         <input
-                            type="number"
-                            min="0"
-                            value={formData.stock}
-                            onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
-                            placeholder="10"
+                            type="checkbox"
+                            checked={formData.featured}
+                            onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                            className="w-6 h-6 text-amber-600 rounded-md focus:ring-amber-500 border-gray-300"
+                            id="featured-check"
                         />
-                    </div>
-
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-gray-700">
-                            Избранный товар
-                        </label>
-                        <label className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-                            <input
-                                type="checkbox"
-                                checked={formData.featured}
-                                onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                                className="w-4 h-4 text-indigo-600 rounded focus:ring-2 focus:ring-indigo-500"
-                            />
-                            <span className="text-sm text-gray-600">Показывать на главной</span>
+                        <label htmlFor="featured-check" className="cursor-pointer">
+                            <span className="block font-bold text-amber-900">Показывать на главной?</span>
+                            <span className="text-xs text-amber-700">Товар появиться в блоке "Популярное"</span>
                         </label>
                     </div>
                 </div>
-
-                <div className="mt-4 space-y-1.5">
-                    <label className="text-sm font-medium text-gray-700">Описание</label>
-                    <textarea
-                        value={formData.description}
-                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                        rows={4}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none text-sm"
-                        placeholder="Опишите товар..."
-                    />
-                </div>
-            </div>
-
-            {/* Additional Info */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                <h2 className="text-base font-semibold text-gray-900 mb-4">Дополнительно</h2>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-gray-700">
-                            Цвета
-                            <span className="text-gray-400 text-xs ml-1">(через запятую)</span>
-                        </label>
-                        <input
-                            value={formData.colors}
-                            onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
-                            placeholder="Черный, Белый, Серый"
-                        />
-                    </div>
-
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium text-gray-700">
-                            Материалы
-                            <span className="text-gray-400 text-xs ml-1">(через запятую)</span>
-                        </label>
-                        <input
-                            value={formData.materials}
-                            onChange={(e) => setFormData({ ...formData, materials: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm"
-                            placeholder="Дерево, Металл, Велюр"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center justify-end gap-3 pt-2">
-                <button
-                    type="button"
-                    onClick={() => router.back()}
-                    className="px-5 py-2.5 border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors font-medium flex items-center gap-2 text-sm"
-                >
-                    <FiX className="w-4 h-4" />
-                    Отмена
-                </button>
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-                >
-                    <FiSave className="w-4 h-4" />
-                    {loading ? "Сохранение..." : "Сохранить товар"}
-                </button>
-            </div>
+            </section>
         </form>
     );
 }
