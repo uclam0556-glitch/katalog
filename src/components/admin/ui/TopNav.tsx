@@ -21,19 +21,19 @@ export default function TopNav() {
     const isActive = (path: string) => pathname === path;
 
     return (
-        <header className="fixed top-0 left-0 right-0 h-20 bg-white/95 backdrop-blur-lg border-b border-neutral-200 z-50 shadow-sm">
-            <div className="container mx-auto px-4 md:px-6 h-full flex items-center justify-between max-w-7xl">
+        <header className="fixed top-0 left-0 right-0 h-16 md:h-20 bg-white/95 backdrop-blur-lg border-b border-neutral-200 z-50 shadow-sm">
+            <div className="container mx-auto px-3 md:px-6 h-full flex items-center justify-between max-w-7xl">
 
                 {/* Logo & Brand */}
-                <Link href="/admin" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                    <span className="text-2xl font-black font-serif text-neutral-900">амэа</span>
-                    <span className="text-[10px] font-bold text-white bg-neutral-900 px-2.5 py-1 rounded-full uppercase tracking-wide">
+                <Link href="/admin" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <span className="text-xl md:text-2xl font-black font-serif text-neutral-900">амэа</span>
+                    <span className="text-[9px] md:text-[10px] font-bold text-white bg-neutral-900 px-2 md:px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wide">
                         Admin
                     </span>
                 </Link>
 
-                {/* Navigation Menu */}
-                <nav className="hidden md:flex items-center gap-2">
+                {/* Navigation Menu - Hidden on mobile */}
+                <nav className="hidden lg:flex items-center gap-2">
                     <Link
                         href="/admin"
                         className={cn(
@@ -60,40 +60,26 @@ export default function TopNav() {
                     </Link>
                 </nav>
 
-                {/* Stats & Actions */}
-                <div className="flex items-center gap-3">
-                    {/* Stats Indicator */}
-                    <div className="hidden lg:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl">
-                        <FiTrendingUp className="w-4 h-4 text-emerald-600" />
-                        <div className="flex flex-col">
-                            <span className="text-[10px] text-emerald-600 font-semibold uppercase">Товаров</span>
-                            <span className="text-sm font-bold text-neutral-900">{stats.count} шт</span>
-                        </div>
-                        <div className="w-px h-8 bg-emerald-200 mx-2"></div>
-                        <div className="flex flex-col">
-                            <span className="text-[10px] text-emerald-600 font-semibold uppercase">Сумма</span>
-                            <span className="text-sm font-bold text-neutral-900">{stats.total.toLocaleString('ru-RU')} ₽</span>
-                        </div>
-                    </div>
-
+                {/* Actions */}
+                <div className="flex items-center gap-2">
                     {/* Add Product Button */}
                     <Link
                         href="/admin/products/new"
-                        className="flex items-center gap-2 px-4 py-2.5 bg-neutral-900 hover:bg-black text-white rounded-xl text-sm font-bold shadow-lg shadow-neutral-900/20 transition-all active:scale-95"
+                        className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-neutral-900 hover:bg-black text-white rounded-lg md:rounded-xl text-xs md:text-sm font-bold shadow-lg shadow-neutral-900/20 transition-all active:scale-95"
                     >
-                        <FiPlus className="w-4 h-4" />
-                        <span className="hidden sm:inline">Добавить товар</span>
+                        <FiPlus className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                        <span className="hidden sm:inline">Добавить</span>
                     </Link>
 
                     {/* View Site Button */}
                     <Link
                         href="/"
                         target="_blank"
-                        className="hidden sm:flex items-center gap-2 px-4 py-2.5 border-2 border-neutral-200 hover:border-neutral-300 text-neutral-700 hover:bg-neutral-50 rounded-xl text-sm font-bold transition-all"
+                        className="hidden md:flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 border-2 border-neutral-200 hover:border-neutral-300 text-neutral-700 hover:bg-neutral-50 rounded-lg md:rounded-xl text-xs md:text-sm font-bold transition-all"
                         title="Открыть сайт"
                     >
-                        <FiExternalLink className="w-4 h-4" />
-                        Посмотреть сайт
+                        <FiExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                        <span className="hidden lg:inline">Сайт</span>
                     </Link>
                 </div>
             </div>

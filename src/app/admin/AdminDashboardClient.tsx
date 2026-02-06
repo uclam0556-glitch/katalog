@@ -23,7 +23,7 @@ type SortBy = "name" | "price" | "stock" | "recent";
 
 export default function AdminDashboardClient({ initialProducts }: Props) {
     const [products] = useState(initialProducts);
-    const [viewMode, setViewMode] = useState<ViewMode>("grid");
+    const [viewMode, setViewMode] = useState<ViewMode>("list");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [sortBy, setSortBy] = useState<SortBy>("recent");
@@ -90,19 +90,19 @@ export default function AdminDashboardClient({ initialProducts }: Props) {
     };
 
     return (
-        <div className="min-h-screen pb-20">
+        <div className="min-h-screen pb-20 pt-4">
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
                 <StatsCard
                     icon={<FiPackage />}
-                    label="Всего товаров"
+                    label="Товаров"
                     value={stats.total.toString()}
                     trend="+12%"
                     color="blue"
                 />
                 <StatsCard
                     icon={<FiDollarSign />}
-                    label="Общая стоимость"
+                    label="Сумма"
                     value={`${(stats.totalValue / 1000).toFixed(0)}K ₽`}
                     trend="+8%"
                     color="emerald"
@@ -156,13 +156,12 @@ export default function AdminDashboardClient({ initialProducts }: Props) {
                         <div className="mt-6 space-y-4">
                             {/* Search Bar */}
                             <div className="relative">
-                                <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400 pointer-events-none" />
                                 <input
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="Поиск по названию, категории или артикулу..."
-                                    className="w-full pl-12 pr-12 py-3.5 bg-white border-2 border-neutral-200 rounded-xl text-sm placeholder:text-neutral-400 focus:outline-none focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/5 transition-all"
+                                    placeholder="Поиск товаров..."
+                                    className="w-full px-4 pr-12 py-3.5 bg-white border-2 border-neutral-200 rounded-xl text-sm placeholder:text-neutral-400 focus:outline-none focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/5 transition-all"
                                 />
                                 {searchQuery && (
                                     <button
