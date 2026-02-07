@@ -93,7 +93,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                             src={img}
                                             alt={`${product.name} - View ${idx + 1}`}
                                             fill
-                                            className="object-cover"
+                                            className="object-contain md:object-cover"
                                             priority={idx === 0}
                                             onClick={() => setLightboxOpen(true)}
                                         />
