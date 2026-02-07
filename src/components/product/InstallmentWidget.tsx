@@ -62,7 +62,7 @@ export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) =>
     return (
         <div className="bg-white rounded-[2rem] shadow-xl shadow-neutral-200/40 overflow-hidden border border-neutral-100 my-8">
             {/* Header / Toggle Section */}
-            <div className="bg-neutral-50 px-8 md:px-10 py-6 border-b border-neutral-100">
+            <div className="bg-neutral-50 px-10 md:px-12 py-8 border-b border-neutral-100">
                 <div className="flex items-center justify-between mb-6">
                     <div>
                         <h3 className="font-bold text-xl text-neutral-900">Рассрочка</h3>
