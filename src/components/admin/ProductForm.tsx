@@ -80,10 +80,19 @@ export default function ProductForm({ initialData }: ProductFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="min-h-screen bg-[#FDFCFB] pb-96 md:pb-32 animate-[fadeIn_0.4s_ease-out]">
+    return (
+        <form onSubmit={handleSubmit} className="min-h-screen bg-[#FDFCFB] pb-[30rem] md:pb-32 animate-[fadeIn_0.4s_ease-out]">
 
-            {/* Header / Nav */}
-            <div className="fixed top-0 left-0 right-0 h-20 bg-white/90 backdrop-blur-xl z-[60] border-b border-neutral-100 flex items-center justify-between px-4 md:px-8 safe-area-top shadow-sm">
+            {/* Header / Nav - Changed from fixed to Sticky to respect layout flow */}
+            {/* Using top-0 assuming AdminLayout padding handles the offset, or top-[header-height] if needed. 
+                But since we are inside AdminLayout which has pt-24, a sticky header here will stick to the top of the CONTENT area (below global header).
+                If we want it at the very top of the SCREEN, we need negative margin or fixed. 
+                User said "top goes behind screen". Sticky is safer.
+                Let's try fixed but with top-20 (80px) to sit BELOW the main admin header? 
+                Actually, the user likely wants this form to take over the screen.
+                Let's stick to safe sticky positioning to avoid overlap.
+            */}
+            <div className="sticky top-20 md:top-24 left-0 right-0 h-16 bg-white/90 backdrop-blur-xl z-[40] border-b border-neutral-100 flex items-center justify-between px-4 md:px-8 -mx-4 md:-mx-8 mb-6 shadow-sm">
                 <div className="flex items-center gap-4">
                     <button type="button" onClick={() => router.back()} className="w-10 h-10 bg-neutral-100 hover:bg-neutral-200 rounded-full flex items-center justify-center transition-colors">
                         <FiChevronLeft className="w-5 h-5" />
@@ -92,25 +101,24 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                         <h1 className="text-lg md:text-xl font-bold font-serif text-neutral-900">
                             {initialData ? "Редактирование" : "Новый товар"}
                         </h1>
-                        <p className="text-xs text-neutral-400 hidden md:block">Заполните детали для каталога</p>
+                        <p className="text-xs text-neutral-400 hidden md:block">Заполните детали каталога</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="hidden md:inline-block px-3 py-1 bg-green-50 text-green-700 text-xs font-bold uppercase tracking-wider rounded-lg">
-                        Draft
+                    <span className="px-3 py-1 bg-neutral-100 text-neutral-500 text-xs font-bold uppercase tracking-wider rounded-lg">
+                        {loading ? "Сохранение..." : "Черновик"}
                     </span>
                 </div>
             </div>
 
-            {/* Spacer to push content below fixed header */}
-            <div className="h-24 md:h-32"></div>
+            {/* No Spacer needed for sticky element */}
 
-            <div className="container mx-auto px-4 md:px-8 max-w-[90rem]">
+            <div className="container mx-auto max-w-[90rem]">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
 
                     {/* LEFT COLUMN: Media & Preview (Sticky) */}
                     <div className="lg:col-span-5 space-y-8">
-                        <div className="lg:sticky lg:top-28 space-y-8">
+                        <div className="lg:sticky lg:top-40 space-y-8">
 
                             {/* 1. Media Uploader */}
                             <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-neutral-100">
@@ -122,13 +130,13 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                                 </div>
                                 <SupabaseUploader images={images} onChange={setImages} maxImages={10} />
                                 <p className="text-xs text-neutral-400 mt-4 text-center">
-                                    Перетаскивайте фото, чтобы изменить порядок. Первое фото — обложка.
+                                    Перетаскивайте фото. Первое — обложка.
                                 </p>
                             </div>
 
                             {/* 2. Live Preview Card */}
                             <div className="hidden lg:block">
-                                <h3 className="text-sm font-bold text-neutral-400 uppercase tracking-widest mb-4 pl-2">Предпросмотр в каталоге</h3>
+                                <h3 className="text-sm font-bold text-neutral-400 uppercase tracking-widest mb-4 pl-2">Предпросмотр</h3>
                                 <div className="w-full max-w-sm mx-auto bg-white rounded-lg overflow-hidden shadow-lg transform transition-all hover:scale-[1.02] duration-500">
                                     <div className="relative aspect-[4/3] bg-neutral-100">
                                         {images[0] ? (
@@ -340,7 +348,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                     className="md:hidden w-full h-12 bg-white border border-neutral-200 rounded-xl font-bold text-neutral-900 shadow-sm flex items-center justify-center gap-2"
                 >
                     <FiEye className="w-5 h-5" />
-                    Предпросмотр
+                    Предсмотр
                 </button>
 
                 <div className="flex gap-3 w-full md:w-auto">
