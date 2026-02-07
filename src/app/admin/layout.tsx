@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 import TopNav from "@/components/admin/ui/TopNav";
 import { ToastProvider } from "@/components/admin/ui/Toast";
