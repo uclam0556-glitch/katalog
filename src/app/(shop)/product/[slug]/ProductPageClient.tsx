@@ -152,13 +152,16 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                         {product.name}
                                     </h1>
                                     {/* Discount Badge */}
-                                    {product.oldPrice && product.oldPrice > product.price && (
-                                        <div className="flex flex-col items-end animate-[pulse_3s_infinite]">
-                                            <span className="bg-red-600 text-white px-3 py-1.5 rounded-xl text-sm font-bold shadow-lg shadow-red-200">
-                                                -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
-                                            </span>
-                                        </div>
-                                    )}
+                                    {product.oldPrice &&
+                                        typeof product.oldPrice === 'number' &&
+                                        !isNaN(product.oldPrice) &&
+                                        product.oldPrice > product.price && (
+                                            <div className="flex flex-col items-end animate-[pulse_3s_infinite]">
+                                                <span className="bg-red-600 text-white px-3 py-1.5 rounded-xl text-sm font-bold shadow-lg shadow-red-200">
+                                                    -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
+                                                </span>
+                                            </div>
+                                        )}
                                 </div>
 
                                 <div className="flex items-center gap-4 text-sm mb-8">
@@ -178,21 +181,27 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                     <span className="text-4xl md:text-5xl font-bold text-neutral-900 tracking-tight">
                                         {formatPrice(product.price)}
                                     </span>
-                                    {product.oldPrice && product.oldPrice > product.price && (
-                                        <div className="relative">
-                                            <span className="text-xl md:text-2xl text-neutral-400 font-medium">
-                                                {formatPrice(product.oldPrice)}
-                                            </span>
-                                            {/* Diagonal Strike Line */}
-                                            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-red-400 -rotate-12 transform" />
-                                        </div>
-                                    )}
+                                    {product.oldPrice &&
+                                        typeof product.oldPrice === 'number' &&
+                                        !isNaN(product.oldPrice) &&
+                                        product.oldPrice > product.price && (
+                                            <div className="relative">
+                                                <span className="text-xl md:text-2xl text-neutral-400 font-medium">
+                                                    {formatPrice(product.oldPrice)}
+                                                </span>
+                                                {/* Diagonal Strike Line */}
+                                                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-red-400 -rotate-12 transform" />
+                                            </div>
+                                        )}
                                 </div>
-                                {product.oldPrice && product.oldPrice > product.price && (
-                                    <p className="text-sm text-green-600 font-medium">
-                                        Вы экономите {formatPrice(product.oldPrice - product.price)}
-                                    </p>
-                                )}
+                                {product.oldPrice &&
+                                    typeof product.oldPrice === 'number' &&
+                                    !isNaN(product.oldPrice) &&
+                                    product.oldPrice > product.price && (
+                                        <p className="text-sm text-green-600 font-medium">
+                                            Вы экономите {formatPrice(product.oldPrice - product.price)}
+                                        </p>
+                                    )}
                             </div>
 
                             {/* Actions (Desktop) */}

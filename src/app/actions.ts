@@ -17,8 +17,10 @@ export async function saveProductAction(formData: FormData) {
         name: formData.get("name") as string,
         price: parseInt(formData.get("price") as string),
         oldPrice: (() => {
-            const val = formData.get("oldPrice") as string;
-            return val && val.trim() !== "" ? parseInt(val) : undefined;
+            const val = formData.get("oldPrice");
+            if (!val || val.toString().trim() === "") return undefined;
+            const parsed = parseInt(val.toString().replace(/\D/g, ""));
+            return isNaN(parsed) ? undefined : parsed;
         })(),
         description: formData.get("description") as string,
         category: formData.get("category") as string,
