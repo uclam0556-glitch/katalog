@@ -2,9 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { FiMapPin, FiPhone, FiSearch, FiX } from "react-icons/fi";
+import { FiMapPin, FiPhone, FiX } from "react-icons/fi";
 import { cn } from "@/lib/utils";
+import { SmartSearch } from "@/components/layout/SmartSearch";
 
 interface LocationModalProps {
     isOpen: boolean;
@@ -156,11 +156,9 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
  * Logo centered, clean search
  */
 export const HeaderNew: React.FC = () => {
-    const pathname = usePathname();
     const [isScrolled, setIsScrolled] = React.useState(false);
     const [isLocationOpen, setIsLocationOpen] = React.useState(false);
     const [isContactOpen, setIsContactOpen] = React.useState(false);
-    const [searchQuery, setSearchQuery] = React.useState("");
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -198,8 +196,11 @@ export const HeaderNew: React.FC = () => {
                             </h1>
                         </Link>
 
-                        {/* RIGHT: Contact + Catalog */}
+                        {/* RIGHT: Search + Contact + Catalog */}
                         <div className="flex items-center gap-2 md:gap-4 pr-1 md:pr-0">
+                            {/* Search Component */}
+                            <SmartSearch />
+
                             <button
                                 onClick={() => setIsContactOpen(true)}
                                 className="flex items-center gap-1.5 text-neutral-700 hover:text-red-700 transition"
@@ -210,7 +211,7 @@ export const HeaderNew: React.FC = () => {
 
                             <Link
                                 href="/catalog"
-                                className="px-6 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl font-medium transition text-sm whitespace-nowrap"
+                                className="hidden md:block px-6 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl font-medium transition text-sm whitespace-nowrap"
                             >
                                 Каталог
                             </Link>

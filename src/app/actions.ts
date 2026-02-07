@@ -70,3 +70,23 @@ export async function deleteProductAction(id: string) {
     revalidatePath("/catalog");
     revalidatePath("/admin");
 }
+
+/**
+ * Search Products Action (Server Side)
+ * Filters products by name or category.
+ */
+import { getProducts } from "@/lib/db";
+
+export async function searchProductsAction(query: string): Promise<Product[]> {
+    if (!query || query.trim().length === 0) return [];
+
+    const allProducts = await getProducts();
+    const lowerQuery = query.toLowerCase().trim();
+
+    // Filter by Name or Category
+    return allProducts.filter(p =>
+        (p.name && p.name.toLowerCase().includes(lowerQuery)) ||
+        (p.category && p.category.toLowerCase().includes(lowerQuery)) ||
+        (p.description && p.description.toLowerCase().includes(lowerQuery))
+    ).slice(0, 5); // Limit to 5 results for performance/UI
+}
