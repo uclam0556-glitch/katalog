@@ -43,7 +43,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     return (
         <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-32">
             {/* Header Spacer - Matching Catalog's compressed feel */}
-            <div className="h-28 md:h-32"></div>
+            <div className="h-32 md:h-40"></div>
 
             {/* Breadcrumbs - Elegant & Minimal */}
             <div className="container mx-auto px-4 md:px-8 max-w-[90rem] mb-8 animate-[fadeIn_0.6s_ease-out]">
@@ -98,12 +98,18 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
 
                             {/* Badges */}
                             <div className="absolute top-6 left-6 flex gap-2">
-                                <span className="bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-lg text-neutral-900">
-                                    New Arrival
-                                </span>
-                                {product.stock > 0 && (
+                                {product.oldPrice && (
+                                    <span className="bg-red-500/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-lg text-white">
+                                        SALE
+                                    </span>
+                                )}
+                                {product.stock > 0 ? (
                                     <span className="bg-green-500/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-lg text-white">
-                                        In Stock
+                                        В наличии
+                                    </span>
+                                ) : (
+                                    <span className="bg-neutral-900/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-lg text-white">
+                                        Под заказ
                                     </span>
                                 )}
                             </div>
@@ -111,12 +117,12 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
 
                         {/* Thumbnails */}
                         {allImages.length > 1 && (
-                            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                            <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
                                 {allImages.map((image, index) => (
                                     <button
                                         key={index}
                                         onClick={() => setSelectedImageIndex(index)}
-                                        className={`relative flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden transition-all duration-300 ${selectedImageIndex === index
+                                        className={`relative flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden transition-all duration-300 ${selectedImageIndex === index
                                             ? "ring-2 ring-amber-500 ring-offset-2 opacity-100 scale-95 shadow-lg"
                                             : "opacity-70 hover:opacity-100 hover:scale-105"
                                             }`}
@@ -136,11 +142,11 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
 
                     {/* RIGHT: DETAILS (5 Cols) - Sticky */}
                     <div className="lg:col-span-5 relative">
-                        <div className="sticky top-32 space-y-10 animate-[fadeIn_0.8s_ease-out_0.2s_forwards] opacity-0">
+                        <div className="sticky top-32 space-y-8 animate-[fadeIn_0.8s_ease-out_0.2s_forwards] opacity-0 pb-10">
 
                             {/* Title Block */}
                             <div className="space-y-4">
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-neutral-900 leading-[1.1]">
+                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-serif text-neutral-900 leading-[1.1]">
                                     {product.name}
                                 </h1>
                                 <div className="flex items-center gap-4 text-sm text-neutral-500">
@@ -150,58 +156,88 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                         ))}
                                     </div>
                                     <span className="w-1 h-1 bg-neutral-300 rounded-full"></span>
-                                    <span>Арт. {product.sku}</span>
+                                    <span>Арт. {product.sku || "—"}</span>
                                 </div>
                             </div>
 
                             {/* Price Block */}
-                            <div className="flex items-baseline gap-6 border-b border-neutral-100 pb-8">
-                                <span className="text-5xl font-light text-neutral-900 tracking-tight">
+                            <div className="flex items-baseline gap-4 border-b border-neutral-100 pb-8">
+                                <span className="text-4xl md:text-5xl font-light text-neutral-900 tracking-tight">
                                     {formatPrice(product.price)}
                                 </span>
-                                <span className="text-lg text-green-600 font-medium px-3 py-1 bg-green-50 rounded-lg">
-                                    Доступно сейчас
-                                </span>
+                                {product.oldPrice && (
+                                    <span className="text-xl text-neutral-400 line-through decoration-red-500/50 decoration-2">
+                                        {formatPrice(product.oldPrice)}
+                                    </span>
+                                )}
                             </div>
 
                             {/* Description */}
                             <div className="prose prose-neutral max-w-none">
-                                <p className="text-neutral-600 text-lg leading-relaxed font-light">
+                                <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-widest mb-3">Описание</h3>
+                                <p className="text-neutral-600 text-base md:text-lg leading-relaxed font-light whitespace-pre-wrap">
                                     {product.description}
                                 </p>
                             </div>
 
-                            {/* Features Grid */}
-                            <div className="grid grid-cols-2 gap-4">
-                                {product.dimensions && (
-                                    <div className="p-4 rounded-2xl bg-white border border-neutral-100 shadow-sm">
-                                        <p className="text-xs text-neutral-400 font-bold uppercase tracking-wider mb-1">Размеры</p>
-                                        <p className="font-medium text-neutral-900">
-                                            {product.dimensions.width}×{product.dimensions.depth}×{product.dimensions.height} см
-                                        </p>
-                                    </div>
-                                )}
-                                {product.materials && (
-                                    <div className="p-4 rounded-2xl bg-white border border-neutral-100 shadow-sm">
-                                        <p className="text-xs text-neutral-400 font-bold uppercase tracking-wider mb-1">Материалы</p>
-                                        <p className="font-medium text-neutral-900">{product.materials[0]}</p>
-                                    </div>
-                                )}
+                            {/* Features Grid - Improved Spacing & Logic */}
+                            <div className="pt-4 border-t border-neutral-100 space-y-6">
+                                <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-widest mb-2">Характеристики</h3>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {/* Dimensions / Colors */}
+                                    {product.colors && product.colors.length > 0 && (
+                                        <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-100">
+                                            <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mb-2">Размеры / Варианты</p>
+                                            <div className="flex flex-wrap gap-2">
+                                                {product.colors.map((color, idx) => (
+                                                    <span key={idx} className="inline-block px-2 py-1 bg-white rounded-md text-sm font-medium text-neutral-900 border border-neutral-200">
+                                                        {color}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Materials */}
+                                    {product.materials && product.materials.length > 0 && (
+                                        <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-100">
+                                            <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mb-2">Материалы</p>
+                                            <div className="flex flex-wrap gap-2">
+                                                {product.materials.map((material, idx) => (
+                                                    <span key={idx} className="inline-block px-2 py-1 bg-white rounded-md text-sm font-medium text-neutral-900 border border-neutral-200">
+                                                        {material}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Fallback for real Dimensions object if present */}
+                                    {product.dimensions && (product.dimensions.width > 0 || product.dimensions.height > 0) && (
+                                        <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-100">
+                                            <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mb-2">Габариты</p>
+                                            <p className="font-medium text-neutral-900">
+                                                {product.dimensions.width} × {product.dimensions.depth} × {product.dimensions.height} см
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
 
                             {/* Benefits */}
-                            <div className="grid grid-cols-2 gap-y-4 text-sm text-neutral-600">
+                            <div className="grid grid-cols-2 gap-y-4 text-sm text-neutral-600 pt-4">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-amber-50 text-amber-600 rounded-full">
                                         <FiShield className="w-4 h-4" />
                                     </div>
-                                    <span>Гарантия 2 года</span>
+                                    <span>Гарантия качества</span>
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <div className="p-2 bg-amber-50 text-amber-600 rounded-full">
                                         <FiTruck className="w-4 h-4" />
                                     </div>
-                                    <span>Быстрая доставка</span>
+                                    <span>Бережная доставка</span>
                                 </div>
                             </div>
 
