@@ -180,7 +180,7 @@ export const HeaderNew: React.FC = () => {
             >
                 <div className="container mx-auto px-4 max-w-7xl">
                     {/* Simple Row: Logo centered, Contact on right */}
-                    <div className="relative flex items-center justify-end h-24">
+                    <div className="relative flex items-center justify-end h-20">
                         {/* CENTER: Logo - Large & Prominent */}
                         <Link
                             href="/"

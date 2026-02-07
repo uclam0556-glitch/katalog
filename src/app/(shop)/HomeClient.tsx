@@ -21,7 +21,7 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
     };
 
     return (
-        <div className="min-h-screen bg-white pt-32">
+        <div className="min-h-screen bg-white pt-24">
             {/* Hero Slider */}
             <HeroSlider />
 
