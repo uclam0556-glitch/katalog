@@ -80,17 +80,17 @@ export default function ProductForm({ initialData }: ProductFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="min-h-screen bg-[#FDFCFB] pb-64 md:pb-32 animate-[fadeIn_0.4s_ease-out]">
+        <form onSubmit={handleSubmit} className="min-h-screen bg-[#FDFCFB] pb-96 md:pb-32 animate-[fadeIn_0.4s_ease-out]">
 
             {/* Header / Nav */}
-            <div className="fixed top-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-xl z-40 border-b border-neutral-100 flex items-center justify-between px-4 md:px-8">
+            <div className="fixed top-0 left-0 right-0 h-20 bg-white/90 backdrop-blur-xl z-[60] border-b border-neutral-100 flex items-center justify-between px-4 md:px-8 safe-area-top shadow-sm">
                 <div className="flex items-center gap-4">
                     <button type="button" onClick={() => router.back()} className="w-10 h-10 bg-neutral-100 hover:bg-neutral-200 rounded-full flex items-center justify-center transition-colors">
                         <FiChevronLeft className="w-5 h-5" />
                     </button>
                     <div>
                         <h1 className="text-lg md:text-xl font-bold font-serif text-neutral-900">
-                            {initialData ? "Редактирование товара" : "Новый шедевр"}
+                            {initialData ? "Редактирование" : "Новый товар"}
                         </h1>
                         <p className="text-xs text-neutral-400 hidden md:block">Заполните детали для каталога</p>
                     </div>
@@ -102,7 +102,8 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                 </div>
             </div>
 
-            <div className="h-28 md:h-32"></div>
+            {/* Spacer to push content below fixed header */}
+            <div className="h-24 md:h-32"></div>
 
             <div className="container mx-auto px-4 md:px-8 max-w-[90rem]">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
@@ -331,21 +332,22 @@ export default function ProductForm({ initialData }: ProductFormProps) {
             </div>
 
             {/* Sticky Action Bar - Premium Glassmorphism */}
-            <div className="fixed bottom-6 left-4 right-4 md:left-auto md:right-8 md:w-auto z-50 flex flex-col md:flex-row gap-3">
+            <div className="fixed bottom-0 left-0 right-0 p-4 md:left-auto md:right-8 md:w-auto md:bottom-6 z-50 flex flex-col md:flex-row gap-3 bg-white/80 backdrop-blur-xl border-t border-neutral-200 md:bg-transparent md:border-none md:p-0 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] md:shadow-none safe-area-bottom">
+
                 {/* Mobile Preview Button */}
                 <button
                     type="button"
-                    className="md:hidden w-full h-14 bg-white/90 backdrop-blur-xl border border-neutral-200 rounded-2xl font-bold text-neutral-900 shadow-lg flex items-center justify-center gap-2"
+                    className="md:hidden w-full h-12 bg-white border border-neutral-200 rounded-xl font-bold text-neutral-900 shadow-sm flex items-center justify-center gap-2"
                 >
                     <FiEye className="w-5 h-5" />
                     Предпросмотр
                 </button>
 
-                <div className="flex gap-3 bg-neutral-900/5 backdrop-blur-sm p-2 rounded-[1.5rem] md:bg-transparent md:p-0 md:backdrop-blur-none" >
+                <div className="flex gap-3 w-full md:w-auto">
                     {initialData && (
                         <button
                             type="button"
-                            className="w-14 h-14 bg-white text-red-500 rounded-2xl hover:bg-red-50 hover:scale-105 transition-all flex items-center justify-center shadow-lg shadow-neutral-200/50 border border-neutral-100"
+                            className="w-12 h-12 md:w-14 md:h-14 bg-white text-red-500 rounded-xl md:rounded-2xl hover:bg-red-50 hover:scale-105 transition-all flex items-center justify-center shadow-lg shadow-neutral-200/50 border border-neutral-100"
                             title="Удалить"
                         >
                             <FiTrash2 className="w-6 h-6" />
@@ -355,7 +357,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="flex-1 md:flex-none h-14 px-8 bg-neutral-900 text-white rounded-2xl font-bold text-lg hover:bg-black hover:scale-105 hover:shadow-2xl hover:shadow-neutral-900/30 transition-all flex items-center justify-center gap-3 active:scale-95"
+                        className="flex-1 h-12 md:h-14 px-8 bg-neutral-900 text-white rounded-xl md:rounded-2xl font-bold text-lg hover:bg-black hover:scale-105 hover:shadow-2xl hover:shadow-neutral-900/30 transition-all flex items-center justify-center gap-3 active:scale-95 shadow-lg shadow-neutral-900/20"
                     >
                         {loading ? "..." : <FiSave className="w-5 h-5" />}
                         <span>{initialData ? "Сохранить" : "Опубликовать"}</span>
