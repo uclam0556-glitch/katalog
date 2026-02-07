@@ -21,12 +21,12 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     }
 
     return {
-        title: `${product.name} - амэа`,
-        description: product.description,
+        title: `${product.name || "Товар"} - амэа`,
+        description: product.description || "Описание товара",
         openGraph: {
-            title: product.name,
-            description: product.description,
-            images: [product.thumbnail],
+            title: product.name || "Товар",
+            description: product.description || "Описание товара",
+            images: product.thumbnail ? [product.thumbnail] : [],
         },
     };
 }

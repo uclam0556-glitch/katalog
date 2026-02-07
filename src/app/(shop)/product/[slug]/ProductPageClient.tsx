@@ -23,9 +23,15 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const allImages = React.useMemo(() => {
-        return product.images && product.images.length > 0
-            ? product.images
-            : [product.thumbnail];
+        const images = product.images && Array.isArray(product.images) && product.images.length > 0
+            ? product.images.filter(img => img && typeof img === 'string' && img.trim() !== "")
+            : [];
+
+        if (images.length > 0) return images;
+
+        return product.thumbnail && typeof product.thumbnail === 'string' && product.thumbnail.trim() !== ""
+            ? [product.thumbnail]
+            : ["/placeholder.svg"]; // Fallback to prevent crash
     }, [product]);
 
     const handleOrder = () => {
@@ -321,7 +327,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                     </button>
                     <div className="relative w-full h-full flex items-center justify-center">
                         <img
-                            src={allImages[selectedImageIndex]}
+                            src={allImages[selectedImageIndex] || "/placeholder.svg"}
                             className="max-w-full max-h-full object-contain"
                             alt="Full screen"
                         />

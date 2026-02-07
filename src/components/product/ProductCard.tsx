@@ -26,8 +26,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {/* Image Container */}
             <div className="relative aspect-[4/3] bg-neutral-100 overflow-hidden">
                 <Image
-                    src={product.thumbnail}
-                    alt={product.name}
+                    src={product.thumbnail || "/placeholder.svg"}
+                    alt={product.name || "Product"}
                     fill
                     className={cn(
                         "object-cover transition-all duration-500",
