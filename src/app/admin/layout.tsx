@@ -14,7 +14,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 <TopNav />
 
                 {/* Main Content */}
-                <main className="pt-20 md:pt-28 min-h-screen pb-10">
+                <main className="pt-32 md:pt-28 min-h-screen pb-10">
                     <div className="container mx-auto px-4 md:px-6 max-w-7xl animate-[fadeIn_0.5s_ease-out]">
                         {children}
                     </div>
