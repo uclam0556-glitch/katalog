@@ -205,79 +205,88 @@ export default function SupabaseUploader({ images, onChange, maxImages = 5 }: Su
                 )}
             </div>
 
-            {/* Image Previews */}
+            {/* Image Previews - Magazine Layout */}
             {images.length > 0 && (
-                <div className="grid grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 animate-[fadeIn_0.3s_ease-out]">
-                    {images.map((url, index) => (
-                        <div
-                            key={url}
-                            className="relative aspect-square bg-white rounded-xl overflow-hidden group border border-neutral-200 shadow-sm hover:shadow-md transition-all"
-                        >
-                            <Image
-                                src={url}
-                                alt={`Фото ${index + 1}`}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-110"
-                                unoptimized
-                            />
-
-                            {/* Main Badge */}
-                            {index === 0 && (
-                                <div className="absolute top-2 left-2 bg-neutral-900/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm z-10">
-                                    ОБЛОЖКА
-                                </div>
-                            )}
-
-                            {/* Overlay Controls (Delete & Move) */}
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-2">
-                                {/* Move Buttons */}
-                                <div className="flex gap-2">
-                                    {index > 0 && (
-                                        <button
-                                            type="button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const newImages = [...images];
-                                                [newImages[index - 1], newImages[index]] = [newImages[index], newImages[index - 1]];
-                                                onChange(newImages);
-                                            }}
-                                            className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-neutral-800 hover:bg-white transition-colors"
-                                            title="Сдвинуть влево"
-                                        >
-                                            ←
-                                        </button>
-                                    )}
-                                    {index < images.length - 1 && (
-                                        <button
-                                            type="button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const newImages = [...images];
-                                                [newImages[index], newImages[index + 1]] = [newImages[index + 1], newImages[index]];
-                                                onChange(newImages);
-                                            }}
-                                            className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-neutral-800 hover:bg-white transition-colors"
-                                            title="Сдвинуть вправо"
-                                        >
-                                            →
-                                        </button>
-                                    )}
-                                </div>
-
-                                {/* Delete Button */}
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        removeImage(index);
-                                    }}
-                                    className="px-3 py-1 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-700 transition-colors"
-                                    type="button"
-                                >
-                                    Удалить
-                                </button>
-                            </div>
+                <div className="space-y-4 animate-[fadeIn_0.3s_ease-out]">
+                    {/* Main Cover Image (Hero) */}
+                    <div className="relative aspect-[4/3] w-full bg-white rounded-2xl overflow-hidden border-2 border-neutral-200 shadow-sm group">
+                        <Image
+                            src={images[0]}
+                            alt="Обложка"
+                            fill
+                            className="object-contain"
+                            unoptimized
+                        />
+                        <div className="absolute top-4 left-4 bg-neutral-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-md z-10">
+                            ГЛАВНАЯ ОБЛОЖКА
                         </div>
-                    ))}
+
+                        {/* Remove Button for Cover */}
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button
+                                onClick={() => removeImage(0)}
+                                className="bg-white text-red-600 px-4 py-2 rounded-xl font-bold hover:bg-red-50 hover:scale-105 transition-all shadow-lg"
+                                type="button"
+                            >
+                                Удалить фото
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Additional Images Grid */}
+                    {images.length > 1 && (
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            {images.slice(1).map((url, i) => {
+                                const realIndex = i + 1;
+                                return (
+                                    <div
+                                        key={url}
+                                        className="relative aspect-[4/3] bg-white rounded-xl overflow-hidden group border border-neutral-200 shadow-sm hover:shadow-md transition-all"
+                                    >
+                                        <Image
+                                            src={url}
+                                            alt={`Фото ${realIndex + 1}`}
+                                            fill
+                                            className="object-contain" // Changed to contain as requested
+                                            unoptimized
+                                        />
+
+                                        {/* Overlay Controls */}
+                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-2">
+                                            {/* Move Buttons */}
+                                            <div className="flex gap-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        const newImages = [...images];
+                                                        // Swap with previous (index - 1)
+                                                        [newImages[realIndex - 1], newImages[realIndex]] = [newImages[realIndex], newImages[realIndex - 1]];
+                                                        onChange(newImages);
+                                                    }}
+                                                    className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-neutral-800 hover:bg-white transition-colors"
+                                                    title="Сделать обложкой"
+                                                >
+                                                    ↑
+                                                </button>
+                                            </div>
+
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    removeImage(realIndex);
+                                                }}
+                                                className="px-3 py-1 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-700 transition-colors"
+                                                type="button"
+                                            >
+                                                Удалить
+                                            </button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
             )}
         </div>
