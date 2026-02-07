@@ -72,7 +72,10 @@ export default function AdminDashboardClient({ initialProducts }: Props) {
     }, [products, searchQuery, selectedCategory, sortBy]);
 
     return (
-        <div className="min-h-screen pb-20 pt-4 px-2 md:px-0">
+        <div className="min-h-screen pb-20 px-2 md:px-0">
+            {/* Mobile Header Spacer - Explicit Fix */}
+            <div className="h-32 md:hidden"></div>
+
             {/* Stats Cards - Horizontal Scroll on Mobile */}
             <div className="flex overflow-x-auto snap-x snap-mandatory pb-4 mb-4 gap-3 md:grid md:grid-cols-4 md:gap-4 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
                 <div className="min-w-[160px] md:min-w-0 snap-center">
