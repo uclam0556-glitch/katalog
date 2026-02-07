@@ -85,64 +85,101 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
             <div className="container-custom max-w-[90rem]">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-16">
 
-                    {/* --- LEFT COLUMN: IMMERSIVE GALLERY --- */}
+                    {/* --- LEFT COLUMN: IMMERSIVE GALLERY (Zara Home Style) --- */}
                     <div className="lg:col-span-7 relative">
-                        {/* Mobile: Full Screen Scroll Snap Swiper */}
-                        {/* Desktop: Sticky Gallery */}
-                        <div className="sticky top-0 lg:top-32 h-[65vh] lg:h-[calc(100vh-160px)] w-[calc(100%+2.25rem)] -mx-[1.125rem] lg:w-full lg:mx-0 bg-white lg:rounded-[2.5rem] overflow-hidden">
+                        {/* 
+                           MOBILE: Aspect Ratio Slider 
+                           - Clean 4:3 ratio (best for furniture)
+                           - Snap scroll
+                           - White background
+                           - Object Contain (No cropping)
+                        */}
+                        <div className="lg:hidden w-full bg-white">
+                            <div className="relative aspect-[4/3] w-full overflow-hidden">
+                                <div
+                                    ref={scrollContainerRef}
+                                    onScroll={handleScroll}
+                                    className="flex h-full w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide no-scrollbar"
+                                >
+                                    {allImages.map((img, idx) => (
+                                        <div key={idx} className="flex-shrink-0 w-full h-full snap-center relative flex items-center justify-center p-4">
+                                            <Image
+                                                src={img}
+                                                alt={`${product.name} - View ${idx + 1}`}
+                                                fill
+                                                className="object-contain"
+                                                priority={idx === 0}
+                                                onClick={() => setLightboxOpen(true)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
 
-                            <div
-                                ref={scrollContainerRef}
-                                onScroll={handleScroll}
-                                className="flex h-full w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide no-scrollbar"
-                            >
-                                {allImages.map((img, idx) => (
-                                    <div key={idx} className="flex-shrink-0 w-full h-full snap-center relative">
-                                        <Image
-                                            src={img}
-                                            alt={`${product.name} - View ${idx + 1}`}
-                                            fill
-                                            className="object-contain"
-                                            priority={idx === 0}
-                                            onClick={() => setLightboxOpen(true)}
+                                {/* Premium Pagination Dots */}
+                                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 pointer-events-none">
+                                    {allImages.map((_, idx) => (
+                                        <div
+                                            key={idx}
+                                            className={cn(
+                                                "w-1.5 h-1.5 rounded-full transition-all duration-300 shadow-sm",
+                                                selectedImageIndex === idx
+                                                    ? "bg-neutral-900 w-4"
+                                                    : "bg-neutral-300"
+                                            )}
                                         />
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
+                        </div>
 
-                            {/* Pagination Dots (Mobile Overlay) */}
-                            <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-2 lg:hidden z-10">
-                                {allImages.map((_, idx) => (
-                                    <div
-                                        key={idx}
-                                        className={cn(
-                                            "w-2 h-2 rounded-full transition-all duration-300",
-                                            selectedImageIndex === idx ? "bg-white w-6" : "bg-white/40"
-                                        )}
+                        {/* 
+                           DESKTOP: Sticky Grid / Main + Thumbs 
+                           - Large main image
+                           - Clean clean white canvas
+                        */}
+                        <div className="hidden lg:block sticky top-32">
+                            <div className="bg-white rounded-[2rem] overflow-hidden border border-neutral-100 shadow-sm">
+                                {/* Main Image Display */}
+                                <div className="relative aspect-[4/3] w-full bg-white p-8 cursor-zoom-in" onClick={() => setLightboxOpen(true)}>
+                                    <Image
+                                        src={allImages[selectedImageIndex]}
+                                        alt={product.name}
+                                        fill
+                                        className="object-contain transition-transform duration-500 hover:scale-105"
+                                        priority
                                     />
-                                ))}
-                            </div>
+                                </div>
 
-                            {/* Desktop Thumbs (Floating) */}
-                            <div className="hidden lg:flex absolute bottom-8 left-1/2 -translate-x-1/2 gap-3 p-2 bg-white/80 backdrop-blur-md rounded-full border border-white/50 shadow-lg z-20">
-                                {allImages.map((img, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => scrollToImage(idx)}
-                                        className={cn(
-                                            "relative w-12 h-12 rounded-full overflow-hidden transition-all border-2",
-                                            selectedImageIndex === idx ? "border-neutral-900 scale-110" : "border-transparent opacity-70 hover:opacity-100"
-                                        )}
-                                    >
-                                        <Image src={img} alt="thumb" fill className="object-cover" />
-                                    </button>
-                                ))}
+                                {/* Thumbnails Strip */}
+                                {allImages.length > 1 && (
+                                    <div className="flex gap-4 p-6 border-t border-neutral-100 overflow-x-auto">
+                                        {allImages.map((img, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => scrollToImage(idx)}
+                                                className={cn(
+                                                    "relative w-20 h-20 rounded-xl overflow-hidden border-2 flex-shrink-0 transition-all bg-white p-2",
+                                                    selectedImageIndex === idx
+                                                        ? "border-neutral-900 opacity-100"
+                                                        : "border-transparent opacity-60 hover:opacity-100 hover:bg-neutral-50"
+                                                )}
+                                            >
+                                                <Image
+                                                    src={img}
+                                                    alt="thumb"
+                                                    fill
+                                                    className="object-contain"
+                                                />
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
 
                     {/* --- RIGHT COLUMN: CONTENT (Floating Sheet on Mobile) --- */}
-                    <div className="lg:col-span-5 relative z-10 -mt-12 lg:mt-0 mb-32">
+                    <div className="lg:col-span-5 relative z-10 mt-4 lg:mt-0 mb-32">
                         <div className="bg-white rounded-[2rem] lg:rounded-none px-6 py-10 lg:px-0 lg:py-4 shadow-xl shadow-neutral-200/50 lg:shadow-none min-h-[50vh] animate-[slideUp_0.5s_ease-out]">
 
                             {/* Breadcrumbs (Desktop Only) */}
