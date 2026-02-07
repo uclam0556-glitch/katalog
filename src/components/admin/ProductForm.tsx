@@ -135,7 +135,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                             {/* 2. Live Preview Card */}
                             <div className="hidden lg:block">
                                 <h3 className="text-sm font-bold text-neutral-400 uppercase tracking-widest mb-4 pl-2">Предпросмотр</h3>
-                                <div className="w-full max-w-sm mx-auto bg-white rounded-lg overflow-hidden shadow-lg transform transition-all hover:scale-[1.02] duration-500">
+                                <div className="w-full bg-white rounded-lg overflow-hidden shadow-lg transform transition-all hover:scale-[1.02] duration-500">
                                     <div className="relative aspect-[4/3] bg-neutral-100">
                                         {images[0] ? (
                                             <Image src={images[0]} alt="Preview" fill className="object-contain" />
