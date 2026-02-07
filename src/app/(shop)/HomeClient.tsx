@@ -30,7 +30,7 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
 
             {/* Featured Products */}
             <section className="py-10 md:py-20 bg-white">
-                <div className="container mx-auto px-4 md:px-8 lg:px-12 max-w-6xl">
+                <div className="container-custom max-w-6xl">
                     <div className="text-center mb-8 md:mb-12">
                         <h2 className="text-2xl md:text-4xl font-bold text-neutral-900 mb-2 md:mb-4">
                             Популярные товары
@@ -55,7 +55,7 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
 
             {/* Benefits Bar - After products */}
             <section className="py-6 md:py-8 bg-neutral-50">
-                <div className="container mx-auto px-4 max-w-5xl">
+                <div className="container-custom max-w-5xl">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
                         <div className="flex items-center gap-3 justify-center md:justify-start">
                             <div className="w-12 h-12 md:w-14 md:h-14 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">

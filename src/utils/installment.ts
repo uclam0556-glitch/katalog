@@ -9,13 +9,14 @@ export interface InstallmentPlan {
 
 // Rates with 20% Down Payment
 export const RATES_WITH_DOWNPAYMENT: InstallmentPlan[] = [
-    { months: 4, markup: 14 },
-    { months: 5, markup: 15 },
-    { months: 6, markup: 16 },
-    { months: 7, markup: 17 },
-    { months: 8, markup: 18 },
-    { months: 9, markup: 23 },
-    { months: 10, markup: 25 },
+    { months: 3, markup: 15 },
+    { months: 4, markup: 16 },
+    { months: 5, markup: 17 },
+    { months: 6, markup: 18 },
+    { months: 7, markup: 23 },
+    { months: 8, markup: 25 },
+    { months: 9, markup: 28 },
+    { months: 10, markup: 30 },
 ];
 
 // Rates without Down Payment

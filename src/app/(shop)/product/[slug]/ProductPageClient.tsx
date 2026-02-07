@@ -82,7 +82,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
             {/* Desktop Header Spacer */}
             <div className="hidden md:block h-32 md:h-40"></div>
 
-            <div className="md:container md:mx-auto md:px-6 lg:px-12 max-w-[90rem]">
+            <div className="container-custom max-w-[90rem]">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-16">
 
                     {/* --- LEFT COLUMN: IMMERSIVE GALLERY --- */}
@@ -144,7 +144,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                     </div>
 
                     {/* --- RIGHT COLUMN: CONTENT (Floating Sheet on Mobile) --- */}
-                    <div className="lg:col-span-5 relative z-10 -mt-12 lg:mt-0 px-4 md:px-0 mb-32">
+                    <div className="lg:col-span-5 relative z-10 -mt-12 lg:mt-0 mb-32">
                         <div className="bg-white rounded-[2rem] lg:rounded-none px-6 py-10 lg:px-0 lg:py-4 shadow-xl shadow-neutral-200/50 lg:shadow-none min-h-[50vh] animate-[slideUp_0.5s_ease-out]">
 
                             {/* Breadcrumbs (Desktop Only) */}

@@ -164,7 +164,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                 </div>
 
                 {/* Content */}
-                <div className="relative h-full container mx-auto px-4 md:px-6 lg:px-12 flex flex-col justify-center max-w-7xl">
+                <div className="relative h-full container-custom flex flex-col justify-center max-w-7xl">
                     <div className="max-w-2xl opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-xs font-medium tracking-widest uppercase mb-6">
                             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
@@ -206,7 +206,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
             </div>
 
             {/* CATALOG BODY */}
-            <div className="container mx-auto px-4 md:px-6 max-w-7xl py-12 md:py-20">
+            <div className="container-custom max-w-7xl py-12 md:py-20">
                 <div className="lg:hidden mb-8">
                     <button
                         onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
