@@ -80,7 +80,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
     };
 
     return (
-    return (
+
         <form onSubmit={handleSubmit} className="min-h-screen bg-[#FDFCFB] pb-[30rem] md:pb-32 animate-[fadeIn_0.4s_ease-out]">
 
             {/* Header / Nav - Changed from fixed to Sticky to respect layout flow */}
