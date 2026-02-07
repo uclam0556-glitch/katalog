@@ -30,7 +30,7 @@ const slides: Slide[] = [
     {
         id: 2,
         title: "Бесплатная доставка",
-        subtitle: "При заказе от 50 000₽",
+        subtitle: "При заказе от 150 000₽",
         image: "/hero_slide_bedroom.png",
     },
     {

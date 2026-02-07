@@ -80,7 +80,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                     <div className="lg:col-span-7 relative">
                         {/* Mobile: Full Screen Scroll Snap Swiper */}
                         {/* Desktop: Sticky Gallery */}
-                        <div className="sticky top-0 lg:top-32 h-[85vh] lg:h-[calc(100vh-160px)] w-full bg-neutral-100 lg:rounded-[2.5rem] overflow-hidden">
+                        <div className="sticky top-0 lg:top-32 h-[55vh] lg:h-[calc(100vh-160px)] w-full bg-neutral-100 lg:rounded-[2.5rem] overflow-hidden">
 
                             <div
                                 ref={scrollContainerRef}
@@ -93,18 +93,18 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                             src={img}
                                             alt={`${product.name} - View ${idx + 1}`}
                                             fill
-                                            className="object-contain md:object-cover"
+                                            className="object-contain p-4 md:p-0 md:object-cover"
                                             priority={idx === 0}
                                             onClick={() => setLightboxOpen(true)}
                                         />
                                         {/* Mobile Bottom Gradient for Text Readability */}
-                                        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/60 to-transparent lg:hidden pointer-events-none" />
+                                        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/40 to-transparent lg:hidden pointer-events-none" />
                                     </div>
                                 ))}
                             </div>
 
                             {/* Pagination Dots (Mobile Overlay) */}
-                            <div className="absolute bottom-32 left-0 right-0 flex justify-center gap-2 lg:hidden z-10">
+                            <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-2 lg:hidden z-10">
                                 {allImages.map((_, idx) => (
                                     <div
                                         key={idx}
@@ -135,8 +135,8 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                     </div>
 
                     {/* --- RIGHT COLUMN: CONTENT (Floating Sheet on Mobile) --- */}
-                    <div className="lg:col-span-5 relative z-10 -mt-24 lg:mt-0">
-                        <div className="bg-white rounded-t-[2.5rem] lg:rounded-none px-6 py-10 lg:px-0 lg:py-4 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] lg:shadow-none min-h-[50vh] animate-[slideUp_0.5s_ease-out]">
+                    <div className="lg:col-span-5 relative z-10 -mt-12 lg:mt-0 px-4 md:px-0 mb-24">
+                        <div className="bg-white rounded-[2rem] lg:rounded-none px-6 py-8 lg:px-0 lg:py-4 shadow-xl shadow-neutral-200/50 lg:shadow-none min-h-[50vh] animate-[slideUp_0.5s_ease-out]">
 
                             {/* Breadcrumbs (Desktop Only) */}
                             <div className="hidden lg:flex items-center gap-2 text-sm text-neutral-400 mb-8 uppercase tracking-wider font-medium">
@@ -146,9 +146,9 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                             </div>
 
                             {/* Header Info */}
-                            <div className="mb-8">
+                            <div className="mb-10">
                                 <div className="flex justify-between items-start gap-4 mb-4">
-                                    <h1 className="text-3xl md:text-5xl font-bold font-serif text-neutral-900 leading-tight">
+                                    <h1 className="text-2xl md:text-5xl font-bold font-serif text-neutral-900 leading-tight">
                                         {product.name}
                                     </h1>
                                     {product.oldPrice && product.oldPrice > product.price && (
@@ -172,12 +172,12 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                     </span>
                                 </div>
 
-                                <div className="flex items-baseline gap-3">
-                                    <span className="text-4xl font-light text-neutral-900 tracking-tight">
+                                <div className="flex items-baseline gap-3 mb-8">
+                                    <span className="text-3xl md:text-4xl font-light text-neutral-900 tracking-tight">
                                         {formatPrice(product.price)}
                                     </span>
                                     {product.oldPrice && (
-                                        <span className="text-xl text-neutral-400 line-through">
+                                        <span className="text-lg md:text-xl text-neutral-400 line-through">
                                             {formatPrice(product.oldPrice)}
                                         </span>
                                     )}
@@ -185,7 +185,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                             </div>
 
                             {/* Actions (Desktop) */}
-                            <div className="hidden lg:flex gap-4 mb-10 border-b border-neutral-100 pb-10">
+                            <div className="hidden lg:flex gap-4 mb-12 border-b border-neutral-100 pb-10">
                                 <button
                                     onClick={handleOrder}
                                     className="flex-1 h-14 bg-neutral-900 text-white rounded-xl font-bold hover:bg-black transition-transform active:scale-95 flex items-center justify-center gap-2"
@@ -199,7 +199,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                             </div>
 
                             {/* Description */}
-                            <div className="mb-10">
+                            <div className="mb-12">
                                 <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-4">О модели</h3>
                                 <div className={cn("prose prose-neutral max-w-none text-neutral-600 font-light leading-relaxed", !showFullDesc && "line-clamp-4 lg:line-clamp-none")}>
                                     {product.description}
@@ -213,7 +213,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                             </div>
 
                             {/* Characteristics Grid */}
-                            <div className="grid grid-cols-2 gap-4 mb-10">
+                            <div className="grid grid-cols-2 gap-4 mb-12">
                                 {product.dimensions && (
                                     <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
                                         <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Размеры</p>
@@ -223,17 +223,13 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                     </div>
                                 )}
                                 {product.materials && product.materials.length > 0 && (
-                                    <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
+                                    <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100 col-span-2">
                                         <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Материал</p>
-                                        <p className="font-medium text-neutral-900 truncate">
+                                        <p className="font-medium text-neutral-900">
                                             {product.materials.join(", ")}
                                         </p>
                                     </div>
                                 )}
-                                <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
-                                    <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Артикул</p>
-                                    <p className="font-medium text-neutral-900">{product.sku || "—"}</p>
-                                </div>
                                 <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
                                     <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Гарантия</p>
                                     <p className="font-medium text-neutral-900">12 мес.</p>
@@ -248,7 +244,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                     </div>
                                     <div>
                                         <p className="font-bold text-sm">Быстрая доставка</p>
-                                        <p className="text-xs text-neutral-500">По Махачкале и Дагестану</p>
+                                        <p className="text-xs text-neutral-500">По Грозному и Чеченской Республике</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4 p-4 border border-neutral-100 rounded-2xl">

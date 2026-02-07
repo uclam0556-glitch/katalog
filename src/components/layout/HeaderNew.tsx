@@ -180,14 +180,14 @@ export const HeaderNew: React.FC = () => {
             >
                 <div className="container mx-auto px-4 max-w-7xl">
                     {/* Simple Row: Logo centered, Contact on right */}
-                    <div className="relative flex items-center justify-end h-20">
+                    <div className="relative flex items-center justify-end h-16">
                         {/* CENTER: Logo - Large & Prominent */}
                         <Link
                             href="/"
                             className="absolute left-1/2 -translate-x-1/2 hover:opacity-80 transition"
                         >
                             <h1
-                                className="text-3xl md:text-4xl font-black tracking-tight"
+                                className="text-2xl md:text-3xl font-black tracking-tight"
                                 style={{
                                     color: "#991B1B",
                                     fontFamily: "var(--font-serif)",
@@ -198,18 +198,18 @@ export const HeaderNew: React.FC = () => {
                         </Link>
 
                         {/* RIGHT: Contact + Catalog */}
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2 md:gap-4 pr-1 md:pr-0">
                             <button
                                 onClick={() => setIsContactOpen(true)}
                                 className="flex items-center gap-1.5 text-neutral-700 hover:text-red-700 transition"
                             >
-                                <FiPhone className="w-4 h-4" />
+                                <FiPhone className="w-5 h-5" />
                                 <span className="text-sm font-medium hidden sm:inline">Контакты</span>
                             </button>
 
                             <Link
                                 href="/catalog"
-                                className="px-5 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl font-medium transition text-sm"
+                                className="px-6 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl font-medium transition text-sm whitespace-nowrap"
                             >
                                 Каталог
                             </Link>
