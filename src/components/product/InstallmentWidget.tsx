@@ -7,7 +7,7 @@ import {
     RATES_WITH_DOWNPAYMENT,
     RATES_NO_DOWNPAYMENT
 } from "@/utils/installment";
-import { FiPercent } from "react-icons/fi";
+import { FiInfo } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { Product } from "@/types/product";
 
@@ -19,15 +19,11 @@ interface InstallmentWidgetProps {
 export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) => {
     // State
     const [hasDownPayment, setHasDownPayment] = useState(true);
-
-    // Initial months selection based on mode
     const [months, setMonths] = useState(6);
 
     // Handlers
     const handleModeChange = (withDownPayment: boolean) => {
         setHasDownPayment(withDownPayment);
-
-        // Smartly switch months if current selection is invalid for new mode
         const newRates = withDownPayment ? RATES_WITH_DOWNPAYMENT : RATES_NO_DOWNPAYMENT;
         const currentExists = newRates.find(r => r.months === months);
 
@@ -64,77 +60,55 @@ export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) =>
     };
 
     return (
-        <div className="relative group rounded-[2.5rem] p-1 bg-gradient-to-br from-neutral-200 via-neutral-100 to-white shadow-2xl shadow-neutral-200/50 my-12 overflow-hidden transform transition-all hover:scale-[1.01]">
-            {/* Decorative Background Elements */}
-            <div className="absolute inset-0 bg-white/60 backdrop-blur-xl z-0" />
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-100/40 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none animate-pulse" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-100/40 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none" />
-
-            <div className="relative z-10 bg-white/40 backdrop-blur-md rounded-[2.2rem] p-6 md:p-8 border border-white/50">
-                {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white shadow-lg shadow-emerald-200 transform rotate-3">
-                            <FiPercent className="w-6 h-6" />
-                        </div>
-                        <div>
-                            <h3 className="font-serif font-bold text-2xl text-neutral-900 leading-none tracking-tight">Рассрочка &quot;Тешам&quot;</h3>
-                            <p className="text-sm text-neutral-500 mt-1 font-medium">Без скрытых комиссий • Халяль</p>
-                        </div>
+        <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden my-6">
+            {/* Header Area */}
+            <div className="bg-neutral-50/50 px-5 py-4 border-b border-neutral-100 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 bg-black text-white rounded-lg flex items-center justify-center shadow-md">
+                        <span className="font-serif font-bold text-lg leading-none">%</span>
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-neutral-900 text-sm leading-tight">Рассрочка Тешам</h3>
+                        <p className="text-[10px] text-neutral-500 font-medium uppercase tracking-wide">Халяль • Без штрафов</p>
                     </div>
                 </div>
-
-                {/* Mode Toggle - Glassmorphism */}
-                <div className="flex bg-neutral-900/5 p-1.5 rounded-2xl mb-8 relative overflow-hidden">
-                    <div
-                        className={cn(
-                            "absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white rounded-xl shadow-md transition-all duration-500 ease-out",
-                            hasDownPayment ? "left-1.5" : "translate-x-[100%] left-1.5"
-                        )}
-                    />
+                {/* Compact Toggle */}
+                <div className="flex bg-neutral-200/50 p-1 rounded-lg">
                     <button
                         onClick={() => handleModeChange(true)}
                         className={cn(
-                            "flex-1 py-3 text-sm font-bold rounded-xl transition-all duration-300 relative z-10",
-                            hasDownPayment
-                                ? "text-neutral-900"
-                                : "text-neutral-500 hover:text-neutral-700"
+                            "px-3 py-1.5 text-[11px] font-bold rounded-md transition-all duration-200",
+                            hasDownPayment ? "bg-white text-neutral-900 shadow-sm scale-105" : "text-neutral-500 hover:text-neutral-700"
                         )}
                     >
-                        С взносом (20%)
+                        С взносом
                     </button>
                     <button
                         onClick={() => handleModeChange(false)}
                         className={cn(
-                            "flex-1 py-3 text-sm font-bold rounded-xl transition-all duration-300 relative z-10",
-                            !hasDownPayment
-                                ? "text-neutral-900"
-                                : "text-neutral-500 hover:text-neutral-700"
+                            "px-3 py-1.5 text-[11px] font-bold rounded-md transition-all duration-200",
+                            !hasDownPayment ? "bg-white text-neutral-900 shadow-sm scale-105" : "text-neutral-500 hover:text-neutral-700"
                         )}
                     >
                         Без взноса
                     </button>
                 </div>
+            </div>
 
-                {/* Months Selector */}
-                <div className="mb-10">
-                    <div className="flex justify-between items-end mb-4 px-1">
-                        <p className="text-xs text-neutral-400 font-bold uppercase tracking-wider">Выберите срок</p>
-                        <span className="text-sm font-serif italic text-neutral-900">
-                            {months} месяцев
-                        </span>
-                    </div>
-
-                    <div className="flex flex-wrap gap-2.5">
+            <div className="p-5">
+                {/* Month Slider (Horizontal Scroll) */}
+                <div className="mb-6">
+                    <p className="text-[10px] uppercase font-bold text-neutral-400 mb-2">Срок рассрочки (месяцев)</p>
+                    <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-1 px-1">
                         {availableMonths.map((m) => (
                             <button
                                 key={m}
                                 onClick={() => setMonths(m)}
                                 className={cn(
-                                    "w-12 h-12 rounded-2xl text-sm font-bold flex items-center justify-center transition-all duration-300 border",
+                                    "flex-shrink-0 w-9 h-9 rounded-lg text-xs font-bold flex items-center justify-center transition-all border",
                                     months === m
-                                        ? "bg-neutral-900 text-white border-neutral-900 shadow-xl shadow-neutral-900/20 scale-110 -translate-y-1"
-                                        : "bg-white text-neutral-500 border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 hover:-translate-y-0.5"
+                                        ? "bg-neutral-900 text-white border-neutral-900 shadow-md transform -translate-y-0.5"
+                                        : "bg-white text-neutral-500 border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50"
                                 )}
                             >
                                 {m}
@@ -143,52 +117,37 @@ export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) =>
                     </div>
                 </div>
 
-                {/* Application Summary - The "Card" Look */}
-                <div className="bg-gradient-to-br from-neutral-50 to-neutral-100 rounded-3xl p-6 mb-8 border border-white shadow-inner relative overflow-hidden">
-                    {/* Glossy shine */}
-                    <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-white/50 to-transparent pointer-events-none" />
+                {/* Main Calculation - Compact Row */}
+                <div className="flex items-end justify-between mb-6">
+                    <div>
+                        <p className="text-xs text-neutral-500 mb-1">Ежемесячный платеж</p>
+                        <p className="text-2xl font-serif font-bold text-neutral-900 leading-none tracking-tight">
+                            {formatPrice(result.monthlyPayment)}
+                        </p>
+                    </div>
+                    <div className="text-right">
+                        <div className="flex flex-col items-end">
+                            <span className="text-[10px] text-neutral-400 uppercase font-bold">Первый взнос</span>
+                            <span className="text-sm font-bold text-neutral-900 mb-2">{formatPrice(result.downPayment)}</span>
 
-                    <div className="relative z-10 space-y-5">
-                        <div className="flex justify-between items-center">
-                            <span className="text-neutral-500 text-sm font-medium">Ваш ежемесячный платеж</span>
-                            <div className="text-right">
-                                <span className="block font-serif font-bold text-4xl text-emerald-700 tracking-tight drop-shadow-sm">
-                                    {formatPrice(result.monthlyPayment)}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div className="h-px bg-neutral-200/60" />
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <p className="text-xs text-neutral-400 mb-1">Первый взнос</p>
-                                <p className="font-bold text-neutral-900 text-lg">{formatPrice(result.downPayment)}</p>
-                            </div>
-                            <div className="text-right">
-                                <p className="text-xs text-neutral-400 mb-1">Итоговая стоимость</p>
-                                <p className="font-bold text-neutral-900 text-lg">{formatPrice(result.totalPrice)}</p>
-                            </div>
+                            <span className="text-[10px] text-neutral-400 uppercase font-bold">Итого</span>
+                            <span className="text-sm font-bold text-neutral-500">{formatPrice(result.totalPrice)}</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Action Button */}
+                {/* WhatsApp Button - Full Width */}
                 <button
                     onClick={handleWhatsappClick}
-                    className="w-full h-16 bg-[#25D366] text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-[#20bd5a] transition-all duration-300 shadow-xl shadow-green-500/30 transform hover:scale-[1.02] active:scale-[0.98] group"
+                    className="w-full h-12 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-sm active:scale-[0.98] hover:shadow-md"
                 >
-                    <FaWhatsapp className="w-7 h-7 group-hover:rotate-[360deg] transition-transform duration-700" />
-                    <span className="tracking-wide">Оформить рассрочку</span>
+                    <FaWhatsapp className="w-5 h-5" />
+                    Оформить рассрочку
                 </button>
-
-                <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-[11px] text-neutral-400 font-medium">
-                    <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" /> Одобрение за 10 мин</span>
-                    <span className="w-1 h-1 bg-neutral-300 rounded-full" />
-                    <span>По паспорту РФ</span>
-                    <span className="w-1 h-1 bg-neutral-300 rounded-full" />
-                    <span>Возраст 23+</span>
-                </div>
+                <p className="text-[10px] text-neutral-400 text-center mt-3 flex items-center justify-center gap-1">
+                    <FiInfo className="w-3 h-3" />
+                    Одобрение за 10 мин • Паспорт РФ
+                </p>
             </div>
         </div>
     );
