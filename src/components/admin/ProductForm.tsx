@@ -84,19 +84,16 @@ export default function ProductForm({ initialData }: ProductFormProps) {
 
         <form onSubmit={handleSubmit} className="min-h-screen bg-[#FDFCFB] pb-[30rem] md:pb-32 animate-[fadeIn_0.4s_ease-out]">
 
-            {/* Header / Nav - Changed from fixed to Sticky to respect layout flow */}
-            {/* Using top-0 assuming AdminLayout padding handles the offset, or top-[header-height] if needed. 
-                But since we are inside AdminLayout which has pt-24, a sticky header here will stick to the top of the CONTENT area (below global header).
-                If we want it at the very top of the SCREEN, we need negative margin or fixed. 
-                User said "top goes behind screen". Sticky is safer.
-                Let's try fixed but with top-20 (80px) to sit BELOW the main admin header? 
-                Actually, the user likely wants this form to take over the screen.
-                Let's stick to safe sticky positioning to avoid overlap.
-            */}
-            <div className="sticky top-20 md:top-24 left-0 right-0 h-16 bg-white/90 backdrop-blur-xl z-[40] border-b border-neutral-100 flex items-center justify-between px-4 md:px-8 -mx-4 md:-mx-8 mb-6 shadow-sm">
+            {/* Header / Nav - Dedicated Panel Header */}
+            <div className="sticky top-0 left-0 right-0 h-16 md:h-20 bg-white/90 backdrop-blur-xl z-[100] border-b border-neutral-100 flex items-center justify-between px-4 md:px-8 mb-6 shadow-sm safe-area-top">
                 <div className="flex items-center gap-4">
-                    <button type="button" onClick={() => router.back()} className="w-10 h-10 bg-neutral-100 hover:bg-neutral-200 rounded-full flex items-center justify-center transition-colors">
-                        <FiChevronLeft className="w-5 h-5" />
+                    <button
+                        type="button"
+                        onClick={() => router.back()}
+                        className="w-10 h-10 bg-neutral-100 hover:bg-neutral-200 rounded-full flex items-center justify-center transition-colors shadow-sm active:scale-95"
+                        title="Назад"
+                    >
+                        <FiChevronLeft className="w-5 h-5 text-neutral-700" />
                     </button>
                     <div>
                         <h1 className="text-lg md:text-xl font-bold font-serif text-neutral-900">
