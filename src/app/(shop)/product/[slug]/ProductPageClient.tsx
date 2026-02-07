@@ -63,21 +63,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-24 md:pb-0">
-            {/* Mobile Header (Absolute) */}
-            <div className="absolute top-0 left-0 right-0 z-20 p-4 flex justify-between items-center md:hidden pointer-events-none">
-                <Link href="/catalog" className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white pointer-events-auto">
-                    <FiArrowLeft className="w-5 h-5" />
-                </Link>
-                <div className="flex gap-2 pointer-events-auto">
-                    <button className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white">
-                        <FiShare2 className="w-5 h-5" />
-                    </button>
-                    <button className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white">
-                        <FiHeart className="w-5 h-5" />
-                    </button>
-                </div>
-            </div>
+        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-24 md:pb-0 pt-28 md:pt-0">
 
             {/* Desktop Header Spacer */}
             <div className="hidden md:block h-32 md:h-40"></div>
