@@ -19,7 +19,8 @@ export async function saveProductAction(formData: FormData) {
         oldPrice: (() => {
             const val = formData.get("oldPrice");
             if (!val || val.toString().trim() === "") return undefined;
-            const parsed = parseInt(val.toString().replace(/\D/g, ""));
+            // Parse float to handle decimals, then round to integer if needed
+            const parsed = Math.round(Number(val));
             return isNaN(parsed) ? undefined : parsed;
         })(),
         description: formData.get("description") as string,
