@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FiX, FiChevronLeft, FiChevronRight, FiMinus, FiPlus, FiStar, FiShield, FiTruck, FiHeart } from "react-icons/fi";
+import { FiX, FiChevronLeft, FiChevronRight, FiStar, FiShield, FiTruck, FiHeart, FiShare2, FiArrowLeft } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/lib/utils";
 import { generateWhatsAppLink, openWhatsApp } from "@/utils/whatsapp";
 import { ProductCard } from "@/components/product/ProductCard";
+import { cn } from "@/lib/utils";
 
 interface ProductPageClientProps {
     product: Product;
@@ -17,8 +18,9 @@ interface ProductPageClientProps {
 
 export default function ProductPageClient({ product, similarProducts }: ProductPageClientProps) {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+    const [showFullDesc, setShowFullDesc] = useState(false);
     const [lightboxOpen, setLightboxOpen] = useState(false);
-    const [qty, setQty] = useState(1);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const allImages = React.useMemo(() => {
         return product.images && product.images.length > 0
@@ -27,282 +29,284 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     }, [product]);
 
     const handleOrder = () => {
-        const whatsappLink = generateWhatsAppLink("+79667422726", product); // Passing product to helper, qty would need to be handled manually or added to helper if supported
-        // For now, simple open
+        const whatsappLink = generateWhatsAppLink("+79667422726", product);
         openWhatsApp(whatsappLink);
     };
 
-    const nextImage = () => {
-        setSelectedImageIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1));
+    const scrollToImage = (index: number) => {
+        setSelectedImageIndex(index);
+        if (scrollContainerRef.current) {
+            const width = scrollContainerRef.current.offsetWidth;
+            scrollContainerRef.current.scrollTo({
+                left: width * index,
+                behavior: 'smooth'
+            });
+        }
     };
 
-    const prevImage = () => {
-        setSelectedImageIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1));
+    const handleScroll = () => {
+        if (scrollContainerRef.current) {
+            const width = scrollContainerRef.current.offsetWidth;
+            const scrollLeft = scrollContainerRef.current.scrollLeft;
+            const index = Math.round(scrollLeft / width);
+            setSelectedImageIndex(index);
+        }
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-32">
-            {/* Header Spacer - Matching Catalog's compressed feel */}
-            <div className="h-32 md:h-40"></div>
-
-            {/* Breadcrumbs - Elegant & Minimal */}
-            <div className="container mx-auto px-4 md:px-8 max-w-[90rem] mb-8 animate-[fadeIn_0.6s_ease-out]">
-                <div className="flex items-center gap-2 text-xs md:text-sm font-medium tracking-widest text-neutral-400 uppercase">
-                    <Link href="/" className="hover:text-amber-600 transition-colors">Главная</Link>
-                    <span className="text-amber-300">•</span>
-                    <Link href="/catalog" className="hover:text-amber-600 transition-colors">Каталог</Link>
-                    <span className="text-amber-300">•</span>
-                    <span className="text-neutral-900 border-b border-amber-200 pb-0.5">{product.category}</span>
-                </div>
-            </div>
-
-            <div className="container mx-auto px-4 md:px-8 lg:px-12 max-w-[90rem]">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-24">
-
-                    {/* LEFT: GALLERY (7 Cols) */}
-                    <div className="lg:col-span-7 space-y-6 animate-[fadeInUp_0.8s_ease-out_forwards]">
-                        {/* Main Image Stage */}
-                        <div
-                            className="relative aspect-[4/3] md:aspect-[16/11] lg:aspect-[4/3] bg-neutral-100 rounded-[2rem] overflow-hidden cursor-zoom-in shadow-2xl shadow-neutral-200/50 group"
-                            onClick={() => setLightboxOpen(true)}
-                        >
-                            <Image
-                                src={allImages[selectedImageIndex]}
-                                alt={product.name}
-                                fill
-                                className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                                priority
-                                sizes="(max-width: 1024px) 100vw, 60vw"
-                            />
-
-                            {/* Overlay Gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                            {/* Floating Controls */}
-                            {allImages.length > 1 && (
-                                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                                    <button
-                                        onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                                        className="w-12 h-12 bg-white/20 backdrop-blur-md hover:bg-white text-white hover:text-neutral-900 rounded-full flex items-center justify-center transition-all border border-white/30"
-                                    >
-                                        <FiChevronLeft className="w-5 h-5" />
-                                    </button>
-                                    <button
-                                        onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                                        className="w-12 h-12 bg-white/20 backdrop-blur-md hover:bg-white text-white hover:text-neutral-900 rounded-full flex items-center justify-center transition-all border border-white/30"
-                                    >
-                                        <FiChevronRight className="w-5 h-5" />
-                                    </button>
-                                </div>
-                            )}
-
-                            {/* Badges */}
-                            <div className="absolute top-6 left-6 flex gap-2">
-                                {product.oldPrice && (
-                                    <span className="bg-red-500/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-lg text-white">
-                                        SALE
-                                    </span>
-                                )}
-                                {product.stock > 0 ? (
-                                    <span className="bg-green-500/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-lg text-white">
-                                        В наличии
-                                    </span>
-                                ) : (
-                                    <span className="bg-neutral-900/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-lg text-white">
-                                        Под заказ
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Thumbnails */}
-                        {allImages.length > 1 && (
-                            <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
-                                {allImages.map((image, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => setSelectedImageIndex(index)}
-                                        className={`relative flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden transition-all duration-300 ${selectedImageIndex === index
-                                            ? "ring-2 ring-amber-500 ring-offset-2 opacity-100 scale-95 shadow-lg"
-                                            : "opacity-70 hover:opacity-100 hover:scale-105"
-                                            }`}
-                                    >
-                                        <Image
-                                            src={image}
-                                            alt={`View ${index + 1}`}
-                                            fill
-                                            className="object-cover"
-                                            sizes="128px"
-                                        />
-                                    </button>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* RIGHT: DETAILS (5 Cols) - Sticky */}
-                    <div className="lg:col-span-5 relative">
-                        <div className="sticky top-32 space-y-8 animate-[fadeIn_0.8s_ease-out_0.2s_forwards] opacity-0 pb-10">
-
-                            {/* Title Block */}
-                            <div className="space-y-4">
-                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-serif text-neutral-900 leading-[1.1]">
-                                    {product.name}
-                                </h1>
-                                <div className="flex items-center gap-4 text-sm text-neutral-500">
-                                    <div className="flex text-amber-400">
-                                        {[...Array(5)].map((_, i) => (
-                                            <FiStar key={i} className="w-4 h-4 fill-current" />
-                                        ))}
-                                    </div>
-                                    <span className="w-1 h-1 bg-neutral-300 rounded-full"></span>
-                                    <span>Арт. {product.sku || "—"}</span>
-                                </div>
-                            </div>
-
-                            {/* Price Block */}
-                            <div className="flex items-baseline gap-4 border-b border-neutral-100 pb-8">
-                                <span className="text-4xl md:text-5xl font-light text-neutral-900 tracking-tight">
-                                    {formatPrice(product.price)}
-                                </span>
-                                {product.oldPrice && (
-                                    <span className="text-xl text-neutral-400 line-through decoration-red-500/50 decoration-2">
-                                        {formatPrice(product.oldPrice)}
-                                    </span>
-                                )}
-                            </div>
-
-                            {/* Description */}
-                            <div className="prose prose-neutral max-w-none">
-                                <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-widest mb-3">Описание</h3>
-                                <p className="text-neutral-600 text-base md:text-lg leading-relaxed font-light whitespace-pre-wrap">
-                                    {product.description}
-                                </p>
-                            </div>
-
-                            {/* Features Grid - Improved Spacing & Logic */}
-                            <div className="pt-4 border-t border-neutral-100 space-y-6">
-                                <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-widest mb-2">Характеристики</h3>
-
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    {/* Dimensions / Colors */}
-                                    {product.colors && product.colors.length > 0 && (
-                                        <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-100">
-                                            <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mb-2">Размеры / Варианты</p>
-                                            <div className="flex flex-wrap gap-2">
-                                                {product.colors.map((color, idx) => (
-                                                    <span key={idx} className="inline-block px-2 py-1 bg-white rounded-md text-sm font-medium text-neutral-900 border border-neutral-200">
-                                                        {color}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Materials */}
-                                    {product.materials && product.materials.length > 0 && (
-                                        <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-100">
-                                            <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mb-2">Материалы</p>
-                                            <div className="flex flex-wrap gap-2">
-                                                {product.materials.map((material, idx) => (
-                                                    <span key={idx} className="inline-block px-2 py-1 bg-white rounded-md text-sm font-medium text-neutral-900 border border-neutral-200">
-                                                        {material}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Fallback for real Dimensions object if present */}
-                                    {product.dimensions && (product.dimensions.width > 0 || product.dimensions.height > 0) && (
-                                        <div className="p-5 rounded-2xl bg-neutral-50 border border-neutral-100">
-                                            <p className="text-[10px] text-neutral-400 font-bold uppercase tracking-wider mb-2">Габариты</p>
-                                            <p className="font-medium text-neutral-900">
-                                                {product.dimensions.width} × {product.dimensions.depth} × {product.dimensions.height} см
-                                            </p>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Benefits */}
-                            <div className="grid grid-cols-2 gap-y-4 text-sm text-neutral-600 pt-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-amber-50 text-amber-600 rounded-full">
-                                        <FiShield className="w-4 h-4" />
-                                    </div>
-                                    <span>Гарантия качества</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-amber-50 text-amber-600 rounded-full">
-                                        <FiTruck className="w-4 h-4" />
-                                    </div>
-                                    <span>Бережная доставка</span>
-                                </div>
-                            </div>
-
-                            {/* Actions Desktop */}
-                            <div className="hidden md:flex gap-4 pt-4">
-                                <button
-                                    onClick={handleOrder}
-                                    className="flex-1 h-16 bg-neutral-900 text-white rounded-2xl font-bold text-lg hover:bg-neutral-800 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 active:scale-[0.98]"
-                                >
-                                    <FaWhatsapp className="w-6 h-6" />
-                                    Оформить заказ
-                                </button>
-                                <button className="w-16 h-16 rounded-2xl border-2 border-neutral-100 flex items-center justify-center text-neutral-400 hover:text-red-500 hover:bg-red-50 hover:border-red-100 transition-all">
-                                    <FiHeart className="w-6 h-6" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Sticky Mobile Bar - Glassmorphism */}
-            <div className="md:hidden fixed bottom-6 left-4 right-4 z-50">
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/50"></div>
-                <div className="relative p-2 flex items-center gap-3">
-                    <div className="pl-4">
-                        <p className="text-xs text-neutral-400 font-medium uppercase">Итого</p>
-                        <p className="text-lg font-bold text-neutral-900">{formatPrice(product.price)}</p>
-                    </div>
-                    <button
-                        onClick={handleOrder}
-                        className="flex-1 h-12 bg-neutral-900 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform"
-                    >
-                        <FaWhatsapp className="w-4 h-4" />
-                        Заказать
+        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-24 md:pb-0">
+            {/* Mobile Header (Absolute) */}
+            <div className="absolute top-0 left-0 right-0 z-20 p-4 flex justify-between items-center md:hidden pointer-events-none">
+                <Link href="/catalog" className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white pointer-events-auto">
+                    <FiArrowLeft className="w-5 h-5" />
+                </Link>
+                <div className="flex gap-2 pointer-events-auto">
+                    <button className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white">
+                        <FiShare2 className="w-5 h-5" />
+                    </button>
+                    <button className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white">
+                        <FiHeart className="w-5 h-5" />
                     </button>
                 </div>
             </div>
 
-            {/* Similar Products */}
-            {similarProducts.length > 0 && (
-                <div className="mt-32 border-t border-neutral-200/50 pt-20 bg-white">
-                    <div className="container mx-auto px-6 max-w-[90rem]">
-                        <div className="flex items-center justify-between mb-12">
-                            <h2 className="text-3xl md:text-5xl font-bold font-serif text-neutral-900">Вам может понравиться</h2>
-                            <Link href="/catalog" className="hidden md:flex items-center gap-2 text-neutral-500 hover:text-amber-600 transition font-medium">
-                                Смотреть всё <FiChevronRight />
-                            </Link>
+            {/* Desktop Header Spacer */}
+            <div className="hidden md:block h-32 md:h-40"></div>
+
+            <div className="md:container md:mx-auto md:px-6 lg:px-12 max-w-[90rem]">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-16">
+
+                    {/* --- LEFT COLUMN: IMMERSIVE GALLERY --- */}
+                    <div className="lg:col-span-7 relative">
+                        {/* Mobile: Full Screen Scroll Snap Swiper */}
+                        {/* Desktop: Sticky Gallery */}
+                        <div className="sticky top-0 lg:top-32 h-[85vh] lg:h-[calc(100vh-160px)] w-full bg-neutral-100 lg:rounded-[2.5rem] overflow-hidden">
+
+                            <div
+                                ref={scrollContainerRef}
+                                onScroll={handleScroll}
+                                className="flex h-full w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide no-scrollbar"
+                            >
+                                {allImages.map((img, idx) => (
+                                    <div key={idx} className="flex-shrink-0 w-full h-full snap-center relative">
+                                        <Image
+                                            src={img}
+                                            alt={`${product.name} - View ${idx + 1}`}
+                                            fill
+                                            className="object-cover"
+                                            priority={idx === 0}
+                                            onClick={() => setLightboxOpen(true)}
+                                        />
+                                        {/* Mobile Bottom Gradient for Text Readability */}
+                                        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/60 to-transparent lg:hidden pointer-events-none" />
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Pagination Dots (Mobile Overlay) */}
+                            <div className="absolute bottom-32 left-0 right-0 flex justify-center gap-2 lg:hidden z-10">
+                                {allImages.map((_, idx) => (
+                                    <div
+                                        key={idx}
+                                        className={cn(
+                                            "w-2 h-2 rounded-full transition-all duration-300",
+                                            selectedImageIndex === idx ? "bg-white w-6" : "bg-white/40"
+                                        )}
+                                    />
+                                ))}
+                            </div>
+
+                            {/* Desktop Thumbs (Floating) */}
+                            <div className="hidden lg:flex absolute bottom-8 left-1/2 -translate-x-1/2 gap-3 p-2 bg-white/80 backdrop-blur-md rounded-full border border-white/50 shadow-lg z-20">
+                                {allImages.map((img, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => scrollToImage(idx)}
+                                        className={cn(
+                                            "relative w-12 h-12 rounded-full overflow-hidden transition-all border-2",
+                                            selectedImageIndex === idx ? "border-neutral-900 scale-110" : "border-transparent opacity-70 hover:opacity-100"
+                                        )}
+                                    >
+                                        <Image src={img} alt="thumb" fill className="object-cover" />
+                                    </button>
+                                ))}
+                            </div>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    </div>
+
+                    {/* --- RIGHT COLUMN: CONTENT (Floating Sheet on Mobile) --- */}
+                    <div className="lg:col-span-5 relative z-10 -mt-24 lg:mt-0">
+                        <div className="bg-white rounded-t-[2.5rem] lg:rounded-none px-6 py-10 lg:px-0 lg:py-4 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] lg:shadow-none min-h-[50vh] animate-[slideUp_0.5s_ease-out]">
+
+                            {/* Breadcrumbs (Desktop Only) */}
+                            <div className="hidden lg:flex items-center gap-2 text-sm text-neutral-400 mb-8 uppercase tracking-wider font-medium">
+                                <Link href="/" className="hover:text-neutral-900">Главная</Link> /
+                                <Link href="/catalog" className="hover:text-neutral-900">Каталог</Link> /
+                                <span className="text-neutral-900">{product.category}</span>
+                            </div>
+
+                            {/* Header Info */}
+                            <div className="mb-8">
+                                <div className="flex justify-between items-start gap-4 mb-4">
+                                    <h1 className="text-3xl md:text-5xl font-bold font-serif text-neutral-900 leading-tight">
+                                        {product.name}
+                                    </h1>
+                                    {product.oldPrice && (
+                                        <div className="flex flex-col items-end">
+                                            <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-bold uppercase tracking-wider">
+                                                Sale
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="flex items-center gap-4 text-sm mb-6">
+                                    <div className="flex items-center gap-1 text-amber-400">
+                                        <FiStar className="fill-current w-4 h-4" />
+                                        <span className="font-bold text-neutral-900">5.0</span>
+                                        <span className="text-neutral-400 font-normal">(12 отзывов)</span>
+                                    </div>
+                                    <span className="text-neutral-300">|</span>
+                                    <span className={cn("font-medium", product.stock > 0 ? "text-green-600" : "text-neutral-400")}>
+                                        {product.stock > 0 ? "В наличии" : "Под заказ"}
+                                    </span>
+                                </div>
+
+                                <div className="flex items-baseline gap-3">
+                                    <span className="text-4xl font-light text-neutral-900 tracking-tight">
+                                        {formatPrice(product.price)}
+                                    </span>
+                                    {product.oldPrice && (
+                                        <span className="text-xl text-neutral-400 line-through">
+                                            {formatPrice(product.oldPrice)}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Actions (Desktop) */}
+                            <div className="hidden lg:flex gap-4 mb-10 border-b border-neutral-100 pb-10">
+                                <button
+                                    onClick={handleOrder}
+                                    className="flex-1 h-14 bg-neutral-900 text-white rounded-xl font-bold hover:bg-black transition-transform active:scale-95 flex items-center justify-center gap-2"
+                                >
+                                    <FaWhatsapp className="w-5 h-5" />
+                                    Оформить заказ
+                                </button>
+                                <button className="w-14 h-14 border border-neutral-200 rounded-xl flex items-center justify-center hover:bg-neutral-50 transition-colors">
+                                    <FiHeart className="w-5 h-5" />
+                                </button>
+                            </div>
+
+                            {/* Description */}
+                            <div className="mb-10">
+                                <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-4">О модели</h3>
+                                <div className={cn("prose prose-neutral max-w-none text-neutral-600 font-light leading-relaxed", !showFullDesc && "line-clamp-4 lg:line-clamp-none")}>
+                                    {product.description}
+                                </div>
+                                <button
+                                    className="lg:hidden text-neutral-900 font-bold text-sm mt-2 underline"
+                                    onClick={() => setShowFullDesc(!showFullDesc)}
+                                >
+                                    {showFullDesc ? "Скрыть" : "Читать далее"}
+                                </button>
+                            </div>
+
+                            {/* Characteristics Grid */}
+                            <div className="grid grid-cols-2 gap-4 mb-10">
+                                {product.dimensions && (
+                                    <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
+                                        <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Размеры</p>
+                                        <p className="font-medium text-neutral-900">
+                                            {product.dimensions.width}×{product.dimensions.depth}×{product.dimensions.height} см
+                                        </p>
+                                    </div>
+                                )}
+                                {product.materials && product.materials.length > 0 && (
+                                    <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
+                                        <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Материал</p>
+                                        <p className="font-medium text-neutral-900 truncate">
+                                            {product.materials.join(", ")}
+                                        </p>
+                                    </div>
+                                )}
+                                <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
+                                    <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Артикул</p>
+                                    <p className="font-medium text-neutral-900">{product.sku || "—"}</p>
+                                </div>
+                                <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
+                                    <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Гарантия</p>
+                                    <p className="font-medium text-neutral-900">12 мес.</p>
+                                </div>
+                            </div>
+
+                            {/* Benefits */}
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-4 p-4 border border-neutral-100 rounded-2xl">
+                                    <div className="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center text-amber-600">
+                                        <FiTruck className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-sm">Быстрая доставка</p>
+                                        <p className="text-xs text-neutral-500">По Махачкале и Дагестану</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-4 p-4 border border-neutral-100 rounded-2xl">
+                                    <div className="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center text-amber-600">
+                                        <FiShield className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-sm">Гарантия качества</p>
+                                        <p className="text-xs text-neutral-500">Проверка перед отправкой</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Similar Products (Desktop Spacing) */}
+                {similarProducts.length > 0 && (
+                    <div className="mt-20 lg:mt-32 border-t border-neutral-200/60 pt-16 mb-10 px-6 lg:px-0">
+                        <h2 className="text-2xl md:text-3xl font-bold font-serif mb-8">Вам может понравиться</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {similarProducts.map((p) => (
                                 <ProductCard key={p.id} product={p} />
                             ))}
                         </div>
                     </div>
+                )}
+            </div>
+
+            {/* Sticky Action Bar (Mobile Only) */}
+            <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-xl border-t border-neutral-200 lg:hidden z-40 safe-area-bottom">
+                <div className="flex gap-3">
+                    <button className="w-12 h-12 flex items-center justify-center border border-neutral-200 rounded-xl bg-white text-neutral-400">
+                        <FiHeart className="w-6 h-6" />
+                    </button>
+                    <button
+                        onClick={handleOrder}
+                        className="flex-1 h-12 bg-neutral-900 text-white rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-lg shadow-neutral-900/20"
+                    >
+                        <FaWhatsapp className="w-5 h-5" />
+                        <span>Купить за {formatPrice(product.price)}</span>
+                    </button>
                 </div>
-            )}
+            </div>
 
             {/* Lightbox */}
             {lightboxOpen && (
-                <div className="fixed inset-0 z-[100] bg-neutral-900/95 backdrop-blur-2xl flex items-center justify-center animate-[fadeIn_0.3s_ease-out]">
-                    <button className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors" onClick={() => setLightboxOpen(false)}>
-                        <FiX className="w-10 h-10" />
+                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease-out]">
+                    <button className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors z-10" onClick={() => setLightboxOpen(false)}>
+                        <FiX className="w-8 h-8" />
                     </button>
-                    <img src={allImages[selectedImageIndex]} className="max-w-[90vw] max-h-[90vh] object-contain drop-shadow-2xl" alt="" />
+                    <div className="relative w-full h-full flex items-center justify-center">
+                        <img
+                            src={allImages[selectedImageIndex]}
+                            className="max-w-full max-h-full object-contain"
+                            alt="Full screen"
+                        />
+                    </div>
                 </div>
             )}
         </div>
