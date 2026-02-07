@@ -35,7 +35,9 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     }, [product]);
 
     const handleOrder = () => {
-        const whatsappLink = generateWhatsAppLink("+79667422726", product);
+        // Pass current window URL to ensure exact match and working link
+        const currentUrl = typeof window !== 'undefined' ? window.location.href : undefined;
+        const whatsappLink = generateWhatsAppLink("+79667422726", product, undefined, currentUrl);
         openWhatsApp(whatsappLink);
     };
 

@@ -3,14 +3,8 @@
  */
 
 import { formatPrice } from "@/lib/utils";
-
-export interface Product {
-    id: string;
-    name: string;
-    price: number;
-    sku?: string;
-    category?: string;
-}
+import { Product } from "@/types/product";
+import { generateProductSlug } from "@/utils/slug";
 
 /**
  * Generate WhatsApp link with pre-filled message
@@ -18,9 +12,10 @@ export interface Product {
 export function generateWhatsAppLink(
     phoneNumber: string,
     product: Product,
-    customMessage?: string
+    customMessage?: string,
+    productUrl?: string
 ): string {
-    const message = customMessage || formatOrderMessage(product);
+    const message = customMessage || formatOrderMessage(product, productUrl);
     const encodedMessage = encodeURIComponent(message);
 
     // Remove any non-numeric characters from phone number
@@ -43,7 +38,7 @@ export function generateConsultationLink(phoneNumber: string): string {
 /**
  * Format product order message for WhatsApp
  */
-export function formatOrderMessage(product: Product): string {
+export function formatOrderMessage(product: Product, productUrl?: string): string {
     const parts = [
         "Здравствуйте! 👋",
         "",
@@ -59,7 +54,16 @@ export function formatOrderMessage(product: Product): string {
         parts.push(`Категория: ${product.category}`);
     }
 
-    parts.push("", "Можете уточнить наличие и сроки доставки?");
+    // Use passed URL (client-side accuracy) or fallback to robust generator
+    let link = productUrl;
+    if (!link) {
+        const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://amea-furniture.ru";
+        const productSlug = generateProductSlug(product);
+        link = `${SITE_URL}/product/${productSlug}`;
+    }
+
+    parts.push("", `Ссылка: ${link}`);
+    parts.push("Можете уточнить наличие и сроки доставки?");
 
     return parts.join("\n");
 }

@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProducts } from "@/lib/db";
 import { getProductIdFromSlug } from "@/utils/slug";
@@ -8,7 +7,12 @@ interface ProductPageProps {
     params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+import type { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+    { params }: ProductPageProps,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
     const { slug } = await params;
     const productId = getProductIdFromSlug(slug);
     const products = await getProducts();
@@ -20,14 +24,33 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
         };
     }
 
+    const previousImages = (await parent).openGraph?.images || [];
+    const productImages = product.images && product.images.length > 0 ? product.images : (product.thumbnail ? [product.thumbnail] : []);
+
+    // Ensure absolute URLs if needed, but Next.js metadataBase handles relative paths usually.
+    // However, for social cards, specific remote URLs are often better.
+
     return {
-        title: `${product.name || "Товар"} - амэа`,
-        description: product.description || "Описание товара",
+        title: `${product.name || "Товар"} - купить в амэа`,
+        description: product.description ? product.description.slice(0, 160) : "Подробное описание товара...",
         openGraph: {
             title: product.name || "Товар",
-            description: product.description || "Описание товара",
-            images: product.thumbnail ? [product.thumbnail] : [],
+            description: product.description || "Премиальная мебель в Грозном",
+            url: `/product/${slug}`,
+            images: productImages.map(url => ({
+                url: url,
+                width: 800,
+                height: 600,
+                alt: product.name,
+            })),
+            type: "website", // 'product' type is better but 'website' is safer for general whatsapp preview
+            siteName: "амэа",
         },
+        other: {
+            "product:price:amount": product.price.toString(),
+            "product:price:currency": "RUB",
+            "product:availability": product.stock > 0 ? "instock" : "outofstock",
+        }
     };
 }
 

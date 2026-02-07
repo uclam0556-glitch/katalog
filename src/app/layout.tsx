@@ -1,19 +1,39 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://amea-furniture.ru"; // Update with real domain if available
+
 export const metadata: Metadata = {
-  title: "амэа - Премиальная мебель для вашего дома",
-  description:
-    "Современная мебель в стиле лофт, скандинавский и индустриальный дизайн. Стулья, столы, диваны, стеллажи. Доставка по всей России.",
-  keywords: [
-    "мебель",
-    "лофт",
-    "скандинавский стиль",
-    "стулья",
-    "столы",
-    "диваны",
-    "стеллажи",
-  ],
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "амэа - Премиальная мебель в Грозном",
+    template: "%s | амэа"
+  },
+  description: "Эксклюзивная мебель в стиле лофт, скандинавский и модерн. Доставка по Грозному и Чеченской Республике. Высокое качество и стиль.",
+  keywords: ["мебель Грозный", "лофт мебель", "диваны Чечня", "стулья", "столы", "амэа"],
+  authors: [{ name: "Amea Furniture" }],
+  openGraph: {
+    type: "website",
+    locale: "ru_RU",
+    url: siteUrl,
+    siteName: "амэа - Мебель",
+    title: "амэа - Премиальная мебель для вашего дома",
+    description: "Современная мебель в стиле лофт. Стулья, столы, диваны. Доставка по всей России.",
+    images: [
+      {
+        url: "/og-image.jpg", // Needs to be created or mapped
+        width: 1200,
+        height: 630,
+        alt: "амэа - Мебель",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "амэа - Премиальная мебель",
+    description: "Современная мебель в стиле лофт в Грозном.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 export const viewport: Viewport = {
@@ -22,6 +42,8 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
 };
+
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 
 export default function RootLayout({
   children,
@@ -52,6 +74,7 @@ export default function RootLayout({
         `}} />
       </head>
       <body className="antialiased font-sans">
+        {process.env.NEXT_PUBLIC_GA_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />}
         {children}
       </body>
     </html>

@@ -90,7 +90,7 @@ export const SmartSearch = () => {
                     onFocus={() => setIsOpen(true)}
                     placeholder="Поиск мебели..."
                     className={cn(
-                        "w-full h-10 bg-neutral-100/50 backdrop-blur-sm border border-transparent rounded-full pl-10 pr-4 text-sm outline-none transition-all duration-300",
+                        "w-full h-10 bg-neutral-100/50 backdrop-blur-sm border border-transparent rounded-full pl-12 pr-4 text-sm outline-none transition-all duration-300",
                         isOpen ? "bg-white border-neutral-200 shadow-sm opacity-100 cursor-text" : "opacity-0 cursor-pointer pointer-events-none"
                     )}
                 />
