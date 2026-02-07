@@ -119,7 +119,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
 
                     {/* LEFT COLUMN: Visual Studio (Sticky) */}
                     <div className="hidden lg:block relative bg-neutral-100 border-r border-neutral-200">
-                        <div className="sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto p-8 flex flex-col items-center justify-center">
+                        <div className="sticky top-28 h-[calc(100vh-7rem)] overflow-y-auto p-8 flex flex-col items-center justify-center">
 
                             <h3 className="text-sm font-bold text-neutral-400 uppercase tracking-widest mb-6 w-full max-w-sm">
                                 Визуализация
