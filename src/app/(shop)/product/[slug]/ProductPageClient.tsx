@@ -9,6 +9,7 @@ import { Product } from "@/types/product";
 import { formatPrice } from "@/lib/utils";
 import { generateWhatsAppLink, openWhatsApp } from "@/utils/whatsapp";
 import { ProductCard } from "@/components/product/ProductCard";
+import { InstallmentWidget } from "@/components/product/InstallmentWidget";
 import { cn } from "@/lib/utils";
 
 interface ProductPageClientProps {
@@ -287,6 +288,11 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                         <p className="text-xs text-neutral-500">Проверка перед отправкой</p>
                                     </div>
                                 </div>
+                            </div>
+
+                            {/* Installment Calculator */}
+                            <div className="mt-8">
+                                <InstallmentWidget price={product.price} product={product} />
                             </div>
                         </div>
                     </div>

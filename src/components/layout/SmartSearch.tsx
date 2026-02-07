@@ -90,8 +90,8 @@ export const SmartSearch = () => {
                     onFocus={() => setIsOpen(true)}
                     placeholder="Поиск мебели..."
                     className={cn(
-                        "w-full h-10 bg-neutral-100/50 backdrop-blur-sm border border-transparent rounded-full pl-12 pr-4 text-sm outline-none transition-all duration-300",
-                        isOpen ? "bg-white border-neutral-200 shadow-sm opacity-100 cursor-text" : "opacity-0 cursor-pointer pointer-events-none"
+                        "w-full h-10 bg-neutral-100/50 backdrop-blur-sm border border-transparent rounded-full pr-4 text-sm outline-none transition-all duration-300",
+                        isOpen ? "pl-4 bg-white border-neutral-200 shadow-sm opacity-100 cursor-text" : "pl-10 opacity-0 cursor-pointer pointer-events-none"
                     )}
                 />
 
@@ -102,8 +102,8 @@ export const SmartSearch = () => {
                         if (!isOpen) setTimeout(() => inputRef.current?.focus(), 100);
                     }}
                     className={cn(
-                        "absolute top-0 left-0 w-10 h-10 flex items-center justify-center text-neutral-500 cursor-pointer transition-colors hover:text-neutral-900",
-                        isOpen ? "" : "bg-transparent"
+                        "absolute top-0 left-0 w-10 h-10 flex items-center justify-center text-neutral-500 cursor-pointer transition-all duration-300 hover:text-neutral-900",
+                        isOpen ? "opacity-0 scale-75 pointer-events-none" : "opacity-100 scale-100"
                     )}
                 >
                     {isLoading ? <FiLoader className="w-5 h-5 animate-spin" /> : <FiSearch className="w-5 h-5" />}
