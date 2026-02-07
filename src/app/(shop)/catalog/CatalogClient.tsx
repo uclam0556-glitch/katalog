@@ -58,7 +58,7 @@ const CategorySidebar = ({
                 </span>
             </button>
             {categories.map((category) => {
-                const count = products.filter(p => p.category === category.name).length;
+                const count = products.filter(p => p.category === category.slug).length;
                 return (
                     <button
                         key={category.id}
@@ -105,7 +105,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     const [searchQuery, setSearchQuery] = React.useState("");
     const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
     const [sortBy, setSortBy] = React.useState<SortOption>("popular");
-    const [isMobileFilterOpen, setIsMobileFilterOpen] = React.useState(false);
+    const [isMobileFilterOpen, setIsMobileFilterOpen] = React.useState(true);
     const [isScrolled, setIsScrolled] = React.useState(false);
 
     // Parallax logic & Scroll listener
@@ -123,9 +123,10 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                 product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 product.description.toLowerCase().includes(searchQuery.toLowerCase());
 
+            // FIX: Compare product.category (slug) with selectedCategory (slug)
             const matchesCategory =
                 !selectedCategory ||
-                product.category === categories.find((c) => c.slug === selectedCategory)?.name;
+                product.category === selectedCategory;
 
             return matchesSearch && matchesCategory;
         });

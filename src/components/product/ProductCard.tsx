@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/types/product";
+import { categories } from "@/data/products";
 import { formatPrice, cn } from "@/lib/utils";
 import { generateProductSlug } from "@/utils/slug";
 
@@ -80,7 +81,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
                 {/* Category */}
                 <p className="text-[10px] md:text-xs text-neutral-500">
-                    {product.category}
+                    {categories.find(c => c.slug === product.category)?.name || product.category}
                 </p>
             </div>
         </Link>
