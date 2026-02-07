@@ -63,7 +63,9 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-24 md:pb-0 pt-28 md:pt-0">
+        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-24 md:pb-0">
+            {/* Mobile Header Spacer - Explicit Block to prevent overlap */}
+            <div className="h-28 block md:hidden w-full bg-transparent"></div>
 
             {/* Desktop Header Spacer */}
             <div className="hidden md:block h-32 md:h-40"></div>
