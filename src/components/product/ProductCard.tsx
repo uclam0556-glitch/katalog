@@ -24,7 +24,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             className="group cursor-pointer flex flex-col bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
         >
             {/* Image Container */}
-            <div className="relative aspect-[4/3] bg-neutral-100 overflow-hidden">
+            <div className="relative aspect-[4/3] bg-white overflow-hidden">
                 <Image
                     src={product.thumbnail || "/placeholder.svg"}
                     alt={product.name || "Product"}

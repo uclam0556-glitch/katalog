@@ -89,7 +89,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                     <div className="lg:col-span-7 relative">
                         {/* Mobile: Full Screen Scroll Snap Swiper */}
                         {/* Desktop: Sticky Gallery */}
-                        <div className="sticky top-0 lg:top-32 h-[55vh] lg:h-[calc(100vh-160px)] w-full bg-neutral-100 lg:rounded-[2.5rem] overflow-hidden">
+                        <div className="sticky top-24 lg:top-32 h-[55vh] lg:h-[calc(100vh-160px)] w-full bg-white lg:rounded-[2.5rem] overflow-hidden">
 
                             <div
                                 ref={scrollContainerRef}

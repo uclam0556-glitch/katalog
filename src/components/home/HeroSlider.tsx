@@ -62,7 +62,7 @@ export const HeroSlider: React.FC = () => {
     };
 
     return (
-        <div className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden bg-neutral-100">
+        <div className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden bg-white">
             {/* Slides */}
             {slides.map((slide, index) => (
                 <div
@@ -87,7 +87,7 @@ export const HeroSlider: React.FC = () => {
 
                     {/* Content */}
                     <div className="absolute inset-0 flex items-center">
-                        <div className="container mx-auto px-3 md:px-4 max-w-7xl">
+                        <div className="container-custom w-full">
                             <div className="max-w-2xl text-white">
                                 <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-3 md:mb-6 leading-tight">
                                     {slide.title}

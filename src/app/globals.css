@@ -181,16 +181,16 @@ body {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  /* 24px on mobile */
-  padding-right: 1.5rem;
+  padding-left: 1.25rem;
+  /* 20px on mobile */
+  padding-right: 1.25rem;
 }
 
 @media (min-width: 768px) {
   .container-custom {
-    padding-left: 4rem;
-    /* 64px on tablet/desktop */
-    padding-right: 4rem;
+    padding-left: 3rem;
+    /* 48px on tablet/desktop */
+    padding-right: 3rem;
   }
 }
 
