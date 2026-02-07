@@ -16,8 +16,6 @@ export const RATES_WITH_DOWNPAYMENT: InstallmentPlan[] = [
     { months: 8, markup: 18 },
     { months: 9, markup: 23 },
     { months: 10, markup: 25 },
-    { months: 11, markup: 28 },
-    { months: 12, markup: 30 },
 ];
 
 // Rates without Down Payment

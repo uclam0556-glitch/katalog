@@ -7,7 +7,7 @@ import {
     RATES_WITH_DOWNPAYMENT,
     RATES_NO_DOWNPAYMENT
 } from "@/utils/installment";
-import { FiInfo } from "react-icons/fi";
+import { FiCheck, FiInfo } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { Product } from "@/types/product";
 
@@ -60,34 +60,40 @@ export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) =>
     };
 
     return (
-        <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden my-6">
-            {/* Header Area */}
-            <div className="bg-neutral-50/50 px-5 py-4 border-b border-neutral-100 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 bg-black text-white rounded-lg flex items-center justify-center shadow-md">
-                        <span className="font-serif font-bold text-lg leading-none">%</span>
-                    </div>
+        <div className="bg-white rounded-[2rem] shadow-xl shadow-neutral-200/40 overflow-hidden border border-neutral-100 my-8">
+            {/* Header / Toggle Section */}
+            <div className="bg-neutral-50 px-6 py-6 border-b border-neutral-100">
+                <div className="flex items-center justify-between mb-6">
                     <div>
-                        <h3 className="font-bold text-neutral-900 text-sm leading-tight">Рассрочка Тешам</h3>
-                        <p className="text-[10px] text-neutral-500 font-medium uppercase tracking-wide">Халяль • Без штрафов</p>
+                        <h3 className="font-bold text-xl text-neutral-900">Рассрочка</h3>
+                        <p className="text-xs text-neutral-400 font-medium mt-1">Исламская (Тешам)</p>
                     </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700 px-2.5 py-1 rounded-full">
+                        Халяль
+                    </span>
                 </div>
-                {/* Compact Toggle */}
-                <div className="flex bg-neutral-200/50 p-1 rounded-lg">
+
+                {/* Segmented Control */}
+                <div className="bg-neutral-200/50 p-1 rounded-xl flex relative">
+                    {/* Animated Background could go here, but simple conditional classes work reliably */}
                     <button
                         onClick={() => handleModeChange(true)}
                         className={cn(
-                            "px-3 py-1.5 text-[11px] font-bold rounded-md transition-all duration-200",
-                            hasDownPayment ? "bg-white text-neutral-900 shadow-sm scale-105" : "text-neutral-500 hover:text-neutral-700"
+                            "flex-1 py-3 px-4 rounded-lg text-sm font-bold transition-all duration-300",
+                            hasDownPayment
+                                ? "bg-white text-neutral-900 shadow-sm"
+                                : "text-neutral-500 hover:text-neutral-700"
                         )}
                     >
-                        С взносом
+                        С взносом (20%)
                     </button>
                     <button
                         onClick={() => handleModeChange(false)}
                         className={cn(
-                            "px-3 py-1.5 text-[11px] font-bold rounded-md transition-all duration-200",
-                            !hasDownPayment ? "bg-white text-neutral-900 shadow-sm scale-105" : "text-neutral-500 hover:text-neutral-700"
+                            "flex-1 py-3 px-4 rounded-lg text-sm font-bold transition-all duration-300",
+                            !hasDownPayment
+                                ? "bg-white text-neutral-900 shadow-sm"
+                                : "text-neutral-500 hover:text-neutral-700"
                         )}
                     >
                         Без взноса
@@ -95,20 +101,20 @@ export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) =>
                 </div>
             </div>
 
-            <div className="p-5">
-                {/* Month Slider (Horizontal Scroll) */}
-                <div className="mb-6">
-                    <p className="text-[10px] uppercase font-bold text-neutral-400 mb-2">Срок рассрочки (месяцев)</p>
-                    <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-1 px-1">
+            <div className="p-6 md:p-8">
+                {/* Month Selection */}
+                <div className="mb-8">
+                    <p className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-4">Срок (В месяцах)</p>
+                    <div className="flex flex-wrap gap-3">
                         {availableMonths.map((m) => (
                             <button
                                 key={m}
                                 onClick={() => setMonths(m)}
                                 className={cn(
-                                    "flex-shrink-0 w-9 h-9 rounded-lg text-xs font-bold flex items-center justify-center transition-all border",
+                                    "w-12 h-12 rounded-2xl flex items-center justify-center text-sm font-bold transition-all duration-200 border-2",
                                     months === m
-                                        ? "bg-neutral-900 text-white border-neutral-900 shadow-md transform -translate-y-0.5"
-                                        : "bg-white text-neutral-500 border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50"
+                                        ? "bg-neutral-900 text-white border-neutral-900 shadow-lg shadow-neutral-900/20 scale-105"
+                                        : "bg-white text-neutral-500 border-neutral-100 hover:border-neutral-300 hover:bg-neutral-50"
                                 )}
                             >
                                 {m}
@@ -117,37 +123,46 @@ export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) =>
                     </div>
                 </div>
 
-                {/* Main Calculation - Compact Row */}
-                <div className="flex items-end justify-between mb-6">
-                    <div>
-                        <p className="text-xs text-neutral-500 mb-1">Ежемесячный платеж</p>
-                        <p className="text-2xl font-serif font-bold text-neutral-900 leading-none tracking-tight">
+                {/* Result Display - Modern Clean Layout */}
+                <div className="flex flex-col gap-6">
+                    {/* Primary Number */}
+                    <div className="text-center bg-green-50/50 rounded-2xl p-6 border border-green-100">
+                        <p className="text-sm text-neutral-500 font-medium mb-1">Ваш платеж в месяц</p>
+                        <p className="text-4xl md:text-5xl font-bold text-green-700 tracking-tight leading-none">
                             {formatPrice(result.monthlyPayment)}
                         </p>
                     </div>
-                    <div className="text-right">
-                        <div className="flex flex-col items-end">
-                            <span className="text-[10px] text-neutral-400 uppercase font-bold">Первый взнос</span>
-                            <span className="text-sm font-bold text-neutral-900 mb-2">{formatPrice(result.downPayment)}</span>
 
-                            <span className="text-[10px] text-neutral-400 uppercase font-bold">Итого</span>
-                            <span className="text-sm font-bold text-neutral-500">{formatPrice(result.totalPrice)}</span>
+                    {/* Secondary Details Grid */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-neutral-50 rounded-2xl p-4 border border-neutral-100">
+                            <p className="text-[11px] text-neutral-400 uppercase font-bold mb-1">Первый взнос</p>
+                            <p className="text-lg font-bold text-neutral-900">{formatPrice(result.downPayment)}</p>
+                        </div>
+                        <div className="bg-neutral-50 rounded-2xl p-4 border border-neutral-100">
+                            <p className="text-[11px] text-neutral-400 uppercase font-bold mb-1">Общая сумма</p>
+                            <p className="text-lg font-bold text-neutral-900">{formatPrice(result.totalPrice)}</p>
                         </div>
                     </div>
                 </div>
 
-                {/* WhatsApp Button - Full Width */}
+                {/* WhatsApp Button */}
                 <button
                     onClick={handleWhatsappClick}
-                    className="w-full h-12 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-sm active:scale-[0.98] hover:shadow-md"
+                    className="w-full mt-8 py-4 bg-neutral-900 text-white rounded-xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-black transition-all duration-300 shadow-lg shadow-neutral-900/20 active:scale-[0.98]"
                 >
-                    <FaWhatsapp className="w-5 h-5" />
-                    Оформить рассрочку
+                    <FaWhatsapp className="w-6 h-6 text-[#25D366]" />
+                    <span>Оформить заявку</span>
                 </button>
-                <p className="text-[10px] text-neutral-400 text-center mt-3 flex items-center justify-center gap-1">
-                    <FiInfo className="w-3 h-3" />
-                    Одобрение за 10 мин • Паспорт РФ
-                </p>
+
+                <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-neutral-400">
+                    <div className="flex -space-x-2">
+                        <div className="w-5 h-5 rounded-full bg-neutral-200 border-2 border-white" />
+                        <div className="w-5 h-5 rounded-full bg-neutral-300 border-2 border-white" />
+                        <div className="w-5 h-5 rounded-full bg-neutral-400 border-2 border-white items-center justify-center flex text-[8px] text-white font-bold">+</div>
+                    </div>
+                    <span>Более 100+ одобрений сегодня</span>
+                </div>
             </div>
         </div>
     );
