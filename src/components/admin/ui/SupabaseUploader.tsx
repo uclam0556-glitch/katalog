@@ -223,24 +223,58 @@ export default function SupabaseUploader({ images, onChange, maxImages = 5 }: Su
 
                             {/* Main Badge */}
                             {index === 0 && (
-                                <div className="absolute top-2 left-2 bg-neutral-900/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">
+                                <div className="absolute top-2 left-2 bg-neutral-900/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm z-10">
                                     ОБЛОЖКА
                                 </div>
                             )}
 
-                            {/* Remove Button */}
-                            <button
-                                onClick={() => removeImage(index)}
-                                className="absolute top-2 right-2 w-8 h-8 bg-white/90 backdrop-blur-sm text-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110 shadow-sm"
-                                type="button"
-                                title="Удалить фото"
-                            >
-                                <FiX className="w-4 h-4" />
-                            </button>
+                            {/* Overlay Controls (Delete & Move) */}
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-2">
+                                {/* Move Buttons */}
+                                <div className="flex gap-2">
+                                    {index > 0 && (
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                const newImages = [...images];
+                                                [newImages[index - 1], newImages[index]] = [newImages[index], newImages[index - 1]];
+                                                onChange(newImages);
+                                            }}
+                                            className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-neutral-800 hover:bg-white transition-colors"
+                                            title="Сдвинуть влево"
+                                        >
+                                            ←
+                                        </button>
+                                    )}
+                                    {index < images.length - 1 && (
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                const newImages = [...images];
+                                                [newImages[index], newImages[index + 1]] = [newImages[index + 1], newImages[index]];
+                                                onChange(newImages);
+                                            }}
+                                            className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center text-neutral-800 hover:bg-white transition-colors"
+                                            title="Сдвинуть вправо"
+                                        >
+                                            →
+                                        </button>
+                                    )}
+                                </div>
 
-                            {/* Checkmark for completed uploads (visual feedback) */}
-                            <div className="absolute bottom-2 right-2 bg-green-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] shadow-sm animate-[scaleIn_0.2s_ease-out]">
-                                <FiCheck />
+                                {/* Delete Button */}
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeImage(index);
+                                    }}
+                                    className="px-3 py-1 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-700 transition-colors"
+                                    type="button"
+                                >
+                                    Удалить
+                                </button>
                             </div>
                         </div>
                     ))}

@@ -187,10 +187,11 @@ export const HeaderNew: React.FC = () => {
                             className="absolute left-1/2 -translate-x-1/2 hover:opacity-80 transition"
                         >
                             <h1
-                                className="text-2xl md:text-3xl font-black tracking-tight"
+                                className="text-3xl md:text-5xl font-black tracking-tighter"
                                 style={{
                                     color: "#991B1B",
                                     fontFamily: "var(--font-serif)",
+                                    textShadow: "0 2px 10px rgba(153, 27, 27, 0.1)"
                                 }}
                             >
                                 амэа

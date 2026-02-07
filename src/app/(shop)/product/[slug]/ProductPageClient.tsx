@@ -93,7 +93,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                             src={img}
                                             alt={`${product.name} - View ${idx + 1}`}
                                             fill
-                                            className="object-contain p-4 md:p-0 md:object-cover"
+                                            className="object-contain md:object-cover"
                                             priority={idx === 0}
                                             onClick={() => setLightboxOpen(true)}
                                         />
@@ -135,8 +135,8 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                     </div>
 
                     {/* --- RIGHT COLUMN: CONTENT (Floating Sheet on Mobile) --- */}
-                    <div className="lg:col-span-5 relative z-10 -mt-12 lg:mt-0 px-4 md:px-0 mb-24">
-                        <div className="bg-white rounded-[2rem] lg:rounded-none px-6 py-8 lg:px-0 lg:py-4 shadow-xl shadow-neutral-200/50 lg:shadow-none min-h-[50vh] animate-[slideUp_0.5s_ease-out]">
+                    <div className="lg:col-span-5 relative z-10 -mt-12 lg:mt-0 px-4 md:px-0 mb-32">
+                        <div className="bg-white rounded-[2rem] lg:rounded-none px-6 py-10 lg:px-0 lg:py-4 shadow-xl shadow-neutral-200/50 lg:shadow-none min-h-[50vh] animate-[slideUp_0.5s_ease-out]">
 
                             {/* Breadcrumbs (Desktop Only) */}
                             <div className="hidden lg:flex items-center gap-2 text-sm text-neutral-400 mb-8 uppercase tracking-wider font-medium">
@@ -146,21 +146,22 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                             </div>
 
                             {/* Header Info */}
-                            <div className="mb-10">
+                            <div className="mb-12 border-b border-neutral-100 pb-8">
                                 <div className="flex justify-between items-start gap-4 mb-4">
                                     <h1 className="text-2xl md:text-5xl font-bold font-serif text-neutral-900 leading-tight">
                                         {product.name}
                                     </h1>
+                                    {/* Discount Badge */}
                                     {product.oldPrice && product.oldPrice > product.price && (
-                                        <div className="flex flex-col items-end">
-                                            <span className="bg-red-100 text-red-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">
+                                        <div className="flex flex-col items-end animate-[pulse_3s_infinite]">
+                                            <span className="bg-red-600 text-white px-3 py-1.5 rounded-xl text-sm font-bold shadow-lg shadow-red-200">
                                                 -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
                                             </span>
                                         </div>
                                     )}
                                 </div>
 
-                                <div className="flex items-center gap-4 text-sm mb-6">
+                                <div className="flex items-center gap-4 text-sm mb-8">
                                     <div className="flex items-center gap-1 text-amber-400">
                                         <FiStar className="fill-current w-4 h-4" />
                                         <span className="font-bold text-neutral-900">5.0</span>
@@ -172,16 +173,26 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                     </span>
                                 </div>
 
-                                <div className="flex items-baseline gap-3 mb-8">
-                                    <span className="text-3xl md:text-4xl font-light text-neutral-900 tracking-tight">
+                                {/* Price Section - Increased Visibility */}
+                                <div className="flex items-baseline gap-4 mb-2">
+                                    <span className="text-4xl md:text-5xl font-bold text-neutral-900 tracking-tight">
                                         {formatPrice(product.price)}
                                     </span>
-                                    {product.oldPrice && (
-                                        <span className="text-lg md:text-xl text-neutral-400 line-through">
-                                            {formatPrice(product.oldPrice)}
-                                        </span>
+                                    {product.oldPrice && product.oldPrice > product.price && (
+                                        <div className="relative">
+                                            <span className="text-xl md:text-2xl text-neutral-400 font-medium">
+                                                {formatPrice(product.oldPrice)}
+                                            </span>
+                                            {/* Diagonal Strike Line */}
+                                            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-red-400 -rotate-12 transform" />
+                                        </div>
                                     )}
                                 </div>
+                                {product.oldPrice && product.oldPrice > product.price && (
+                                    <p className="text-sm text-green-600 font-medium">
+                                        Вы экономите {formatPrice(product.oldPrice - product.price)}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Actions (Desktop) */}
@@ -200,12 +211,12 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
 
                             {/* Description */}
                             <div className="mb-12">
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-4">О модели</h3>
-                                <div className={cn("prose prose-neutral max-w-none text-neutral-600 font-light leading-relaxed", !showFullDesc && "line-clamp-4 lg:line-clamp-none")}>
+                                <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-900 mb-4 text-neutral-400">О модели</h3>
+                                <div className={cn("prose prose-neutral max-w-none text-neutral-700 font-normal leading-relaxed text-lg", !showFullDesc && "line-clamp-4 lg:line-clamp-none")}>
                                     {product.description}
                                 </div>
                                 <button
-                                    className="lg:hidden text-neutral-900 font-bold text-sm mt-2 underline"
+                                    className="lg:hidden text-neutral-900 font-bold text-sm mt-3 underline decoration-neutral-300 underline-offset-4"
                                     onClick={() => setShowFullDesc(!showFullDesc)}
                                 >
                                     {showFullDesc ? "Скрыть" : "Читать далее"}
@@ -213,26 +224,29 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                             </div>
 
                             {/* Characteristics Grid */}
-                            <div className="grid grid-cols-2 gap-4 mb-12">
-                                {product.dimensions && (
-                                    <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
-                                        <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Размеры</p>
-                                        <p className="font-medium text-neutral-900">
-                                            {product.dimensions.width}×{product.dimensions.depth}×{product.dimensions.height} см
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+                                {/* Dimensions (Mapped from 'colors' field as user requested) */}
+                                {product.colors && (
+                                    <div className="p-5 bg-neutral-50 rounded-2xl border border-neutral-100">
+                                        <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-bold mb-2">Размеры</p>
+                                        <p className="font-bold text-neutral-900 text-lg">
+                                            {product.colors}
                                         </p>
                                     </div>
                                 )}
+
                                 {product.materials && product.materials.length > 0 && (
-                                    <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100 col-span-2">
-                                        <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Материал</p>
-                                        <p className="font-medium text-neutral-900">
+                                    <div className="p-5 bg-neutral-50 rounded-2xl border border-neutral-100">
+                                        <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-bold mb-2">Материал</p>
+                                        <p className="font-bold text-neutral-900 text-lg">
                                             {product.materials.join(", ")}
                                         </p>
                                     </div>
                                 )}
-                                <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
-                                    <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-bold mb-1">Гарантия</p>
-                                    <p className="font-medium text-neutral-900">12 мес.</p>
+
+                                <div className="p-5 bg-neutral-50 rounded-2xl border border-neutral-100">
+                                    <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-bold mb-2">Гарантия</p>
+                                    <p className="font-bold text-neutral-900 text-lg">12 мес.</p>
                                 </div>
                             </div>
 
