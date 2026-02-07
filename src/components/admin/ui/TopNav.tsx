@@ -2,13 +2,14 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { FiHome, FiPackage, FiPlus, FiExternalLink, FiTrendingUp } from "react-icons/fi";
+import { FiHome, FiPackage, FiPlus, FiExternalLink, FiTrendingUp, FiMenu, FiX } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export default function TopNav() {
     const pathname = usePathname();
     const [stats, setStats] = useState({ count: 0, total: 0 });
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         // Fetch stats from API
@@ -18,71 +19,133 @@ export default function TopNav() {
             .catch(() => setStats({ count: 0, total: 0 }));
     }, []);
 
+    // Close mobile menu when path changes
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+    }, [pathname]);
+
     const isActive = (path: string) => pathname === path;
 
+    const navLinks = [
+        { href: "/admin", label: "Главная", icon: FiHome },
+        { href: "/admin/products", label: "Все товары", icon: FiPackage },
+    ];
+
     return (
-        <header className="fixed top-0 left-0 right-0 h-16 md:h-20 bg-white/95 backdrop-blur-lg border-b border-neutral-200 z-50 shadow-sm">
-            <div className="container mx-auto px-3 md:px-6 h-full flex items-center justify-between max-w-7xl">
+        <>
+            <header className="fixed top-0 left-0 right-0 h-16 md:h-20 bg-white/80 backdrop-blur-xl border-b border-neutral-200/60 z-50 shadow-sm transition-all duration-300">
+                <div className="container mx-auto px-4 md:px-6 h-full flex items-center justify-between max-w-7xl">
 
-                {/* Logo & Brand */}
-                <Link href="/admin" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    <span className="text-xl md:text-2xl font-black font-serif text-neutral-900">амэа</span>
-                    <span className="text-[9px] md:text-[10px] font-bold text-white bg-neutral-900 px-2 md:px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wide">
-                        Admin
-                    </span>
-                </Link>
+                    {/* Logo & Brand */}
+                    <div className="flex items-center gap-3">
+                        {/* Mobile Menu Button */}
+                        <button
+                            className="lg:hidden p-2 -ml-2 text-neutral-600 hover:bg-neutral-100 rounded-xl transition-colors active:scale-95"
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            aria-label="Меню"
+                        >
+                            {isMobileMenuOpen ? (
+                                <FiX className="w-6 h-6" />
+                            ) : (
+                                <FiMenu className="w-6 h-6" />
+                            )}
+                        </button>
 
-                {/* Navigation Menu - Hidden on mobile */}
-                <nav className="hidden lg:flex items-center gap-2">
-                    <Link
-                        href="/admin"
-                        className={cn(
-                            "px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2",
-                            isActive("/admin")
-                                ? "bg-neutral-900 text-white shadow-md"
-                                : "text-neutral-600 hover:bg-neutral-100"
-                        )}
-                    >
-                        <FiHome className="w-4 h-4" />
-                        Главная
-                    </Link>
-                    <Link
-                        href="/admin/products"
-                        className={cn(
-                            "px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2",
-                            isActive("/admin/products")
-                                ? "bg-neutral-900 text-white shadow-md"
-                                : "text-neutral-600 hover:bg-neutral-100"
-                        )}
-                    >
-                        <FiPackage className="w-4 h-4" />
-                        Все товары
-                    </Link>
-                </nav>
+                        <Link href="/admin" className="flex items-center gap-2 hover:opacity-80 transition-opacity group">
+                            <span className="text-xl md:text-2xl font-black font-serif text-neutral-900 tracking-tight group-hover:tracking-normal transition-all duration-300">амэа</span>
+                            <span className="text-[10px] font-bold text-white bg-neutral-900 px-2 py-0.5 rounded-full uppercase tracking-wider shadow-md shadow-neutral-900/20">
+                                Admin
+                            </span>
+                        </Link>
+                    </div>
 
-                {/* Actions */}
-                <div className="flex items-center gap-2">
-                    {/* Add Product Button */}
-                    <Link
-                        href="/admin/products/new"
-                        className="flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-neutral-900 hover:bg-black text-white rounded-lg md:rounded-xl text-xs md:text-sm font-bold shadow-lg shadow-neutral-900/20 transition-all active:scale-95"
-                    >
-                        <FiPlus className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                        <span className="hidden sm:inline">Добавить</span>
-                    </Link>
+                    {/* Navigation Menu - Desktop */}
+                    <nav className="hidden lg:flex items-center gap-2 bg-neutral-100/50 p-1.5 rounded-2xl border border-neutral-200/50">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={cn(
+                                    "px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2",
+                                    isActive(link.href)
+                                        ? "bg-white text-neutral-900 shadow-sm ring-1 ring-black/5"
+                                        : "text-neutral-500 hover:text-neutral-900 hover:bg-white/50"
+                                )}
+                            >
+                                <link.icon className={cn("w-4 h-4", isActive(link.href) ? "text-neutral-900" : "text-neutral-400")} />
+                                {link.label}
+                            </Link>
+                        ))}
+                    </nav>
 
-                    {/* View Site Button */}
-                    <Link
-                        href="/"
-                        target="_blank"
-                        className="hidden md:flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 border-2 border-neutral-200 hover:border-neutral-300 text-neutral-700 hover:bg-neutral-50 rounded-lg md:rounded-xl text-xs md:text-sm font-bold transition-all"
-                        title="Открыть сайт"
-                    >
-                        <FiExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                        <span className="hidden lg:inline">Сайт</span>
-                    </Link>
+                    {/* Actions */}
+                    <div className="flex items-center gap-2 md:gap-3">
+                        {/* View Site Button - Desktop only */}
+                        <Link
+                            href="/"
+                            target="_blank"
+                            className="hidden md:flex items-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-xl text-sm font-bold transition-all active:scale-95"
+                            title="Открыть сайт"
+                        >
+                            <span className="hidden lg:inline">Открыть сайт</span>
+                            <FiExternalLink className="w-4 h-4" />
+                        </Link>
+
+                        {/* Add Product Button - Always visible */}
+                        <Link
+                            href="/admin/products/new"
+                            className="flex items-center gap-2 px-3 md:px-5 py-2 md:py-2.5 bg-neutral-900 hover:bg-black text-white rounded-xl text-xs md:text-sm font-bold shadow-lg shadow-neutral-900/20 transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 active:scale-95"
+                        >
+                            <FiPlus className="w-4 h-4" />
+                            <span className="hidden sm:inline">Добавить товар</span>
+                            <span className="sm:hidden">Создать</span>
+                        </Link>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
+
+            {/* Mobile Menu Overlay */}
+            {isMobileMenuOpen && (
+                <>
+                    {/* Backdrop */}
+                    <div
+                        className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden animate-[fadeIn_0.2s_ease-out]"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    />
+
+                    {/* Drawer */}
+                    <div className="fixed top-16 left-0 w-full bg-white z-40 lg:hidden border-b border-neutral-200 shadow-xl animate-[slideDown_0.3s_ease-out] overflow-hidden rounded-b-3xl">
+                        <div className="p-4 flex flex-col gap-2">
+                            {navLinks.map((link) => (
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    className={cn(
+                                        "flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium transition-all active:scale-[0.98]",
+                                        isActive(link.href)
+                                            ? "bg-neutral-900 text-white shadow-md shadow-neutral-900/10"
+                                            : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100"
+                                    )}
+                                >
+                                    <link.icon className={cn("w-5 h-5", isActive(link.href) ? "text-neutral-400" : "text-neutral-400")} />
+                                    {link.label}
+                                </Link>
+                            ))}
+
+                            <div className="h-px bg-neutral-100 my-1" />
+
+                            <Link
+                                href="/"
+                                target="_blank"
+                                className="flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium text-neutral-600 hover:bg-neutral-50 active:scale-[0.98] transition-all"
+                            >
+                                <FiExternalLink className="w-5 h-5 text-neutral-400" />
+                                Перейти на сайт
+                            </Link>
+                        </div>
+                    </div>
+                </>
+            )}
+        </>
     );
 }
