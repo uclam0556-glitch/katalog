@@ -82,7 +82,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
 
     return (
 
-        <form onSubmit={handleSubmit} className="min-h-screen bg-[#FDFCFB] pb-[30rem] md:pb-32 animate-[fadeIn_0.4s_ease-out]">
+        <form onSubmit={handleSubmit} className="min-h-screen bg-[#FDFCFB] pb-[50rem] md:pb-32 animate-[fadeIn_0.4s_ease-out]">
 
             {/* Header / Nav - Dedicated Panel Header */}
             <div className="sticky top-0 left-0 right-0 h-16 md:h-20 bg-white/90 backdrop-blur-xl z-[100] border-b border-neutral-100 flex items-center justify-between px-4 md:px-8 mb-6 shadow-sm safe-area-top">
@@ -370,6 +370,8 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                     </button>
                 </div>
             </div>
+            {/* Extra Spacer for safe scrolling on mobile */}
+            <div className="h-32 md:hidden"></div>
 
         </form>
     );
