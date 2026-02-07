@@ -2,6 +2,8 @@
  * WhatsApp Integration Utilities
  */
 
+import { formatPrice } from "@/lib/utils";
+
 export interface Product {
     id: string;
     name: string;
@@ -46,7 +48,7 @@ export function formatOrderMessage(product: Product): string {
         "Здравствуйте! 👋",
         "",
         `Хочу заказать: *${product.name}*`,
-        `Цена: ${product.price.toLocaleString("ru-RU")} ₽`,
+        `Цена: ${formatPrice(product.price)}`,
     ];
 
     if (product.sku) {
@@ -75,15 +77,15 @@ export function formatMultipleOrderMessage(products: Product[]): string {
 
     products.forEach((product, index) => {
         parts.push(`${index + 1}. *${product.name}*`);
-        parts.push(`   Цена: ${product.price.toLocaleString("ru-RU")} ₽`);
+        parts.push(`   Цена: ${formatPrice(product.price)}`);
         if (product.sku) {
             parts.push(`   Артикул: ${product.sku}`);
         }
         parts.push("");
     });
 
-    const total = products.reduce((sum, p) => sum + p.price, 0);
-    parts.push(`*Общая сумма: ${total.toLocaleString("ru-RU")} ₽*`);
+    const total = products.reduce((sum, p) => sum + (p.price || 0), 0);
+    parts.push(`*Общая сумма: ${formatPrice(total)}*`);
     parts.push("", "Можете уточнить наличие и сроки доставки?");
 
     return parts.join("\n");

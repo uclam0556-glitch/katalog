@@ -12,8 +12,12 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Format price with currency
  */
-export function formatPrice(price: number, currency: string = "₽"): string {
-    return `${price.toLocaleString("ru-RU")} ${currency}`;
+export function formatPrice(price: number | string | undefined | null, currency: string = "₽"): string {
+    if (price === undefined || price === null) return `0 ${currency}`;
+    const numPrice = typeof price === 'string' ? parseFloat(price) : price;
+    if (isNaN(numPrice)) return `0 ${currency}`;
+
+    return `${numPrice.toLocaleString("ru-RU")} ${currency}`;
 }
 
 /**
