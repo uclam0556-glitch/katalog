@@ -64,8 +64,8 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
 
     return (
         <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-24 md:pb-0">
-            {/* Mobile Header Spacer - Explicit Block to prevent overlap */}
-            <div className="h-28 block md:hidden w-full bg-transparent"></div>
+            {/* Mobile Header Spacer - Exact match for Fixed Header (h-16) */}
+            <div className="h-16 block md:hidden w-full bg-transparent"></div>
 
             {/* Desktop Header Spacer */}
             <div className="hidden md:block h-32 md:h-40"></div>
@@ -77,20 +77,32 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                     <div className="lg:col-span-7 relative">
                         {/* 
                            MOBILE: Aspect Ratio Slider 
-                           - Clean 4:3 ratio (best for furniture)
+                           - Square ratio (larger)
                            - Snap scroll
                            - White background
                            - Object Contain (No cropping)
                         */}
-                        <div className="lg:hidden w-full bg-white">
-                            <div className="relative aspect-[4/3] w-full overflow-hidden">
+                        <div className="lg:hidden w-full bg-white relative group">
+                            {/* Mobile Overlay Buttons */}
+                            <div className="absolute top-4 left-4 z-20">
+                                <Link href="/catalog" className="w-10 h-10 bg-white/80 backdrop-blur-md border border-neutral-100/50 rounded-full flex items-center justify-center text-neutral-900 shadow-sm active:scale-95 transition-all">
+                                    <FiArrowLeft className="w-5 h-5" />
+                                </Link>
+                            </div>
+                            <div className="absolute top-4 right-4 z-20 flex gap-3">
+                                <button className="w-10 h-10 bg-white/80 backdrop-blur-md border border-neutral-100/50 rounded-full flex items-center justify-center text-neutral-900 shadow-sm active:scale-95 transition-all">
+                                    <FiShare2 className="w-5 h-5" />
+                                </button>
+                            </div>
+
+                            <div className="relative aspect-square w-full overflow-hidden">
                                 <div
                                     ref={scrollContainerRef}
                                     onScroll={handleScroll}
                                     className="flex h-full w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide no-scrollbar"
                                 >
                                     {allImages.map((img, idx) => (
-                                        <div key={idx} className="flex-shrink-0 w-full h-full snap-center relative flex items-center justify-center p-4">
+                                        <div key={idx} className="flex-shrink-0 w-full h-full snap-center relative flex items-center justify-center p-8">
                                             <Image
                                                 src={img}
                                                 alt={`${product.name} - View ${idx + 1}`}
