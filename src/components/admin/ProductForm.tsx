@@ -72,8 +72,9 @@ export default function ProductForm({ initialData }: ProductFormProps) {
             showToast("🎉 Товар успешно опубликован!", "success");
             router.push("/admin");
             router.refresh();
-        } catch (error: any) {
-            showToast(`Ошибка: ${error.message}`, "error");
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Неизвестная ошибка";
+            showToast(`Ошибка: ${errorMessage}`, "error");
         } finally {
             setLoading(false);
         }

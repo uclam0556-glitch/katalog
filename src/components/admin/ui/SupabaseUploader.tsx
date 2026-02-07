@@ -100,7 +100,7 @@ export default function SupabaseUploader({ images, onChange, maxImages = 5 }: Su
                 // Update progress bar
                 setProgress(Math.round(((i + 1) / filesToUpload.length) * 100));
             }
-        } catch (error: any) {
+        } catch (error) {
             console.error("Critical upload error:", error);
         } finally {
             setUploading(false);

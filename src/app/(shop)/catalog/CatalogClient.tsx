@@ -16,6 +16,91 @@ interface CatalogClientProps {
     initialProducts: Product[];
 }
 
+const CategorySidebar = ({
+    mobile = false,
+    selectedCategory,
+    onSelectCategory,
+    products
+}: {
+    mobile?: boolean;
+    selectedCategory: string | null;
+    onSelectCategory: (c: string | null) => void;
+    products: Product[];
+}) => (
+    <div className={cn(
+        "backdrop-blur-xl bg-white/70 border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.05)] rounded-2xl overflow-hidden transition-all duration-500",
+        mobile ? "p-5" : "p-6 sticky top-24"
+    )}>
+        <div className="flex items-center gap-2 mb-6 opacity-70">
+            <div className="w-1 h-6 bg-amber-600 rounded-full"></div>
+            <h3 className="text-lg font-bold font-serif text-neutral-900 tracking-wide">КОЛЛЕКЦИИ</h3>
+        </div>
+
+        <div className="space-y-1.5">
+            <button
+                onClick={() => onSelectCategory(null)}
+                className={cn(
+                    "w-full text-left px-5 py-4 rounded-xl transition-all duration-300 flex items-center justify-between group relative overflow-hidden",
+                    selectedCategory === null
+                        ? "text-white shadow-lg shadow-amber-900/20"
+                        : "text-neutral-600 hover:bg-white/60 hover:text-neutral-900"
+                )}
+            >
+                {selectedCategory === null && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-neutral-900 to-amber-950 z-0"></div>
+                )}
+                <span className="font-medium text-sm tracking-wide z-10 relative">Все товары</span>
+                <span className={cn(
+                    "text-[10px] font-bold px-2 py-0.5 rounded-full z-10 relative transition-colors",
+                    selectedCategory === null ? "bg-white/20 text-white" : "bg-neutral-100/50 text-neutral-400 group-hover:bg-amber-100 group-hover:text-amber-800"
+                )}>
+                    {products.length}
+                </span>
+            </button>
+            {categories.map((category) => {
+                const count = products.filter(p => p.category === category.name).length;
+                return (
+                    <button
+                        key={category.id}
+                        onClick={() => onSelectCategory(selectedCategory === category.slug ? null : category.slug)}
+                        className={cn(
+                            "w-full text-left px-5 py-4 rounded-xl transition-all duration-300 flex items-center justify-between group relative overflow-hidden",
+                            selectedCategory === category.slug
+                                ? "text-white shadow-lg shadow-amber-900/20"
+                                : "text-neutral-600 hover:bg-white/60 hover:text-neutral-900"
+                        )}
+                    >
+                        {selectedCategory === category.slug && (
+                            <div className="absolute inset-0 bg-gradient-to-r from-neutral-900 to-amber-950 z-0"></div>
+                        )}
+                        <span className="font-medium text-sm tracking-wide z-10 relative">{category.name}</span>
+                        <span className={cn(
+                            "text-[10px] font-bold px-2 py-0.5 rounded-full z-10 relative transition-colors",
+                            selectedCategory === category.slug
+                                ? "bg-white/20 text-white"
+                                : "bg-neutral-100/50 text-neutral-400 group-hover:bg-amber-100 group-hover:text-amber-800"
+                        )}>
+                            {count}
+                        </span>
+                    </button>
+                );
+            })}
+        </div>
+
+        {/* Decor element */}
+        <div className="mt-8 pt-6 border-t border-neutral-200/50">
+            <div className="relative h-32 rounded-xl overflow-hidden group cursor-pointer">
+                <div className="absolute inset-0 bg-neutral-900/40 group-hover:bg-neutral-900/30 transition-colors z-10"></div>
+                <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&q=80" className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" alt="Interior" />
+                <div className="absolute bottom-4 left-4 z-20">
+                    <p className="text-white text-xs font-medium opacity-80 mb-1">Новая коллекция</p>
+                    <p className="text-white font-serif italic text-lg">Spring 2026</p>
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
 export default function CatalogClient({ initialProducts }: CatalogClientProps) {
     const [searchQuery, setSearchQuery] = React.useState("");
     const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
@@ -32,7 +117,7 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
 
     // Filter and sort logic
     const filteredAndSortedProducts = React.useMemo(() => {
-        let filtered = initialProducts.filter((product) => {
+        const filtered = initialProducts.filter((product) => {
             const matchesSearch =
                 searchQuery === "" ||
                 product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -58,82 +143,6 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
         const whatsappLink = generateWhatsAppLink("+79667422726", product);
         openWhatsApp(whatsappLink);
     };
-
-    // MODERN SIDEBAR COMPONENT
-    const CategorySidebar = ({ mobile = false }) => (
-        <div className={cn(
-            "backdrop-blur-xl bg-white/70 border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.05)] rounded-2xl overflow-hidden transition-all duration-500",
-            mobile ? "p-5" : "p-6 sticky top-24"
-        )}>
-            <div className="flex items-center gap-2 mb-6 opacity-70">
-                <div className="w-1 h-6 bg-amber-600 rounded-full"></div>
-                <h3 className="text-lg font-bold font-serif text-neutral-900 tracking-wide">КОЛЛЕКЦИИ</h3>
-            </div>
-
-            <div className="space-y-1.5">
-                <button
-                    onClick={() => setSelectedCategory(null)}
-                    className={cn(
-                        "w-full text-left px-5 py-4 rounded-xl transition-all duration-300 flex items-center justify-between group relative overflow-hidden",
-                        selectedCategory === null
-                            ? "text-white shadow-lg shadow-amber-900/20"
-                            : "text-neutral-600 hover:bg-white/60 hover:text-neutral-900"
-                    )}
-                >
-                    {selectedCategory === null && (
-                        <div className="absolute inset-0 bg-gradient-to-r from-neutral-900 to-amber-950 z-0"></div>
-                    )}
-                    <span className="font-medium text-sm tracking-wide z-10 relative">Все товары</span>
-                    <span className={cn(
-                        "text-[10px] font-bold px-2 py-0.5 rounded-full z-10 relative transition-colors",
-                        selectedCategory === null ? "bg-white/20 text-white" : "bg-neutral-100/50 text-neutral-400 group-hover:bg-amber-100 group-hover:text-amber-800"
-                    )}>
-                        {initialProducts.length}
-                    </span>
-                </button>
-                {categories.map((category) => {
-                    const count = initialProducts.filter(p => p.category === category.name).length;
-                    return (
-                        <button
-                            key={category.id}
-                            onClick={() => setSelectedCategory(selectedCategory === category.slug ? null : category.slug)}
-                            className={cn(
-                                "w-full text-left px-5 py-4 rounded-xl transition-all duration-300 flex items-center justify-between group relative overflow-hidden",
-                                selectedCategory === category.slug
-                                    ? "text-white shadow-lg shadow-amber-900/20"
-                                    : "text-neutral-600 hover:bg-white/60 hover:text-neutral-900"
-                            )}
-                        >
-                            {selectedCategory === category.slug && (
-                                <div className="absolute inset-0 bg-gradient-to-r from-neutral-900 to-amber-950 z-0"></div>
-                            )}
-                            <span className="font-medium text-sm tracking-wide z-10 relative">{category.name}</span>
-                            <span className={cn(
-                                "text-[10px] font-bold px-2 py-0.5 rounded-full z-10 relative transition-colors",
-                                selectedCategory === category.slug
-                                    ? "bg-white/20 text-white"
-                                    : "bg-neutral-100/50 text-neutral-400 group-hover:bg-amber-100 group-hover:text-amber-800"
-                            )}>
-                                {count}
-                            </span>
-                        </button>
-                    );
-                })}
-            </div>
-
-            {/* Decor element */}
-            <div className="mt-8 pt-6 border-t border-neutral-200/50">
-                <div className="relative h-32 rounded-xl overflow-hidden group cursor-pointer">
-                    <div className="absolute inset-0 bg-neutral-900/40 group-hover:bg-neutral-900/30 transition-colors z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&q=80" className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" alt="Interior" />
-                    <div className="absolute bottom-4 left-4 z-20">
-                        <p className="text-white text-xs font-medium opacity-80 mb-1">Новая коллекция</p>
-                        <p className="text-white font-serif italic text-lg">Spring 2026</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
 
     return (
         <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans" style={{ paddingTop: "50px" }}>
@@ -219,7 +228,12 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                         isMobileFilterOpen ? "grid-rows-[1fr] mt-4 opacity-100" : "grid-rows-[0fr] opacity-0"
                     )}>
                         <div className="min-h-0">
-                            <CategorySidebar mobile />
+                            <CategorySidebar
+                                mobile
+                                selectedCategory={selectedCategory}
+                                onSelectCategory={setSelectedCategory}
+                                products={initialProducts}
+                            />
                         </div>
                     </div>
                 </div>
@@ -227,7 +241,11 @@ export default function CatalogClient({ initialProducts }: CatalogClientProps) {
                 <div className="flex flex-col lg:flex-row gap-12">
                     {/* Desktop Sidebar */}
                     <aside className="hidden lg:block w-[280px] flex-shrink-0 animate-[fadeIn_0.6s_ease-out_0.2s_forwards] opacity-0">
-                        <CategorySidebar />
+                        <CategorySidebar
+                            selectedCategory={selectedCategory}
+                            onSelectCategory={setSelectedCategory}
+                            products={initialProducts}
+                        />
                     </aside>
 
                     {/* Main Content */}

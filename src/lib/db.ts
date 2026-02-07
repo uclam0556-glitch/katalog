@@ -65,7 +65,7 @@ export async function saveProduct(product: Product): Promise<void> {
             console.error("Error saving product:", error);
             throw new Error(`Failed to save product: ${error.message}`);
         }
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Error saving product:", error);
         throw error;
     }
@@ -85,7 +85,7 @@ export async function deleteProduct(id: string): Promise<void> {
             console.error("Error deleting product:", error);
             throw new Error(`Failed to delete product: ${error.message}`);
         }
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Error deleting product:", error);
         throw error;
     }

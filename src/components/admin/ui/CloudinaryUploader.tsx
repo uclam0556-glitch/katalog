@@ -14,6 +14,7 @@ interface CloudinaryUploaderProps {
 export default function CloudinaryUploader({ images, onChange, maxImages = 5 }: CloudinaryUploaderProps) {
     const [uploading, setUploading] = useState(false);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleUploadSuccess = (result: any) => {
         if (result.event === 'success') {
             const newUrl = result.info.secure_url;

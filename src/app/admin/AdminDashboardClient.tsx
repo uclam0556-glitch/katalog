@@ -41,7 +41,7 @@ export default function AdminDashboardClient({ initialProducts }: Props) {
 
     // Filter and sort
     const filteredProducts = useMemo(() => {
-        let filtered = products.filter(p => {
+        const filtered = products.filter(p => {
             const matchesSearch = !searchQuery ||
                 p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 p.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||

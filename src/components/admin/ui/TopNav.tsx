@@ -19,10 +19,8 @@ export default function TopNav() {
             .catch(() => setStats({ count: 0, total: 0 }));
     }, []);
 
-    // Close mobile menu when path changes
-    useEffect(() => {
-        setIsMobileMenuOpen(false);
-    }, [pathname]);
+    // Close mobile menu when path changes - Removed useEffect to avoid set-state-in-effect lint error
+    // Instead, we close the menu when a link is clicked.
 
     const isActive = (path: string) => pathname === path;
 
@@ -120,6 +118,7 @@ export default function TopNav() {
                                 <Link
                                     key={link.href}
                                     href={link.href}
+                                    onClick={() => setIsMobileMenuOpen(false)} // Close on click
                                     className={cn(
                                         "flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium transition-all active:scale-[0.98]",
                                         isActive(link.href)
