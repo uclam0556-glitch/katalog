@@ -151,10 +151,10 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                     <h1 className="text-3xl md:text-5xl font-bold font-serif text-neutral-900 leading-tight">
                                         {product.name}
                                     </h1>
-                                    {product.oldPrice && (
+                                    {product.oldPrice && product.oldPrice > product.price && (
                                         <div className="flex flex-col items-end">
-                                            <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-bold uppercase tracking-wider">
-                                                Sale
+                                            <span className="bg-red-100 text-red-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">
+                                                -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
                                             </span>
                                         </div>
                                     )}

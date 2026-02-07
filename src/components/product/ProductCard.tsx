@@ -53,6 +53,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                         </span>
                     </div>
                 )}
+
+                {/* Discount Badge - Auto Calculated */}
+                {product.oldPrice && product.oldPrice > product.price && (
+                    <div className="absolute top-2 left-2 z-10">
+                        <span className="px-2.5 py-1 bg-red-600/90 text-white text-xs font-bold rounded backdrop-blur-sm shadow-sm">
+                            -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
+                        </span>
+                    </div>
+                )}
             </div>
 
             {/* Product Info */}
