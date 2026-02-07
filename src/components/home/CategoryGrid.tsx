@@ -54,7 +54,7 @@ export const CategoryGrid: React.FC = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90" />
 
                             {/* Text Content - Readable & Clean */}
-                            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                            <div className="absolute bottom-0 left-0 right-0 p-5 md:p-7">
                                 <h3 className="text-white font-bold text-sm md:text-xl leading-tight mb-1 drop-shadow-md">
                                     {category.name}
                                 </h3>

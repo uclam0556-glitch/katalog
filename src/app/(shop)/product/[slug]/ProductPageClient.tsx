@@ -89,7 +89,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                     <div className="lg:col-span-7 relative">
                         {/* Mobile: Full Screen Scroll Snap Swiper */}
                         {/* Desktop: Sticky Gallery */}
-                        <div className="sticky top-0 lg:top-32 h-[75vh] lg:h-[calc(100vh-160px)] w-full bg-white lg:rounded-[2.5rem] overflow-hidden">
+                        <div className="sticky top-0 lg:top-32 h-[65vh] lg:h-[calc(100vh-160px)] w-[calc(100%+2.25rem)] -mx-[1.125rem] lg:w-full lg:mx-0 bg-white lg:rounded-[2.5rem] overflow-hidden">
 
                             <div
                                 ref={scrollContainerRef}
@@ -102,11 +102,10 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                                             src={img}
                                             alt={`${product.name} - View ${idx + 1}`}
                                             fill
-                                            className="object-cover"
+                                            className="object-contain"
                                             priority={idx === 0}
                                             onClick={() => setLightboxOpen(true)}
                                         />
-                                        {/* Gradient removed as requested for 'integral picture' look */}
                                     </div>
                                 ))}
                             </div>

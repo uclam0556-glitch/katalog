@@ -181,9 +181,9 @@ body {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.25rem;
-  /* 20px on mobile */
-  padding-right: 1.25rem;
+  padding-left: 1.125rem;
+  /* 18px on mobile */
+  padding-right: 1.125rem;
 }
 
 @media (min-width: 768px) {
