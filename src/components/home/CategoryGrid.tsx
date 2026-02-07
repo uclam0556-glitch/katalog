@@ -21,7 +21,7 @@ const categoryImages: Record<string, string> = {
 export const CategoryGrid: React.FC = () => {
     return (
         <section className="py-6 md:py-16 bg-white">
-            <div className="container mx-auto px-8 md:px-12 max-w-6xl">
+            <div className="container-custom max-w-7xl">
                 {/* Section Header */}
                 <div className="text-center mb-4 md:mb-12">
                     <h2 className="text-lg md:text-4xl font-bold text-neutral-900 mb-1 md:mb-4">
