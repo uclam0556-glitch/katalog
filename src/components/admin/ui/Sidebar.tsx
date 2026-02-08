@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiHome, FiPackage, FiBarChart2, FiSettings, FiLogOut, FiLayout, FiGrid } from "react-icons/fi";
+import { FiHome, FiPackage, FiBarChart2, FiSettings, FiLogOut, FiGrid } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 
 const navigation = [

@@ -1,0 +1,95 @@
+
+> katalog@0.1.0 lint
+> eslint
+
+
+/Users/khamid/Documents/katalog/src/app/(product)/product/[slug]/ProductPageClient.tsx
+    7:15  warning  'FiChevronLeft' is defined but never used                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+    7:30  warning  'FiChevronRight' is defined but never used                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+   76:22  warning  'error' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  412:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/khamid/Documents/katalog/src/app/(product)/product/[slug]/page.tsx
+  27:11  warning  'previousImages' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/khamid/Documents/katalog/src/app/(shop)/HomeClient.tsx
+  10:10  warning  'FiStar' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/khamid/Documents/katalog/src/app/(shop)/catalog/CatalogClient.tsx
+    5:8   warning  'Link' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+    6:50  warning  'FiHeart' is defined but never used                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+    6:59  warning  'FiShoppingBag' is defined but never used                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+    6:74  warning  'FiArrowRight' is defined but never used                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+   94:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  109:12  warning  'isScrolled' is assigned a value but never used                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+
+/Users/khamid/Documents/katalog/src/app/admin/AdminDashboardClient.tsx
+   7:10  warning  'categories' is defined but never used                    @typescript-eslint/no-unused-vars
+   9:23  warning  'FiFilter' is defined but never used                      @typescript-eslint/no-unused-vars
+   9:33  warning  'FiDownload' is defined but never used                    @typescript-eslint/no-unused-vars
+  11:14  warning  'FiTrash2' is defined but never used                      @typescript-eslint/no-unused-vars
+  11:24  warning  'FiEye' is defined but never used                         @typescript-eslint/no-unused-vars
+  11:38  warning  'FiChevronDown' is defined but never used                 @typescript-eslint/no-unused-vars
+  12:5   warning  'FiCheck' is defined but never used                       @typescript-eslint/no-unused-vars
+  12:14  warning  'FiMoreVertical' is defined but never used                @typescript-eslint/no-unused-vars
+  31:12  warning  'selectedProducts' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  31:30  warning  'setSelectedProducts' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/khamid/Documents/katalog/src/app/admin/products/new/page.tsx
+  2:8  warning  'PageHeader' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/khamid/Documents/katalog/src/app/layout.tsx
+  59:9  warning  Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  @next/next/no-page-custom-font
+
+/Users/khamid/Documents/katalog/src/app/stories/StoriesClient.tsx
+   4:46  warning  'useCallback' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   8:15  warning  'FiChevronLeft' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+  22:11  warning  'touchStartY' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  53:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/khamid/Documents/katalog/src/app/stories/StoriesClient.tsx:53:9
+  51 |     // Reset progress when slide changes manually
+  52 |     useEffect(() => {
+> 53 |         setProgress(0);
+     |         ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  54 |     }, [currentIndex]);
+  55 |
+  56 |     const scrollToSlide = (index: number) => {  react-hooks/set-state-in-effect
+  93:22  warning  'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+
+/Users/khamid/Documents/katalog/src/components/admin/DeleteProductButton.tsx
+  19:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/khamid/Documents/katalog/src/components/admin/ProductForm.tsx
+   11:50  warning  'FiLayout' is defined but never used                                                                                          @typescript-eslint/no-unused-vars
+   11:60  warning  'FiDollarSign' is defined but never used                                                                                      @typescript-eslint/no-unused-vars
+   11:74  warning  'FiList' is defined but never used                                                                                            @typescript-eslint/no-unused-vars
+   12:23  warning  'cn' is defined but never used                                                                                                @typescript-eslint/no-unused-vars
+  104:8   warning  React Hook React.useEffect has a missing dependency: 'CATEGORY_DIMENSIONS'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/khamid/Documents/katalog/src/components/admin/ui/CloudinaryUploader.tsx
+   5:30  warning  'FiLoader' is defined but never used               @typescript-eslint/no-unused-vars
+  15:12  warning  'uploading' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  15:23  warning  'setUploading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/khamid/Documents/katalog/src/components/admin/ui/Sidebar.tsx
+  5:64  warning  'FiLayout' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/khamid/Documents/katalog/src/components/admin/ui/SupabaseUploader.tsx
+   5:25  warning  'FiX' is defined but never used                    @typescript-eslint/no-unused-vars
+   5:30  warning  'FiLoader' is defined but never used               @typescript-eslint/no-unused-vars
+   5:40  warning  'FiCheck' is defined but never used                @typescript-eslint/no-unused-vars
+  90:21  warning  'successCount' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/khamid/Documents/katalog/src/components/admin/ui/TopNav.tsx
+   5:53  warning  'FiTrendingUp' is defined but never used    @typescript-eslint/no-unused-vars
+  11:12  warning  'stats' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 45 problems (1 error, 44 warnings)
+

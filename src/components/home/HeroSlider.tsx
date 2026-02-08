@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { FiPlay } from "react-icons/fi";
 
 interface Slide {
     id: number;
@@ -108,6 +109,17 @@ export const HeroSlider: React.FC = () => {
                     </div>
                 </div>
             ))}
+
+            {/* Floating Stories Button */}
+            <Link
+                href="/stories"
+                className="absolute top-6 right-6 z-30 flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 text-white px-4 py-2 rounded-full hover:bg-white/30 transition-all cursor-pointer animate-[pulse_3s_infinite]"
+            >
+                <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center shadow-lg shadow-red-500/40">
+                    <FiPlay className="w-3.5 h-3.5 fill-white" />
+                </div>
+                <span className="font-bold text-sm tracking-wide hidden md:block">Смотреть Истории</span>
+            </Link>
 
             {/* Dots Navigation */}
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">

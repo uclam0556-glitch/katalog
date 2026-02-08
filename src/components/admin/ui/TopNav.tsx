@@ -2,22 +2,16 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { FiHome, FiPackage, FiPlus, FiExternalLink, FiTrendingUp, FiMenu, FiX } from "react-icons/fi";
+import { FiHome, FiPackage, FiPlus, FiExternalLink, FiMenu, FiX } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export default function TopNav() {
     const pathname = usePathname();
-    const [stats, setStats] = useState({ count: 0, total: 0 });
+
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    useEffect(() => {
-        // Fetch stats from API
-        fetch('/api/stats')
-            .then(res => res.json())
-            .then(data => setStats(data))
-            .catch(() => setStats({ count: 0, total: 0 }));
-    }, []);
+
 
     // Close mobile menu when path changes - Removed useEffect to avoid set-state-in-effect lint error
     // Instead, we close the menu when a link is clicked.

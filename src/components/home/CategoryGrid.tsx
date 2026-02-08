@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { categories } from "@/data/products";
-import { cn } from "@/lib/utils";
+
 
 // Map category slugs to generated images
 const categoryImages: Record<string, string> = {

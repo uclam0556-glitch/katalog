@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { FiUploadCloud, FiX, FiLoader, FiCheck } from "react-icons/fi";
+import { FiUploadCloud } from "react-icons/fi";
 import { supabase } from "@/lib/supabase";
 import imageCompression from 'browser-image-compression';
 
@@ -78,7 +78,7 @@ export default function SupabaseUploader({ images, onChange, maxImages = 5 }: Su
         setProgress(0);
 
         const newImages = [...images];
-        let successCount = 0;
+
 
         try {
             // SEQUENTIAL UPLOAD to prevent network bottleneck
@@ -87,7 +87,7 @@ export default function SupabaseUploader({ images, onChange, maxImages = 5 }: Su
                 try {
                     const url = await uploadImage(file);
                     newImages.push(url);
-                    successCount++;
+
 
                     // Update main state immediately so user sees progress
                     onChange([...newImages]);

@@ -24,7 +24,7 @@ export async function generateMetadata(
         };
     }
 
-    const previousImages = (await parent).openGraph?.images || [];
+
     const productImages = product.images && product.images.length > 0 ? product.images : (product.thumbnail ? [product.thumbnail] : []);
 
     // Ensure absolute URLs if needed, but Next.js metadataBase handles relative paths usually.

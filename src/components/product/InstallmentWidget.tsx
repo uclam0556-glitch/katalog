@@ -7,7 +7,7 @@ import {
     RATES_WITH_DOWNPAYMENT,
     RATES_NO_DOWNPAYMENT
 } from "@/utils/installment";
-import { FiCheck, FiInfo } from "react-icons/fi";
+
 import { FaWhatsapp } from "react-icons/fa";
 import { Product } from "@/types/product";
 
