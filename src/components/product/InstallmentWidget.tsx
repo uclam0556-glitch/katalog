@@ -70,7 +70,7 @@ export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) =>
                         Халяль
                     </span>
                     <h3 className="font-bold text-2xl text-neutral-900 leading-none mb-1">Рассрочка</h3>
-                    <p className="text-sm text-neutral-500 font-medium">Без банка • Без процентов</p>
+                    <p className="text-sm text-neutral-500 font-medium">Легко и быстро</p>
                 </div>
 
                 {/* Segmented Control */}
