@@ -27,9 +27,9 @@ export function StoriesBar({ products }: StoriesBarProps) {
     if (categories.length === 0 && validProducts.length === 0) return null;
 
     return (
-        <div className="w-full bg-white pt-4 pb-4 border-b border-neutral-100/50 sticky top-[76px] z-40 shadow-sm/50">
+        <div className="w-full bg-white py-2 border-b border-neutral-100/50 sticky top-[64px] z-40 shadow-sm/50">
             {/* Added sticky positioning to stay visible but below header. 
-                Moved down to top-[76px] and increased pt-4 for better spacing.
+                Moved down to top-[70px] (slightly higher) and increased pt-4 for better spacing.
             */}
             <div className="container-custom overflow-x-auto scrollbar-hide py-1">
                 <div className="flex gap-4 md:gap-6 min-w-max px-4">
@@ -37,15 +37,15 @@ export function StoriesBar({ products }: StoriesBarProps) {
                     {/* "ALL" Stories - Premium Icon */}
                     <div className="flex flex-col items-center gap-2 cursor-pointer group">
                         <Link href="/stories">
-                            <div className="w-[72px] h-[72px] p-[3px] rounded-full border-2 border-transparent bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 hover:scale-105 transition-transform duration-300 shadow-md">
+                            <div className="w-[64px] h-[64px] p-[3px] rounded-full border-2 border-transparent bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 hover:scale-105 transition-transform duration-300 shadow-md">
                                 <div className="w-full h-full rounded-full bg-white flex items-center justify-center p-[2px]">
                                     <div className="w-full h-full rounded-full bg-gradient-to-br from-neutral-50 to-neutral-100 flex items-center justify-center">
-                                        <FiGrid className="w-7 h-7 text-neutral-800" />
+                                        <FiGrid className="w-6 h-6 text-neutral-800" />
                                     </div>
                                 </div>
                             </div>
                         </Link>
-                        <span className="text-xs text-neutral-800 font-medium max-w-[70px] truncate text-center">
+                        <span className="text-xs text-neutral-800 font-medium max-w-[64px] truncate text-center">
                             Все
                         </span>
                     </div>
@@ -62,7 +62,7 @@ export function StoriesBar({ products }: StoriesBarProps) {
                                 className="flex flex-col items-center gap-2 cursor-pointer group active:scale-95 transition-transform"
                             >
                                 {/* Gradient Ring */}
-                                <div className="w-[72px] h-[72px] p-[3px] rounded-full bg-gradient-to-tr from-amber-400 via-orange-500 to-red-500 group-hover:rotate-6 transition-all duration-500 shadow-sm">
+                                <div className="w-[64px] h-[64px] p-[3px] rounded-full bg-gradient-to-tr from-amber-400 via-orange-500 to-red-500 group-hover:rotate-6 transition-all duration-500 shadow-sm">
                                     {/* White gap */}
                                     <div className="w-full h-full rounded-full bg-white p-[2px]">
                                         {/* Image Container */}

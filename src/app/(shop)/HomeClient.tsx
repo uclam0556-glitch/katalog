@@ -23,7 +23,7 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
     };
 
     return (
-        <div className="min-h-screen bg-white pt-24">
+        <div className="min-h-screen bg-white pt-16">
             {/* Stories Bar - Instagram Style */}
             <StoriesBar products={initialProducts} />
 

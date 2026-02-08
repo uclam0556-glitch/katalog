@@ -50,9 +50,9 @@ export default function StoriesClient({ products }: StoriesClientProps) {
 
     const scrollToSlide = (index: number) => {
         if (containerRef.current) {
-            const height = containerRef.current.offsetHeight;
+            const width = containerRef.current.offsetWidth;
             containerRef.current.scrollTo({
-                top: height * index,
+                left: width * index,
                 behavior: 'smooth'
             });
             setCurrentIndex(index);
@@ -62,9 +62,9 @@ export default function StoriesClient({ products }: StoriesClientProps) {
 
     const handleScroll = () => {
         if (containerRef.current) {
-            const height = containerRef.current.offsetHeight;
-            const scrollTop = containerRef.current.scrollTop;
-            const index = Math.round(scrollTop / height);
+            const width = containerRef.current.offsetWidth;
+            const scrollLeft = containerRef.current.scrollLeft;
+            const index = Math.round(scrollLeft / width);
             if (index !== currentIndex) {
                 setCurrentIndex(index);
                 setProgress(0); // Reset progress manually
