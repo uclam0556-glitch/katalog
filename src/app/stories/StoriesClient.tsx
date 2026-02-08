@@ -12,6 +12,8 @@ interface StoriesClientProps {
     products: Product[];
 }
 
+import { generateProductSlug } from "@/utils/slug";
+
 export default function StoriesClient({ products }: StoriesClientProps) {
     const router = useRouter();
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -76,12 +78,10 @@ export default function StoriesClient({ products }: StoriesClientProps) {
     const togglePause = () => setIsPaused(!isPaused);
 
     const getProductUrl = (product: Product) => {
-        // WhatsApp style: slug is primary, id is fallback. 
-        // Ensure we don't end up with /product/undefined or /product/
-        if (product.slug && product.slug.trim().length > 0) {
-            return `/product/${product.slug}`;
-        }
-        return `/product/${product.id}`; // Fallback to ID which [slug] page handles
+        // ALWAYS generate the slug on the fly to ensure it matches the 
+        // expected format "transliterated-name---id" that the product page needs.
+        // relying on product.slug from DB is risky if DB has raw names like "Столы и стулья"
+        return `/product/${generateProductSlug(product)}`;
     };
 
     const handleShare = async (product: Product) => {
