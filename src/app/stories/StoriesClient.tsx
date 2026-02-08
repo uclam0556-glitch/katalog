@@ -145,77 +145,90 @@ export default function StoriesClient({ products }: StoriesClientProps) {
                     return (
                         <div
                             key={product.id}
-                            className="h-[100dvh] w-full snap-start relative flex items-center justify-center bg-neutral-900 overflow-hidden"
+                            className="h-[100dvh] w-full snap-start relative flex items-center justify-center bg-black overflow-hidden"
                             onClick={togglePause} // Tap to pause/resume
                         >
-                            {/* Background Image with Zoom Effect */}
-                            <div className={cn(
-                                "absolute inset-0 w-full h-full transition-transform duration-[10000ms] ease-out",
-                                isActive && !isPaused ? "scale-110" : "scale-100" // Slow zoom when active
-                            )}>
+                            {/* 1. Ambient Background (Blurred) */}
+                            <div className="absolute inset-0 z-0">
                                 <Image
                                     src={imageSrc}
-                                    alt={product.name}
+                                    alt="background"
                                     fill
-                                    className="object-cover opacity-90"
-                                    priority={idx <= 1} // Prioritize first two
+                                    className="object-cover blur-3xl opacity-40 scale-125"
+                                    priority={idx <= 1}
                                 />
-                                <div className="absolute inset-0 bg-black/20" /> {/* Dimmer */}
+                                <div className="absolute inset-0 bg-black/30" /> {/* Dimmer */}
                             </div>
 
-                            {/* Gradient Overlay for Text Readability */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+                            {/* 2. Main Image (Contain) - iOS Style */}
+                            <div className="relative z-10 w-full h-full flex flex-col pt-24 pb-32 px-4 md:px-0 md:max-w-md mx-auto">
+                                <div className={cn(
+                                    "relative w-full flex-1 rounded-3xl overflow-hidden shadow-2xl transition-transform duration-700 ease-out bg-black/20 backdrop-blur-sm border border-white/10",
+                                    isActive && !isPaused ? "scale-100" : "scale-95 opacity-80"
+                                )}>
+                                    <Image
+                                        src={imageSrc}
+                                        alt={product.name}
+                                        fill
+                                        className="object-contain p-2"
+                                        priority={idx <= 1}
+                                        sizes="(max-width: 768px) 100vw, 500px"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Gradient Overlay for Text Readability - Minimal */}
+                            <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-20" />
 
                             {/* Content Overlay */}
-                            <div className="absolute bottom-0 left-0 right-0 p-6 pb-12 md:pb-10 flex flex-col gap-4 pointer-events-none animate-[slideUp_0.3s_ease-out]">
+                            <div className="absolute bottom-0 left-0 right-0 p-6 pb-8 md:pb-10 flex flex-col gap-4 pointer-events-none animate-[slideUp_0.3s_ease-out] z-30 max-w-md mx-auto w-full">
 
                                 <div className="pointer-events-auto">
-                                    <div className="flex items-start justify-between">
-                                        <div>
+                                    <div className="flex items-end justify-between mb-6">
+                                        <div className="flex-1 pr-4">
                                             {/* Category Tag */}
-                                            <div className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-lg text-xs font-bold uppercase tracking-wider mb-3">
-                                                {product.category}
-                                            </div>
-                                            <h2 className="text-3xl font-bold leading-tight mb-2 drop-shadow-md font-serif max-w-[80%]">
+                                            {product.category && (
+                                                <div className="inline-flex px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-bold uppercase tracking-widest mb-3 text-white/90">
+                                                    {product.category}
+                                                </div>
+                                            )}
+
+                                            <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-2 text-white drop-shadow-sm font-serif">
                                                 {product.name}
                                             </h2>
-                                            <div className="flex items-baseline gap-3 mb-4">
-                                                <span className="text-2xl font-bold text-white">
+
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-xl md:text-2xl font-bold text-white bg-white/10 px-2 py-0.5 rounded-lg backdrop-blur-sm">
                                                     {formatPrice(product.price)}
                                                 </span>
                                                 {product.oldPrice && (
-                                                    <span className="text-lg text-white/60 line-through">
+                                                    <span className="text-sm text-white/50 line-through">
                                                         {formatPrice(product.oldPrice)}
                                                     </span>
                                                 )}
                                             </div>
-
-                                            {/* Short Description Limit */}
-                                            <p className="text-sm text-white/80 line-clamp-2 max-w-md mb-6">
-                                                {product.description}
-                                            </p>
                                         </div>
 
-                                        {/* Side Actions */}
-                                        <div className="flex flex-col gap-4 items-center">
+                                        {/* Side Actions (Like/Share) */}
+                                        <div className="flex flex-col gap-4">
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); /* Add Like Logic */ }}
                                                 className="flex flex-col items-center gap-1 group"
                                             >
-                                                <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                                                    <FiHeart className="w-6 h-6" />
+                                                <div className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center group-hover:bg-white/20 transition-all active:scale-90 border border-white/10">
+                                                    <FiHeart className="w-5 h-5" />
                                                 </div>
-                                                <span className="text-xs font-bold">Like</span>
+                                                <span className="text-[10px] font-medium text-white/80">Like</span>
                                             </button>
 
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); handleShare(product); }}
                                                 className="flex flex-col items-center gap-1 group"
                                             >
-                                                <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                                                    <FiShare2 className="w-6 h-6" />
+                                                <div className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center group-hover:bg-white/20 transition-all active:scale-90 border border-white/10">
+                                                    <FiShare2 className="w-5 h-5" />
                                                 </div>
-                                                <span className="text-xs font-bold">Share</span>
+                                                <span className="text-[10px] font-medium text-white/80">Share</span>
                                             </button>
                                         </div>
                                     </div>
@@ -226,9 +239,9 @@ export default function StoriesClient({ products }: StoriesClientProps) {
                                         className="block w-full"
                                         onClick={(e) => e.stopPropagation()}
                                     >
-                                        <button className="w-full h-14 bg-white text-black rounded-2xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-neutral-200 transition-transform active:scale-95 shadow-lg shadow-white/10">
+                                        <button className="w-full h-12 md:h-14 bg-white text-black rounded-xl font-bold text-base md:text-lg flex items-center justify-center gap-2 hover:bg-neutral-100 transition-all active:scale-95 shadow-xl shadow-black/20">
                                             <FiShoppingBag className="w-5 h-5" />
-                                            Смотреть детали
+                                            <span>Подробнее</span>
                                         </button>
                                     </Link>
                                 </div>
