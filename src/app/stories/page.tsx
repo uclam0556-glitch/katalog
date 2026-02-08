@@ -9,9 +9,9 @@ export const metadata = {
 
 export default function StoriesPage() {
     // Get featured products first, then maybe fill with others if few
-    const featured = getFeaturedProducts();
-    const sofas = getProductsByCategory("divany");
-    const bedroom = getProductsByCategory("bedroom-furniture");
+    const featured = getFeaturedProducts() || [];
+    const sofas = getProductsByCategory("divany") || [];
+    const bedroom = getProductsByCategory("bedroom-furniture") || [];
 
     // Combine unique products for a good mix
     const allStoriesProducts: Product[] = [
