@@ -35,6 +35,11 @@ export default function ProductForm({ initialData }: ProductFormProps) {
 
     const [images, setImages] = useState<string[]>(initialData?.images || []);
 
+    // Live Preview Helpers
+    const discountPercent = formData.oldPrice && Number(formData.oldPrice) > Number(formData.price)
+        ? Math.round(((Number(formData.oldPrice) - Number(formData.price)) / Number(formData.oldPrice)) * 100)
+        : 0;
+
     // Dynamic Dimensions Configuration
     const CATEGORY_DIMENSIONS: Record<string, string[]> = {
         "bedroom-furniture": ["Кровать", "Шкаф", "Тумбы", "Комод", "Матрас"],
