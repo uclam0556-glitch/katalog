@@ -162,8 +162,8 @@ export default function StoriesClient({ products }: StoriesClientProps) {
 
                             {/* 2. Main Image (Contain) - iOS Style */}
                             <Link
-                                href={`/product/${product.slug}`}
-                                className="relative z-10 w-full h-full flex flex-col pt-24 pb-48 px-6 md:px-0 md:max-w-md mx-auto active:scale-95 transition-transform"
+                                href={product.slug ? `/product/${product.slug}` : '#'}
+                                className="relative z-10 w-full h-full flex flex-col pt-24 pb-48 px-10 md:px-0 md:max-w-md mx-auto active:scale-95 transition-transform"
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 <div className={cn(
@@ -185,7 +185,7 @@ export default function StoriesClient({ products }: StoriesClientProps) {
                             <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-20" />
 
                             {/* Content Overlay */}
-                            <div className="absolute bottom-0 left-0 right-0 px-6 pb-24 md:pb-16 flex flex-col gap-4 pointer-events-none animate-[slideUp_0.3s_ease-out] z-30 max-w-md mx-auto w-full">
+                            <div className="absolute bottom-0 left-0 right-0 px-8 pb-32 md:pb-16 flex flex-col gap-4 pointer-events-none animate-[slideUp_0.3s_ease-out] z-30 max-w-md mx-auto w-full">
 
                                 <div className="pointer-events-auto">
                                     <div className="flex items-end justify-between mb-6">
@@ -239,11 +239,11 @@ export default function StoriesClient({ products }: StoriesClientProps) {
 
                                     {/* Main CTA */}
                                     <Link
-                                        href={`/product/${product.slug}`}
+                                        href={product.slug ? `/product/${product.slug}` : `/product/id/${product.id}`}
                                         className="block w-full"
                                         onClick={(e) => e.stopPropagation()}
                                     >
-                                        <button className="w-full h-12 md:h-14 bg-white text-black rounded-xl font-bold text-base md:text-lg flex items-center justify-center gap-2 hover:bg-neutral-100 transition-all active:scale-95 shadow-xl shadow-black/20 mb-4">
+                                        <button className="w-full h-12 md:h-14 bg-white text-black rounded-xl font-bold text-base md:text-lg flex items-center justify-center gap-2 hover:bg-neutral-100 transition-all active:scale-95 shadow-xl shadow-black/20 mb-safe-offset">
                                             <FiShoppingBag className="w-5 h-5" />
                                             <span>Подробнее</span>
                                         </button>
