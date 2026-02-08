@@ -7,6 +7,7 @@ import { CategoryGrid } from "@/components/home/CategoryGrid";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Product } from "@/types/product";
 import { generateWhatsAppLink, openWhatsApp } from "@/utils/whatsapp";
+import { FiStar, FiShield, FiAward, FiLayout } from "react-icons/fi";
 
 interface HomeClientProps {
     initialProducts: Product[];

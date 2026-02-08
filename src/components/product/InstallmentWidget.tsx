@@ -62,21 +62,19 @@ export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) =>
     return (
         <div className="bg-white rounded-[2rem] shadow-xl shadow-neutral-200/40 overflow-hidden border border-neutral-100 my-8">
             {/* Header / Toggle Section */}
-            {/* Header / Toggle Section */}
-            <div className="bg-neutral-50 px-10 py-10 border-b border-neutral-100">
-                <div className="flex items-center justify-between mb-8 px-6">
-                    <div>
-                        <h3 className="font-bold text-xl text-neutral-900 ml-1">Рассрочка</h3>
-                        <p className="text-xs text-neutral-400 font-medium mt-1 ml-1">Исламская (Тешам)</p>
-                    </div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700 px-3 py-1.5 rounded-full mr-1">
+            <div className="bg-neutral-50 px-6 py-8 border-b border-neutral-100 flex flex-col items-center">
+
+                {/* Title Section */}
+                <div className="flex flex-col items-center text-center relative mb-6">
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700 px-3 py-1.5 rounded-full mb-3 scale-110">
                         Халяль
                     </span>
+                    <h3 className="font-bold text-2xl text-neutral-900 leading-none mb-1">Рассрочка</h3>
+                    <p className="text-sm text-neutral-500 font-medium">Без банка • Без процентов</p>
                 </div>
 
                 {/* Segmented Control */}
-                <div className="bg-neutral-200/50 p-1 rounded-xl flex relative">
-                    {/* Animated Background could go here, but simple conditional classes work reliably */}
+                <div className="bg-neutral-200/50 p-1 rounded-xl flex relative w-full">
                     <button
                         onClick={() => handleModeChange(true)}
                         className={cn(
@@ -165,6 +163,6 @@ export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) =>
                     <span>Более 100+ одобрений сегодня</span>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
