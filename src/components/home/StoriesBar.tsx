@@ -17,8 +17,12 @@ export function StoriesBar({ products }: StoriesBarProps) {
 
     const categoriesMap = new Map<string, Product>();
     validProducts.forEach(p => {
-        if (p.category && !categoriesMap.has(p.category)) {
-            categoriesMap.set(p.category, p);
+        if (p.category) {
+            const displayCategory = translateCategory(p.category);
+            // Group by the DISPLAY name (Translated)
+            if (!categoriesMap.has(displayCategory)) {
+                categoriesMap.set(displayCategory, p);
+            }
         }
     });
 
@@ -27,7 +31,7 @@ export function StoriesBar({ products }: StoriesBarProps) {
     if (categories.length === 0 && validProducts.length === 0) return null;
 
     return (
-        <div className="w-full bg-white py-2 border-b border-neutral-100/50 sticky top-[64px] z-40 shadow-sm/50">
+        <div className="w-full bg-white py-2 border-b border-neutral-100/50 sticky top-[68px] z-40 shadow-sm/50">
             {/* Added sticky positioning to stay visible but below header. 
                 Moved down to top-[70px] (slightly higher) and increased pt-4 for better spacing.
             */}

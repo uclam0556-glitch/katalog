@@ -16,6 +16,7 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
     // Fetch real products from Supabase
     const allProducts = await getProducts();
     const category = searchParams?.category;
+    const { translateCategory } = await import("@/lib/utils");
 
     // Filter valid products (must have images and be active)
     let validStories = allProducts
@@ -23,10 +24,22 @@ export default async function StoriesPage({ searchParams }: StoriesPageProps) {
 
     // Filter by category if provided
     if (category) {
-        // Case-insensitive comparison just in case
-        validStories = validStories.filter(p =>
-            p.category && p.category.toLowerCase() === category.toLowerCase()
-        );
+        const lowerCategory = category.toLowerCase().trim();
+
+        // Special Grouping: Tables + Chairs (Столы + Стулья)
+        // If user selects either, show BOTH.
+        const tablesChairsKeys = ['stoly', 'stulya', 'chairs', 'tables', 'столы', 'стулья', 'stul', 'stol', 'chair', 'table', 'стул', 'стол'];
+
+        if (tablesChairsKeys.includes(lowerCategory)) {
+            validStories = validStories.filter(p =>
+                p.category && tablesChairsKeys.includes(p.category.toLowerCase().trim())
+            );
+        } else {
+            // Standard strict filtering: Compare TRANSLATED name matches URL param
+            validStories = validStories.filter(p =>
+                p.category && translateCategory(p.category).toLowerCase().trim() === lowerCategory
+            );
+        }
     }
 
     // Limit to 15 recent items (or more if filtered?) - keeping 15 for specific category is fine 
