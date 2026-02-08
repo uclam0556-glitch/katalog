@@ -88,14 +88,40 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-24 md:pb-0">
-            {/* Mobile Header Spacer - Exact match for Fixed Header (h-16) */}
-            <div className="h-16 block md:hidden w-full bg-transparent"></div>
+        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-24 md:pb-0 pt-16 md:pt-20">
 
-            {/* Desktop Header Spacer */}
-            <div className="hidden md:block h-32 md:h-40"></div>
+            {/* --- CUSTOM PRODUCT HEADER (Ultra Beautiful) --- */}
+            <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-neutral-100/50 shadow-sm transition-all duration-300 h-16 md:h-20 flex items-center px-0">
+                <div className="container-custom w-full flex items-center justify-between">
+                    {/* Left: Back */}
+                    <button
+                        onClick={() => router.back()}
+                        className="w-10 h-10 bg-white hover:bg-neutral-50 border border-neutral-200/60 rounded-full flex items-center justify-center text-neutral-900 shadow-sm active:scale-95 transition-all group"
+                    >
+                        <FiArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+                    </button>
 
-            <div className="container-custom max-w-[90rem]">
+                    {/* Center: Title */}
+                    <div className="text-xs md:text-sm font-bold text-neutral-500 uppercase tracking-widest">
+                        Арт: {product.sku || "---"}
+                    </div>
+
+                    {/* Right: Actions */}
+                    <div className="flex items-center gap-3">
+                        <button
+                            onClick={handleShare}
+                            className="w-10 h-10 bg-white hover:bg-neutral-50 border border-neutral-200/60 rounded-full flex items-center justify-center text-neutral-900 shadow-sm active:scale-95 transition-all"
+                        >
+                            <FiShare2 className="w-5 h-5" />
+                        </button>
+                        <button className="w-10 h-10 bg-white hover:bg-neutral-50 border border-neutral-200/60 rounded-full flex items-center justify-center text-neutral-900 shadow-sm active:scale-95 transition-all">
+                            <FiHeart className="w-5 h-5" />
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div className="container-custom max-w-[90rem] mt-6 md:mt-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-16">
 
                     {/* --- LEFT COLUMN: IMMERSIVE GALLERY (Zara Home Style) --- */}
@@ -108,23 +134,6 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                            - Object Contain (No cropping)
                         */}
                         <div className="lg:hidden w-full bg-white relative group">
-                            {/* Mobile Overlay Buttons - Adjusted Position */}
-                            <div className="absolute top-6 left-5 z-20">
-                                <button
-                                    onClick={() => router.back()}
-                                    className="w-10 h-10 bg-white/80 backdrop-blur-md border border-neutral-100/50 rounded-full flex items-center justify-center text-neutral-900 shadow-sm active:scale-95 transition-all"
-                                >
-                                    <FiArrowLeft className="w-5 h-5" />
-                                </button>
-                            </div>
-                            <div className="absolute top-6 right-5 z-20 flex gap-3">
-                                <button
-                                    onClick={handleShare}
-                                    className="w-10 h-10 bg-white/80 backdrop-blur-md border border-neutral-100/50 rounded-full flex items-center justify-center text-neutral-900 shadow-sm active:scale-95 transition-all"
-                                >
-                                    <FiShare2 className="w-5 h-5" />
-                                </button>
-                            </div>
 
                             <div className="relative aspect-square w-full overflow-hidden">
                                 <div
