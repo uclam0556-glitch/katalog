@@ -88,7 +88,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-24 md:pb-0 pt-24 md:pt-32">
+        <div className="min-h-screen bg-[#FDFCFB] text-neutral-900 font-sans pb-24 md:pb-0 pt-32 md:pt-32">
 
             {/* --- CUSTOM PRODUCT HEADER (Ultra Beautiful) --- */}
             <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-neutral-100/50 shadow-sm transition-all duration-300 h-16 md:h-20 flex items-center px-0">
@@ -135,7 +135,7 @@ export default function ProductPageClient({ product, similarProducts }: ProductP
                         */}
                         <div className="lg:hidden w-full bg-white relative group">
 
-                            <div className="relative aspect-square w-full overflow-hidden">
+                            <div className="relative aspect-[3/4] w-full overflow-hidden">
                                 <div
                                     ref={scrollContainerRef}
                                     onScroll={handleScroll}
