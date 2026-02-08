@@ -172,62 +172,57 @@ export default function StoriesClient({ products }: StoriesClientProps) {
                                 <div className="absolute inset-0 bg-black/40" /> {/* Dimmer */}
                             </div>
 
-                            {/* 2. Main Image (Contain) - iOS Style */}
+                            {/* 2. Main Image - Click to Open */}
                             <Link
                                 href={productUrl}
-                                className="relative z-10 w-full h-full flex flex-col pt-24 pb-[calc(14rem+env(safe-area-inset-bottom))] px-10 md:px-0 md:max-w-[85%] mx-auto active:scale-95 transition-transform"
+                                className="relative z-10 w-full h-[70vh] flex flex-col pt-safe-top px-4 active:scale-95 transition-transform"
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 <div className={cn(
-                                    "relative w-full flex-1 rounded-3xl overflow-hidden shadow-2xl transition-transform duration-700 ease-out bg-black/20 backdrop-blur-sm border border-white/10",
+                                    "relative w-full h-full flex items-center justify-center transition-transform duration-700 ease-out",
                                     isActive && !isPaused ? "scale-100" : "scale-95 opacity-80"
                                 )}>
                                     <Image
                                         src={imageSrc}
                                         alt={product.name}
                                         fill
-                                        className="object-contain p-4"
+                                        className="object-contain drop-shadow-2xl"
                                         priority={idx <= 1}
                                         sizes="(max-width: 768px) 100vw, 500px"
                                     />
                                 </div>
                             </Link>
 
-                            {/* Gradient Overlay for Text Readability - Minimal */}
-                            <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-20" />
+                            {/* Content Overlay - "Glass Bottom Sheet" */}
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/90 to-transparent pt-12 pb-[calc(1rem+env(safe-area-inset-bottom))] px-6 flex flex-col gap-4 pointer-events-none z-30">
 
-                            {/* Content Overlay */}
-                            <div className="absolute bottom-0 left-0 right-0 pb-[calc(5rem+env(safe-area-inset-bottom))] flex flex-col gap-4 pointer-events-none animate-[slideUp_0.3s_ease-out] z-30 w-full md:max-w-md mx-auto">
-
-                                <div className="pointer-events-auto px-10 w-full max-w-[400px] mx-auto">
+                                <div className="pointer-events-auto w-full max-w-md mx-auto">
                                     <Link href={productUrl} className="block" onClick={(e) => e.stopPropagation()}>
-                                        <div className="flex items-end justify-between mb-6">
+                                        <div className="flex items-end justify-between mb-4">
                                             <div className="flex-1 pr-4">
-                                                {/* Category Tag */}
                                                 {product.category && (
-                                                    <div className="inline-flex px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-bold uppercase tracking-widest mb-3 text-white/90 shadow-sm">
+                                                    <div className="inline-flex px-2 py-0.5 bg-white/20 backdrop-blur-md rounded-md text-[10px] font-medium uppercase tracking-wider mb-2 text-white/90">
                                                         {product.category}
                                                     </div>
                                                 )}
 
-                                                <h2 className="text-2xl font-bold leading-tight mb-3 text-white drop-shadow-lg font-serif">
+                                                <h2 className="text-2xl font-bold leading-tight mb-2 text-white font-sans">
                                                     {product.name}
                                                 </h2>
 
                                                 <div className="flex items-center gap-3">
-                                                    <span className="text-xl font-bold text-white bg-white/10 px-3 py-1 rounded-xl backdrop-blur-md border border-white/10">
+                                                    <span className="text-xl font-bold text-white">
                                                         {formatPrice(product.price)}
                                                     </span>
                                                     {product.oldPrice && (
-                                                        <span className="text-sm text-white/60 line-through decoration-white/60 decoration-1">
+                                                        <span className="text-sm text-white/50 line-through">
                                                             {formatPrice(product.oldPrice)}
                                                         </span>
                                                     )}
                                                 </div>
                                             </div>
 
-                                            {/* Side Actions (Like/Share) */}
-                                            <div className="flex flex-col gap-4 pb-1">
+                                            <div className="flex flex-col gap-3 pb-1">
                                                 <button
                                                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); /* Logic */ }}
                                                     className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center active:scale-90 border border-white/10"
@@ -244,13 +239,12 @@ export default function StoriesClient({ products }: StoriesClientProps) {
                                         </div>
                                     </Link>
 
-                                    {/* Main CTA */}
                                     <Link
                                         href={productUrl}
                                         className="block w-full"
                                         onClick={(e) => e.stopPropagation()}
                                     >
-                                        <button className="w-full h-14 bg-white text-black rounded-2xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-neutral-100 transition-all active:scale-95 shadow-xl shadow-black/20">
+                                        <button className="w-full h-12 bg-white text-black rounded-xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-neutral-100 transition-all active:scale-95 shadow-lg shadow-black/20">
                                             <FiShoppingBag className="w-5 h-5" />
                                             <span>Подробнее</span>
                                         </button>
