@@ -62,14 +62,13 @@ export const InstallmentWidget = ({ price, product }: InstallmentWidgetProps) =>
     return (
         <div className="bg-white rounded-[2rem] shadow-xl shadow-neutral-200/40 overflow-hidden border border-neutral-100 my-8">
             {/* Header / Toggle Section */}
-            {/* Header / Toggle Section */}
-            <div className="bg-neutral-50 px-12 md:px-14 py-8 border-b border-neutral-100">
-                <div className="flex items-center justify-between mb-6">
-                    <div className="ml-2">
+            <div className="bg-neutral-50 px-8 py-8 border-b border-neutral-100">
+                <div className="flex items-center justify-between mb-6 px-4">
+                    <div>
                         <h3 className="font-bold text-xl text-neutral-900">Рассрочка</h3>
                         <p className="text-xs text-neutral-400 font-medium mt-1">Исламская (Тешам)</p>
                     </div>
-                    <span className="mr-2 text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700 px-2.5 py-1 rounded-full">
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700 px-3 py-1.5 rounded-full">
                         Халяль
                     </span>
                 </div>
