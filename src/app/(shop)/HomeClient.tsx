@@ -8,6 +8,7 @@ import { ProductGrid } from "@/components/product/ProductGrid";
 import { Product } from "@/types/product";
 import { generateWhatsAppLink, openWhatsApp } from "@/utils/whatsapp";
 import { FiStar, FiShield, FiAward, FiLayout } from "react-icons/fi";
+import { StoriesBar } from "@/components/home/StoriesBar";
 
 interface HomeClientProps {
     initialProducts: Product[];
@@ -23,6 +24,9 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
 
     return (
         <div className="min-h-screen bg-white pt-24">
+            {/* Stories Bar - Instagram Style */}
+            <StoriesBar products={initialProducts} />
+
             {/* Hero Slider */}
             <HeroSlider />
 
