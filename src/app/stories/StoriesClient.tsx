@@ -238,17 +238,19 @@ export default function StoriesClient({ products }: StoriesClientProps) {
                                             </div>
                                         </div>
                                     </Link>
-
-                                    <Link
-                                        href={productUrl}
-                                        className="block w-full"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <button className="w-full h-12 bg-white text-black rounded-xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-neutral-100 transition-all active:scale-95 shadow-lg shadow-black/20">
-                                            <FiShoppingBag className="w-5 h-5" />
-                                            <span>Подробнее</span>
-                                        </button>
-                                    </Link>
+                                    {/* Main CTA */}
+                                    <div className="flex justify-center w-full">
+                                        <Link
+                                            href={productUrl}
+                                            className="inline-block"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <button className="px-8 w-auto h-12 bg-black/50 backdrop-blur-md border border-white/20 text-white rounded-full font-medium text-sm md:text-base flex items-center justify-center gap-2 hover:bg-black/80 transition-all active:scale-95 shadow-lg shadow-black/20">
+                                                <FiShoppingBag className="w-4 h-4" />
+                                                <span>Подробнее</span>
+                                            </button>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
 
