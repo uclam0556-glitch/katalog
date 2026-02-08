@@ -35,10 +35,77 @@ export default function ProductForm({ initialData }: ProductFormProps) {
 
     const [images, setImages] = useState<string[]>(initialData?.images || []);
 
-    // Live Preview Helpers
-    const discountPercent = formData.oldPrice && Number(formData.oldPrice) > Number(formData.price)
-        ? Math.round(((Number(formData.oldPrice) - Number(formData.price)) / Number(formData.oldPrice)) * 100)
-        : 0;
+    // Dynamic Dimensions Configuration
+    const CATEGORY_DIMENSIONS: Record<string, string[]> = {
+        "bedroom-furniture": ["Кровать", "Шкаф", "Тумбы", "Комод", "Матрас"],
+        "divany": ["Диван", "Кресло", "Спальное место", "Пуф"],
+        "kitchen-furniture": ["Верхние шкафы", "Нижние шкафы", "Столешница", "Остров"],
+        "stoly": ["Стол", "Стул", "Лавка"],
+        "stulya": ["Размеры", "Высота сиденья"],
+        "stellazhi": ["Стеллаж", "Полка"],
+        "default": ["Размеры", "Цвета"]
+    };
+
+    // Parse initial colors/dimensions into object
+    const parseInitialDimensions = () => {
+        const initialStr = initialData?.colors?.join(", ") || "";
+        const mapping: Record<string, string> = {};
+
+        // If empty, return empty
+        if (!initialStr) return {};
+
+        // Try to parse "Key: Value" format
+        const parts = initialStr.split(",").map(s => s.trim());
+        let hasKeys = false;
+
+        parts.forEach(part => {
+            if (part.includes(":")) {
+                const [key, val] = part.split(":").map(s => s.trim());
+                if (key && val) {
+                    mapping[key] = val;
+                    hasKeys = true;
+                }
+            }
+        });
+
+        // If no keys found (legacy format), just assign to first available field or "Размеры"
+        if (!hasKeys && parts.length > 0) {
+            const currentCatFields = CATEGORY_DIMENSIONS[formData.category] || CATEGORY_DIMENSIONS["default"];
+            mapping[currentCatFields[0]] = initialStr;
+        }
+
+        return mapping;
+    };
+
+    const [dynamicDimensions, setDynamicDimensions] = useState<Record<string, string>>(parseInitialDimensions());
+
+    // Update form data when dynamic dimensions change
+    React.useEffect(() => {
+        const currentFields = CATEGORY_DIMENSIONS[formData.category] || CATEGORY_DIMENSIONS["default"];
+        const values: string[] = [];
+
+        currentFields.forEach(field => {
+            const val = dynamicDimensions[field];
+            if (val && val.trim()) {
+                values.push(`${field}: ${val.trim()}`);
+            }
+        });
+
+        // If generic "default" fields, and user didn't use "Key: Value" format implicitly, 
+        // we might want to just save the value. 
+        // But for consistency let's stick to "Key: Value" unless it's the very first default field.
+
+        setFormData(prev => ({ ...prev, colors: values.join(", ") }));
+    }, [dynamicDimensions, formData.category]);
+
+    const handleDimensionChange = (field: string, value: string) => {
+        setDynamicDimensions(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    const activeDimensionFields = CATEGORY_DIMENSIONS[formData.category] || CATEGORY_DIMENSIONS["default"];
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -64,7 +131,17 @@ export default function ProductForm({ initialData }: ProductFormProps) {
         submitData.append("sku", formData.sku);
         submitData.append("images", JSON.stringify(images));
         submitData.append("thumbnail", images[0]);
-        submitData.append("colors", formData.colors);
+
+        // Ensure strictly formatted colors string
+        const colorsString = activeDimensionFields
+            .map(field => {
+                const val = dynamicDimensions[field];
+                return val && val.trim() ? `${field}: ${val.trim()}` : null;
+            })
+            .filter(Boolean)
+            .join(", ");
+
+        submitData.append("colors", colorsString);
         submitData.append("materials", formData.materials);
 
         try {
@@ -207,6 +284,22 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                                             <p className="text-sm text-neutral-600 line-clamp-4">
                                                 {formData.description || "Описание товара появится здесь..."}
                                             </p>
+                                        </div>
+
+                                        <div className="p-4 bg-neutral-50 rounded-xl mb-6">
+                                            <p className="text-xs font-bold text-neutral-400 uppercase mb-2">Характеристики</p>
+                                            <div className="text-sm text-neutral-900 space-y-1">
+                                                {activeDimensionFields.map(field => {
+                                                    const val = dynamicDimensions[field];
+                                                    if (!val) return null;
+                                                    return (
+                                                        <div key={field} className="flex justify-between">
+                                                            <span className="text-neutral-500">{field}:</span>
+                                                            <span className="font-medium">{val}</span>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
                                         </div>
 
                                         <button className="w-full h-12 bg-neutral-900 text-white rounded-xl font-bold flex items-center justify-center gap-2">
@@ -354,14 +447,26 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                                                 placeholder="Велюр, массив..."
                                             />
                                         </div>
-                                        <div>
-                                            <label className="block text-sm font-bold text-neutral-700 mb-2 ml-1">Размеры / Цвета</label>
-                                            <input
-                                                value={formData.colors}
-                                                onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
-                                                className="w-full p-4 bg-neutral-50 hover:bg-white focus:bg-white border-2 border-neutral-100 focus:border-neutral-900 rounded-2xl font-medium text-base text-neutral-900 outline-none transition-all placeholder:text-neutral-300"
-                                                placeholder="200x120 см, Серый..."
-                                            />
+                                        {/* Dynamic Dimensions Inputs */}
+                                        <div className="col-span-1 md:col-span-1">
+                                            <label className="block text-sm font-bold text-neutral-700 mb-2 ml-1">
+                                                Размеры / Габариты
+                                            </label>
+                                            <div className="space-y-3 bg-neutral-50 p-4 rounded-2xl border border-neutral-100">
+                                                {activeDimensionFields.map((field) => (
+                                                    <div key={field}>
+                                                        <label className="text-[10px] uppercase font-bold text-neutral-400 mb-1 block tracking-wider">
+                                                            {field}
+                                                        </label>
+                                                        <input
+                                                            value={dynamicDimensions[field] || ""}
+                                                            onChange={(e) => handleDimensionChange(field, e.target.value)}
+                                                            className="w-full p-3 bg-white border border-neutral-200 focus:border-neutral-900 rounded-xl font-medium text-sm text-neutral-900 outline-none transition-all placeholder:text-neutral-300"
+                                                            placeholder={field === "Размеры" ? "200x160x50 см" : "Ширина x Глубина x Высота"}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
