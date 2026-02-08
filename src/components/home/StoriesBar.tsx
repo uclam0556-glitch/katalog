@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/types/product";
-import { cn } from "@/lib/utils";
+import { cn, translateCategory } from "@/lib/utils";
 
 interface StoriesBarProps {
     products: Product[];
@@ -27,11 +27,11 @@ export function StoriesBar({ products }: StoriesBarProps) {
     if (categories.length === 0 && validProducts.length === 0) return null;
 
     return (
-        <div className="w-full bg-white pt-2 pb-4 border-b border-neutral-100/50 sticky top-[60px] z-40">
-            {/* Added sticky positioning to stay visible but below header if needed, or just normal flow. 
-                Using 'sticky top-[60px]' assumes header is ~60px. If header is overlapping, this helps.
+        <div className="w-full bg-white pt-4 pb-4 border-b border-neutral-100/50 sticky top-[76px] z-40 shadow-sm/50">
+            {/* Added sticky positioning to stay visible but below header. 
+                Moved down to top-[76px] and increased pt-4 for better spacing.
             */}
-            <div className="container-custom overflow-x-auto scrollbar-hide py-2">
+            <div className="container-custom overflow-x-auto scrollbar-hide py-1">
                 <div className="flex gap-4 md:gap-6 min-w-max px-4">
 
                     {/* "ALL" Stories - Premium Icon */}
@@ -53,6 +53,7 @@ export function StoriesBar({ products }: StoriesBarProps) {
                     {/* Category Circles */}
                     {categories.map(([categoryName, coverProduct]) => {
                         const imageSrc = (coverProduct.images && coverProduct.images[0]) || coverProduct.thumbnail || "/placeholder.svg";
+                        const displayCategory = translateCategory(categoryName);
 
                         return (
                             <Link
@@ -68,7 +69,7 @@ export function StoriesBar({ products }: StoriesBarProps) {
                                         <div className="w-full h-full rounded-full overflow-hidden relative bg-neutral-100">
                                             <Image
                                                 src={imageSrc}
-                                                alt={categoryName}
+                                                alt={displayCategory}
                                                 fill
                                                 className="object-cover"
                                                 sizes="64px"
@@ -77,7 +78,7 @@ export function StoriesBar({ products }: StoriesBarProps) {
                                     </div>
                                 </div>
                                 <span className="text-xs text-neutral-800 font-medium max-w-[74px] truncate text-center leading-tight capitalize">
-                                    {categoryName}
+                                    {displayCategory}
                                 </span>
                             </Link>
                         );

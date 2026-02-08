@@ -46,3 +46,67 @@ export function slugify(text: string): string {
         .replace(/[\s_-]+/g, "-")
         .replace(/^-+|-+$/g, "");
 }
+
+/**
+ * Translate category names from English to Russian
+ */
+export function translateCategory(category: string): string {
+    if (!category) return "";
+
+    const map: Record<string, string> = {
+        // Transliterated (from DB/User report)
+        "stulya": "Стулья",
+        "stul": "Стул",
+        "stoly": "Столы",
+        "stol": "Стол",
+        "divany": "Диваны",
+        "divan": "Диван",
+        "krovati": "Кровати",
+        "krovat": "Кровать",
+        "stellazhi": "Стеллажи",
+        "stellazh": "Стеллаж",
+        "kukhnya": "Кухня",
+        "kitchen-furniture": "Кухня",
+        "spalnya": "Спальня",
+        "bedroom-furniture": "Спальня",
+        "gostinaya": "Гостиная",
+        "living-room": "Гостиная",
+        "osveshchenie": "Освещение",
+        "light": "Свет",
+        "chandeliers": "Люстры",
+        "decor": "Декор",
+        "dekor": "Декор",
+        "shkafy": "Шкафы",
+        "shkaf": "Шкаф",
+        "cabinets": "Шкафы",
+
+        // English fallback
+        "chairs": "Стулья",
+        "chair": "Стул",
+        "tables": "Столы",
+        "table": "Стол",
+        "sofas": "Диваны",
+        "sofa": "Диван",
+        "beds": "Кровати",
+        "bed": "Кровать",
+        "storage": "Хранение",
+        "shelves": "Стеллажи",
+        "shelf": "Стеллаж",
+        "lighting": "Освещение",
+        "lights": "Свет",
+        "lamps": "Лампы",
+        "kitchen": "Кухня",
+        "bedroom": "Спальня",
+        "living room": "Гостиная",
+        "office": "Офис",
+        "kids": "Детская",
+        "armchairs": "Кресла",
+        "armchair": "Кресло",
+    };
+
+    const lower = category.toLowerCase().trim();
+    if (map[lower]) return map[lower];
+
+    // Capitalize first letter if no translation found
+    return category.charAt(0).toUpperCase() + category.slice(1);
+}

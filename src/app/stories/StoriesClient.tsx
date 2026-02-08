@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiX, FiShoppingBag, FiShare2, FiHeart } from "react-icons/fi";
 import { Product } from "@/types/product";
-import { formatPrice, cn } from "@/lib/utils";
+import { formatPrice, cn, translateCategory } from "@/lib/utils";
 
 interface StoriesClientProps {
     products: Product[];
@@ -146,22 +146,42 @@ export default function StoriesClient({ products }: StoriesClientProps) {
             <div
                 ref={containerRef}
                 onScroll={handleScroll}
-                className="h-[100dvh] w-full overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
+                onTouchStart={() => setIsPaused(true)}
+                onTouchEnd={() => setIsPaused(false)}
+                className="h-[100dvh] w-full flex flex-row overflow-x-scroll snap-x snap-mandatory scrollbar-hide overscroll-x-contain touch-pan-x"
             >
                 {products.map((product, idx) => {
                     const isActive = idx === currentIndex;
-                    // Product image priority: logic to use main image
                     const imageSrc = (product.images && product.images[0]) || product.thumbnail || "/placeholder.svg";
                     const productUrl = getProductUrl(product);
 
                     return (
                         <div
                             key={product.id}
-                            className="h-[100dvh] w-full snap-start relative flex items-center justify-center bg-black overflow-hidden"
-                            onClick={togglePause} // Tap to pause/resume
+                            className="h-[100dvh] w-screen flex-shrink-0 snap-center relative flex items-center justify-center bg-black overflow-hidden"
+                            onClick={(e) => {
+                                // Tap Navigation Logic (Instagram style)
+                                const width = window.innerWidth;
+                                const x = e.clientX;
+
+                                // Reset pause on click
+                                setIsPaused(false);
+
+                                if (x < width * 0.3) {
+                                    // Left 30% -> Prev
+                                    if (currentIndex > 0) scrollToSlide(currentIndex - 1);
+                                } else {
+                                    // Right 70% -> Next
+                                    if (currentIndex < products.length - 1) {
+                                        scrollToSlide(currentIndex + 1);
+                                    } else {
+                                        // Optional: Close or Loop? For now just stop.
+                                    }
+                                }
+                            }}
                         >
                             {/* 1. Ambient Background (Blurred) */}
-                            <div className="absolute inset-0 z-0">
+                            <div className="absolute inset-0 z-0 pointer-events-none">
                                 <Image
                                     src={imageSrc}
                                     alt="background"
@@ -169,14 +189,12 @@ export default function StoriesClient({ products }: StoriesClientProps) {
                                     className="object-cover blur-3xl opacity-40 scale-125"
                                     priority={idx <= 1}
                                 />
-                                <div className="absolute inset-0 bg-black/40" /> {/* Dimmer */}
+                                <div className="absolute inset-0 bg-black/40" />
                             </div>
 
-                            {/* 2. Main Image - Click to Open */}
-                            <Link
-                                href={productUrl}
-                                className="relative z-10 w-full h-[70vh] flex flex-col pt-safe-top px-4 active:scale-95 transition-transform"
-                                onClick={(e) => e.stopPropagation()}
+                            {/* 2. Main Image - NO LINK, just image */}
+                            <div
+                                className="relative z-10 w-full h-[75vh] flex flex-col pt-32 px-4 pointer-events-none"
                             >
                                 <div className={cn(
                                     "relative w-full h-full flex items-center justify-center transition-transform duration-700 ease-out",
@@ -191,61 +209,61 @@ export default function StoriesClient({ products }: StoriesClientProps) {
                                         sizes="(max-width: 768px) 100vw, 500px"
                                     />
                                 </div>
-                            </Link>
+                            </div>
 
-                            {/* Content Overlay - "Glass Bottom Sheet" */}
+                            {/* Content Overlay */}
                             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/90 to-transparent pt-12 pb-[calc(1rem+env(safe-area-inset-bottom))] px-6 flex flex-col gap-4 pointer-events-none z-30">
 
                                 <div className="pointer-events-auto w-full max-w-md mx-auto">
-                                    <Link href={productUrl} className="block" onClick={(e) => e.stopPropagation()}>
-                                        <div className="flex items-end justify-between mb-4">
-                                            <div className="flex-1 pr-4">
-                                                {product.category && (
-                                                    <div className="inline-flex px-2 py-0.5 bg-white/20 backdrop-blur-md rounded-md text-[10px] font-medium uppercase tracking-wider mb-2 text-white/90">
-                                                        {product.category}
-                                                    </div>
-                                                )}
-
-                                                <h2 className="text-2xl font-bold leading-tight mb-2 text-white font-sans">
-                                                    {product.name}
-                                                </h2>
-
-                                                <div className="flex items-center gap-3">
-                                                    <span className="text-xl font-bold text-white">
-                                                        {formatPrice(product.price)}
-                                                    </span>
-                                                    {product.oldPrice && (
-                                                        <span className="text-sm text-white/50 line-through">
-                                                            {formatPrice(product.oldPrice)}
-                                                        </span>
-                                                    )}
+                                    {/* Product Info (Clicking here does NOT open product, except maybe buttons) */}
+                                    <div className="flex items-end justify-between mb-4">
+                                        <div className="flex-1 pr-4">
+                                            {product.category && (
+                                                <div className="inline-flex px-2 py-0.5 bg-white/20 backdrop-blur-md rounded-md text-[10px] font-medium uppercase tracking-wider mb-2 text-white/90">
+                                                    {translateCategory(product.category)}
                                                 </div>
-                                            </div>
+                                            )}
 
-                                            <div className="flex flex-col gap-3 pb-1">
-                                                <button
-                                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); /* Logic */ }}
-                                                    className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center active:scale-90 border border-white/10"
-                                                >
-                                                    <FiHeart className="w-5 h-5" />
-                                                </button>
-                                                <button
-                                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleShare(product); }}
-                                                    className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center active:scale-90 border border-white/10"
-                                                >
-                                                    <FiShare2 className="w-5 h-5" />
-                                                </button>
+                                            <h2 className="text-2xl font-bold leading-tight mb-2 text-white font-sans">
+                                                {product.name}
+                                            </h2>
+
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-xl font-bold text-white">
+                                                    {formatPrice(product.price)}
+                                                </span>
+                                                {product.oldPrice && (
+                                                    <span className="text-sm text-white/50 line-through">
+                                                        {formatPrice(product.oldPrice)}
+                                                    </span>
+                                                )}
                                             </div>
                                         </div>
-                                    </Link>
-                                    {/* Main CTA */}
+
+                                        <div className="flex flex-col gap-3 pb-1">
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); /* Logic */ }}
+                                                className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center active:scale-90 border border-white/10"
+                                            >
+                                                <FiHeart className="w-5 h-5" />
+                                            </button>
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); handleShare(product); }}
+                                                className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center active:scale-90 border border-white/10"
+                                            >
+                                                <FiShare2 className="w-5 h-5" />
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Main CTA - The ONLY way to open product */}
                                     <div className="flex justify-center w-full">
                                         <Link
                                             href={productUrl}
                                             className="inline-block"
                                             onClick={(e) => e.stopPropagation()}
                                         >
-                                            <button className="px-8 w-auto h-12 bg-black/50 backdrop-blur-md border border-white/20 text-white rounded-full font-medium text-sm md:text-base flex items-center justify-center gap-2 hover:bg-black/80 transition-all active:scale-95 shadow-lg shadow-black/20">
+                                            <button className="px-8 w-auto h-11 bg-black/60 backdrop-blur-md border border-white/20 text-white rounded-full font-medium text-sm md:text-base flex items-center justify-center gap-2 hover:bg-black/80 transition-all active:scale-95 shadow-lg shadow-black/20">
                                                 <FiShoppingBag className="w-4 h-4" />
                                                 <span>Подробнее</span>
                                             </button>
