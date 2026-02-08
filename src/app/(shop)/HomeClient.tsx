@@ -54,40 +54,39 @@ export default function HomeClient({ initialProducts }: HomeClientProps) {
             </section>
 
             {/* Benefits Bar - After products */}
-            <section className="py-6 md:py-8 bg-neutral-50">
+            <section className="py-8 md:py-12 bg-neutral-50 mb-12">
                 <div className="container-custom max-w-5xl">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-                        <div className="flex items-center gap-3 justify-center md:justify-start">
-                            <div className="w-12 h-12 md:w-14 md:h-14 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <svg className="w-6 h-6 md:w-7 md:h-7 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                                </svg>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                        {/* High Quality */}
+                        <div className="flex items-center gap-4 justify-center md:justify-start p-4 md:p-0 bg-white md:bg-transparent rounded-2xl md:rounded-none shadow-sm md:shadow-none border md:border-none border-neutral-100">
+                            <div className="w-12 h-12 md:w-14 md:h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                <FiAward className="w-6 h-6 md:w-7 md:h-7" />
                             </div>
                             <div>
-                                <h3 className="font-bold text-sm md:text-base mb-0.5">Бесплатная доставка</h3>
-                                <p className="text-xs text-neutral-600">При заказе от 50 000₽</p>
+                                <h3 className="font-bold text-sm md:text-base mb-0.5 text-neutral-900">Высокое качество</h3>
+                                <p className="text-xs text-neutral-500">Премиальные материалы</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-3 justify-center md:justify-start">
-                            <div className="w-12 h-12 md:w-14 md:h-14 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <svg className="w-6 h-6 md:w-7 md:h-7 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                </svg>
+
+                        {/* Warranty */}
+                        <div className="flex items-center gap-4 justify-center md:justify-start p-4 md:p-0 bg-white md:bg-transparent rounded-2xl md:rounded-none shadow-sm md:shadow-none border md:border-none border-neutral-100">
+                            <div className="w-12 h-12 md:w-14 md:h-14 bg-green-100 text-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                <FiShield className="w-6 h-6 md:w-7 md:h-7" />
                             </div>
                             <div>
-                                <h3 className="font-bold text-sm md:text-base mb-0.5">Гарантия 2 года</h3>
-                                <p className="text-xs text-neutral-600">На всю мебель</p>
+                                <h3 className="font-bold text-sm md:text-base mb-0.5 text-neutral-900">Гарантия 2 года</h3>
+                                <p className="text-xs text-neutral-500">На весь ассортимент</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-3 justify-center md:justify-start">
-                            <div className="w-12 h-12 md:w-14 md:h-14 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <svg className="w-6 h-6 md:w-7 md:h-7 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+
+                        {/* Unique Design */}
+                        <div className="flex items-center gap-4 justify-center md:justify-start p-4 md:p-0 bg-white md:bg-transparent rounded-2xl md:rounded-none shadow-sm md:shadow-none border md:border-none border-neutral-100">
+                            <div className="w-12 h-12 md:w-14 md:h-14 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                <FiLayout className="w-6 h-6 md:w-7 md:h-7" />
                             </div>
                             <div>
-                                <h3 className="font-bold text-sm md:text-base mb-0.5">Сборка в подарок</h3>
-                                <p className="text-xs text-neutral-600">Бесплатная сборка</p>
+                                <h3 className="font-bold text-sm md:text-base mb-0.5 text-neutral-900">Уникальный дизайн</h3>
+                                <p className="text-xs text-neutral-500">Эксклюзивные коллекции</p>
                             </div>
                         </div>
                     </div>
