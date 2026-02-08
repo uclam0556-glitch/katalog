@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Product } from "@/types/product";
 import { categories } from "@/data/products";
 import SupabaseUploader from "@/components/admin/ui/SupabaseUploader";
-import { saveProductAction } from "@/app/actions";
+import { saveProductAction, deleteProductAction } from "@/app/actions";
 import { useToast } from "@/components/admin/ui/Toast";
 import { FiSave, FiChevronLeft, FiTrash2, FiEye, FiLayout, FiDollarSign, FiList, FiImage } from "react-icons/fi";
 import { formatPrice, cn } from "@/lib/utils";
@@ -76,6 +76,26 @@ export default function ProductForm({ initialData }: ProductFormProps) {
             const errorMessage = error instanceof Error ? error.message : "Неизвестная ошибка";
             showToast(`Ошибка: ${errorMessage}`, "error");
         } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!initialData?.id) return;
+
+        if (!window.confirm("Вы действительно хотите удалить этот товар? Это действие нельзя отменить.")) {
+            return;
+        }
+
+        setLoading(true);
+        try {
+            await deleteProductAction(initialData.id);
+            showToast("🗑️ Товар удален", "success");
+            router.push("/admin");
+            router.refresh();
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Ошибка удаления";
+            showToast(`Ошибка: ${errorMessage}`, "error");
             setLoading(false);
         }
     };
@@ -367,6 +387,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
                     {initialData && (
                         <button
                             type="button"
+                            onClick={handleDelete}
                             className="w-12 h-12 md:w-14 md:h-14 bg-white text-red-500 rounded-xl md:rounded-2xl hover:bg-red-50 hover:scale-105 transition-all flex items-center justify-center shadow-lg shadow-neutral-200/50 border border-neutral-100"
                             title="Удалить"
                         >
