@@ -74,6 +74,7 @@ export function translateCategory(category: string): string {
         "osveshchenie": "Освещение",
         "light": "Свет",
         "chandeliers": "Люстры",
+        "lyustry": "Люстры",
         "decor": "Декор",
         "dekor": "Декор",
         "shkafy": "Шкафы",

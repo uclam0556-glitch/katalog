@@ -48,6 +48,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
         "stoly": ["Стол", "Стул", "Лавка"],
         "stulya": ["Размеры", "Высота сиденья"],
         "stellazhi": ["Стеллаж", "Полка"],
+        "chandeliers": ["Диаметр", "Высота", "Лампы", "Цоколь", "Площадь"],
         "default": ["Размеры", "Цвета"]
     };
 
