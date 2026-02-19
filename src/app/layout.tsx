@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://amea-furniture.ru"; // Update with real domain if available
@@ -76,6 +77,7 @@ export default function RootLayout({
       <body className="antialiased font-sans">
         {process.env.NEXT_PUBLIC_GA_ID && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />}
         {children}
+        <Analytics />
       </body>
     </html>
   );
